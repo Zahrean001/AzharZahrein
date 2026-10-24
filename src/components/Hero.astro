@@ -1,0 +1,117 @@
+---
+import { navItems } from '../data/portfolio';
+
+interface Props {
+  portraitSrc: string;
+  portraitWidth: number | string;
+  portraitHeight: number | string;
+}
+
+const { portraitSrc, portraitWidth, portraitHeight } = Astro.props;
+---
+
+<header
+  class="relative min-h-[100svh] w-full bg-ink text-paper px-6 sm:px-10 md:px-14 lg:px-20 pt-7 md:pt-10 pb-8 md:pb-10 flex flex-col justify-between overflow-hidden"
+  id="cover"
+>
+  <div class="w-full flex items-start justify-end z-20" data-motion="fade-left" style="--m-delay: 80ms;">
+    <nav
+      class="flex flex-col items-end space-y-1.5 md:space-y-2 text-sm sm:text-base md:text-lg lg:text-xl font-editorial-heading tracking-wider uppercase font-semibold text-zinc-300"
+    >
+      {
+        navItems.map((item) => (
+          <a
+            class="hover:text-white transition-all duration-200 py-0.5 hover:-translate-x-1.5"
+            href={item.href}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+
+  <div class="relative my-auto py-4 md:py-6 w-full flex items-center">
+    <div class="relative w-full">
+      <div class="relative z-0 select-none">
+        <h1
+          class="font-condensed-tight text-[clamp(6.8rem,22vw,23rem)] leading-[0.85] uppercase tracking-tighter text-zinc-200"
+          data-motion="fade-right"
+          data-scroll-speed="-0.18"
+          data-scroll-x="-0.08"
+          style="--m-delay: 0ms;"
+        >
+          PORT
+        </h1>
+        <h1
+          class="font-condensed-tight text-[clamp(6.8rem,22vw,23rem)] leading-[0.85] uppercase tracking-tighter text-zinc-200 -mt-2 md:-mt-4"
+          data-motion="fade-left"
+          data-scroll-speed="-0.1"
+          data-scroll-x="0.08"
+          style="--m-delay: 90ms;"
+        >
+          FOLIO.
+        </h1>
+      </div>
+
+      <div
+        class="absolute right-0 sm:right-4 md:right-8 lg:right-12 bottom-0 w-[245px] sm:w-[350px] md:w-[450px] lg:w-[540px] xl:w-[600px] z-10 pointer-events-none transform -rotate-2 origin-bottom-right"
+        id="hero-portrait-wrap"
+      >
+        <img
+          alt="Portrait of Muhammad Azhar Nur Azmi Zahrein"
+          class="w-full h-auto object-contain filter contrast-105 drop-shadow-[0_20px_35px_rgba(0,0,0,0.9)]"
+          data-motion="pop"
+          data-scroll-speed="0.16"
+          data-scroll-rot="2.5"
+          style="--m-delay: 140ms;"
+          width={portraitWidth}
+          height={portraitHeight}
+          loading="eager"
+          fetchpriority="high"
+          decoding="sync"
+          src={portraitSrc}
+        />
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="w-full z-20 pt-5 md:pt-6 border-t border-zinc-800/90"
+    data-motion="up"
+    style="--m-delay: 180ms;"
+  >
+    <div class="flex items-end justify-between">
+      <div class="space-y-1 pr-4">
+        <h2 class="text-base sm:text-lg md:text-2xl font-semibold tracking-normal text-zinc-100">
+          Muhammad Azhar Nur Azmi Zahrein,{' '}
+          <span class="font-normal text-zinc-400 text-xs sm:text-sm md:text-lg">A.Md.Kom.</span>
+        </h2>
+        <p class="text-xs sm:text-sm md:text-base text-zinc-400 tracking-wide">
+          Junior Application Developer · Graphic Designer
+        </p>
+        <p class="text-[11px] sm:text-xs md:text-sm text-zinc-500 font-mono">
+          D3 Teknik Informatika, PENS
+        </p>
+      </div>
+      <a
+        aria-label="Scroll ke karya"
+        class="text-zinc-400 hover:text-white pb-1 animate-bounce"
+        href="#karya"
+      >
+        <svg
+          class="w-6 h-6 md:w-8 md:h-8"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>

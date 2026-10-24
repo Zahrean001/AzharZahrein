@@ -1,0 +1,924 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/fonts/anton-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url('/fonts/oswald-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url('/fonts/archivo-latin.woff2') format('woff2');
+}
+
+body {
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: #0c0c0c;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+.font-condensed-tight {
+  font-family: 'Anton', Impact, sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 0.86;
+}
+
+.font-editorial-heading {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.paper-texture {
+  background-color: #f4f1ea;
+  background-image: radial-gradient(#d5cebe 0.75px, transparent 0.75px);
+  background-size: 16px 16px;
+}
+
+/* Smartphone Hardware Frame */
+.phone-hardware {
+  position: relative;
+  padding: 10px;
+  border-radius: 46px;
+  background: linear-gradient(145deg, #2c2e33 0%, #16171a 50%, #24262b 100%);
+  box-shadow:
+    0 30px 60px -15px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.14) inset,
+    0 2px 4px rgba(255, 255, 255, 0.18) inset;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.phone-hardware::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 100px;
+  width: 3px;
+  height: 56px;
+  background: #2b2d31;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  box-shadow: 0 70px 0 #2b2d31;
+}
+
+.phone-hardware::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 130px;
+  width: 3px;
+  height: 74px;
+  background: #2b2d31;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.phone-inner-bezel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 36px;
+  background-color: #0c120e;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #050607;
+}
+
+.phone-status-bar {
+  height: 36px;
+  padding: 0 18px;
+  background-color: #0c120e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  z-index: 20;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.phone-dynamic-island {
+  width: 76px;
+  height: 18px;
+  background-color: #000000;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 6px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07);
+}
+
+.phone-camera-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 35%, #2b4c7e 0%, #091326 60%, #000 100%);
+}
+
+.phone-home-bar {
+  height: 18px;
+  background-color: #080d0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 20;
+}
+
+/* 3D Flip Card (Standing Pouches) */
+.flip-card {
+  perspective: 1200px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.flip-card.is-dragging .flip-card-inner {
+  transition: none !important;
+}
+
+.flip-card.is-holding .flip-card-inner {
+  transform: scale(0.97) rotateY(var(--card-angle, 0deg));
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+.flip-card img,
+.phone-hardware img {
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.pouch-kinetic-stage {
+  transform: translate3d(0, var(--pouch-float-y, 0px), 0)
+    rotateZ(var(--pouch-vel-rot, 0deg))
+    scale(var(--pouch-scroll-scale, 1));
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+}
+
+/* Isometric 3D Tools Grid */
+.iso-scene {
+  perspective: 1100px;
+  padding: 1.5rem 0 2.5rem;
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+.iso-plane {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  width: fit-content;
+  row-gap: 0px;
+  column-gap: 2px;
+  transform: translateY(var(--plane-enter-y, 14px))
+    rotateX(calc(16deg + var(--iso-tilt-x, 0deg)))
+    rotateZ(calc(-7deg + var(--iso-tilt-z, 0deg)));
+  transition: transform 0.14s ease-out;
+  will-change: transform;
+}
+
+@media (min-width: 768px) {
+  .iso-scene {
+    padding: 2.5rem 0 3rem;
+  }
+
+  .iso-plane {
+    grid-template-columns: repeat(6, auto);
+    row-gap: -4px;
+    column-gap: 4px;
+    transform: translateY(var(--plane-enter-y, 16px))
+      rotateX(calc(20deg + var(--iso-tilt-x, 0deg)))
+      rotateZ(calc(-11deg + var(--iso-tilt-z, 0deg)));
+  }
+}
+
+.iso-scene.is-visible .iso-plane {
+  --plane-enter-y: 0px;
+}
+
+.iso-item {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: -3px -2px;
+  outline: none;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(14px) scale(0.86);
+  transition:
+    opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1) var(--stagger, 0ms),
+    transform 0.26s cubic-bezier(0.22, 1, 0.36, 1) var(--stagger, 0ms);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.iso-scene.is-visible .iso-item {
+  opacity: 1;
+  transform: translateY(calc(var(--scroll-shift-y, 0px) - var(--active-lift, 0px))) scale(1);
+}
+
+.iso-scene.is-visible.iso-ready .iso-item {
+  transition:
+    opacity 0.18s ease-out,
+    transform 0.09s linear;
+}
+
+.iso-item:hover,
+.iso-item:focus-visible,
+.iso-item.is-tapped {
+  z-index: 50;
+}
+
+.iso-item[data-status='active'] {
+  --active-lift: 3px;
+}
+
+.iso-item[data-status='learning'] .iso-object-svg {
+  filter: grayscale(100%);
+  opacity: 0.4;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.18s ease;
+}
+
+.iso-item[data-status='active'] .iso-object-svg {
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.iso-item:hover .iso-object-svg,
+.iso-item:focus-visible .iso-object-svg,
+.iso-item.is-tapped .iso-object-svg {
+  transform: translate(-4px, -9px) scale(1.1);
+}
+
+.iso-item[data-status='learning']:hover .iso-object-svg,
+.iso-item[data-status='learning']:focus-visible .iso-object-svg,
+.iso-item[data-status='learning'].is-tapped .iso-object-svg {
+  opacity: 0.65;
+}
+
+.iso-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px) rotateZ(7deg);
+  background-color: #0c0c0c;
+  color: #f4f1ea;
+  padding: 6px 12px;
+  border-radius: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    transform 0.16s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 60;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  text-align: center;
+}
+
+.iso-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #0c0c0c transparent transparent transparent;
+}
+
+@media (min-width: 768px) {
+  .iso-tooltip {
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%) translateY(4px) rotateZ(11deg);
+  }
+}
+
+.iso-item:hover .iso-tooltip,
+.iso-item:focus-visible .iso-tooltip,
+.iso-item.is-tapped .iso-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-6px) rotateZ(7deg);
+}
+
+@media (min-width: 768px) {
+  .iso-item:hover .iso-tooltip,
+  .iso-item:focus-visible .iso-tooltip,
+  .iso-item.is-tapped .iso-tooltip {
+    transform: translateX(-50%) translateY(-6px) rotateZ(11deg);
+  }
+}
+
+/* SIJAGUNG 3-Phone Fan Stage & Floating 3D Stack Blocks */
+.phone-stage-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.5rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.phone-fan-group {
+  position: relative;
+  width: 100%;
+  height: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .phone-fan-group {
+    height: 560px;
+  }
+}
+
+@media (min-width: 768px) {
+  .phone-fan-group {
+    height: 640px;
+  }
+}
+
+.phone-fan-item {
+  position: absolute;
+  cursor: pointer;
+  will-change: transform, opacity;
+}
+
+.phone-fan-center {
+  z-index: 12;
+  opacity: 0;
+  transform: translate3d(0, 38px, 0) scale(0.88);
+  transition:
+    opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.54s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.phone-fan-left {
+  z-index: 20;
+  opacity: 0;
+  transform: translate3d(0, 26px, 0) rotate(0deg) scale(0.82);
+  transition:
+    opacity 0.46s cubic-bezier(0.16, 1, 0.3, 1) 70ms,
+    transform 0.64s cubic-bezier(0.16, 1, 0.3, 1) 70ms;
+}
+
+.phone-fan-right {
+  z-index: 21;
+  opacity: 0;
+  transform: translate3d(0, 26px, 0) rotate(0deg) scale(0.82);
+  transition:
+    opacity 0.46s cubic-bezier(0.16, 1, 0.3, 1) 110ms,
+    transform 0.64s cubic-bezier(0.16, 1, 0.3, 1) 110ms;
+}
+
+.phone-stage-wrapper.is-fanned .phone-fan-center {
+  opacity: 1;
+  transform: translate3d(0, calc(-14px + var(--fan-float-c, 0px)), 0) scale(0.92);
+}
+
+.phone-stage-wrapper.is-fanned .phone-fan-left {
+  opacity: 1;
+  transform: translate3d(
+      calc(-82px - var(--fan-spread-x, 0px)),
+      calc(14px + var(--fan-float-l, 0px)),
+      0
+    )
+    rotate(calc(-9.5deg - var(--fan-spread-rot, 0deg)))
+    scale(0.86);
+}
+
+.phone-stage-wrapper.is-fanned .phone-fan-right {
+  opacity: 1;
+  transform: translate3d(
+      calc(82px + var(--fan-spread-x, 0px)),
+      calc(14px + var(--fan-float-r, 0px)),
+      0
+    )
+    rotate(calc(9.5deg + var(--fan-spread-rot, 0deg)))
+    scale(0.86);
+}
+
+@media (min-width: 640px) {
+  .phone-stage-wrapper.is-fanned .phone-fan-center {
+    transform: translate3d(0, calc(-18px + var(--fan-float-c, 0px)), 0) scale(0.96);
+  }
+
+  .phone-stage-wrapper.is-fanned .phone-fan-left {
+    transform: translate3d(
+        calc(-142px - var(--fan-spread-x, 0px)),
+        calc(18px + var(--fan-float-l, 0px)),
+        0
+      )
+      rotate(calc(-10.5deg - var(--fan-spread-rot, 0deg)))
+      scale(0.92);
+  }
+
+  .phone-stage-wrapper.is-fanned .phone-fan-right {
+    transform: translate3d(
+        calc(142px + var(--fan-spread-x, 0px)),
+        calc(18px + var(--fan-float-r, 0px)),
+        0
+      )
+      rotate(calc(10.5deg + var(--fan-spread-rot, 0deg)))
+      scale(0.92);
+  }
+}
+
+@media (min-width: 768px) {
+  .phone-stage-wrapper.is-fanned .phone-fan-center {
+    transform: translate3d(0, calc(-20px + var(--fan-float-c, 0px)), 0) scale(1);
+  }
+
+  .phone-stage-wrapper.is-fanned .phone-fan-left {
+    transform: translate3d(
+        calc(-196px - var(--fan-spread-x, 0px)),
+        calc(22px + var(--fan-float-l, 0px)),
+        0
+      )
+      rotate(calc(-11deg - var(--fan-spread-rot, 0deg)))
+      scale(0.96);
+  }
+
+  .phone-stage-wrapper.is-fanned .phone-fan-right {
+    transform: translate3d(
+        calc(196px + var(--fan-spread-x, 0px)),
+        calc(22px + var(--fan-float-r, 0px)),
+        0
+      )
+      rotate(calc(11deg + var(--fan-spread-rot, 0deg)))
+      scale(0.96);
+  }
+}
+
+.phone-fan-item:hover,
+.phone-fan-item.is-active-fan {
+  z-index: 35 !important;
+}
+
+.phone-fan-item .phone-hardware {
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease;
+}
+
+.phone-fan-item:hover .phone-hardware,
+.phone-fan-item.is-active-fan .phone-hardware {
+  transform: translateY(-10px) scale(1.03);
+}
+
+.phone-side-icon {
+  position: absolute;
+  z-index: 26;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  opacity: 0;
+  transform: translate3d(var(--collapse-x, 0px), 24px, 0) rotate(0deg) scale(0.5);
+  transition:
+    opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1) var(--icon-delay, 90ms),
+    transform 0.68s cubic-bezier(0.16, 1, 0.3, 1) var(--icon-delay, 90ms);
+  will-change: transform, opacity;
+}
+
+.phone-stage-wrapper.is-fanned .phone-side-icon {
+  opacity: 1;
+  transform: translate3d(var(--side-x, 0px), var(--side-y, 0px), 0)
+    rotate(calc(var(--base-rot, 0deg) + var(--side-rot, 0deg)))
+    scale(var(--side-scale, 1));
+}
+
+.phone-stage-wrapper.is-fanned.fan-ready .phone-fan-center,
+.phone-stage-wrapper.is-fanned.fan-ready .phone-fan-left,
+.phone-stage-wrapper.is-fanned.fan-ready .phone-fan-right,
+.phone-stage-wrapper.is-fanned.fan-ready .phone-side-icon {
+  transition:
+    opacity 0.2s ease-out,
+    transform 0.1s ease-out;
+}
+
+.phone-side-icon svg {
+  display: block;
+  overflow: visible;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.phone-side-icon:hover svg {
+  transform: translateY(-6px) scale(1.08);
+}
+
+.phone-side-badge {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) rotate(calc(-1 * var(--base-rot, 0deg)));
+  background: #0c0c0c;
+  color: #f4f1ea;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s ease;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+.phone-side-icon:hover .phone-side-badge {
+  opacity: 1;
+}
+
+.phone-side-tl {
+  left: -1%;
+  top: 22%;
+  --base-rot: -26deg;
+  --collapse-x: 130px;
+  --icon-delay: 85ms;
+}
+
+.phone-side-bl {
+  left: 1%;
+  bottom: 18%;
+  --base-rot: -48deg;
+  --collapse-x: 120px;
+  --icon-delay: 130ms;
+}
+
+.phone-side-tr {
+  right: -2%;
+  top: 14%;
+  --base-rot: 6deg;
+  --collapse-x: -130px;
+  --icon-delay: 95ms;
+}
+
+.phone-side-br {
+  right: 3%;
+  bottom: 20%;
+  --base-rot: 5deg;
+  --collapse-x: -120px;
+  --icon-delay: 145ms;
+}
+
+@media (max-width: 1023px) {
+  .phone-side-tl {
+    left: -10px;
+    top: 10%;
+  }
+
+  .phone-side-bl {
+    left: -8px;
+    bottom: 10%;
+  }
+
+  .phone-side-tr {
+    right: -12px;
+    top: 6%;
+  }
+
+  .phone-side-br {
+    right: -6px;
+    bottom: 12%;
+  }
+}
+
+/* Section Watermarks */
+.bg-watermark-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  overflow: visible;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg-watermark-rail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  z-index: 0;
+}
+
+.bg-watermark-sticky {
+  position: sticky;
+  top: 44vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+.bg-watermark-text {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-align: center;
+  width: 100%;
+  font-size: clamp(2.1rem, 8.2vw, 9.2rem);
+  letter-spacing: 0.19em;
+  padding-left: 0.19em;
+  line-height: 1;
+  color: rgba(12, 12, 12, 0.085);
+  opacity: 0;
+  transform: translate3d(0, calc(28px + var(--wm-parallax, 0px)), 0) scale(0.88);
+  transition:
+    opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.bg-watermark-wrap.from-above .bg-watermark-text,
+.bg-watermark-rail.from-above .bg-watermark-text {
+  transform: translate3d(0, calc(-28px + var(--wm-parallax, 0px)), 0) scale(0.88);
+}
+
+.bg-watermark-wrap.is-inview .bg-watermark-text,
+.bg-watermark-rail.is-inview .bg-watermark-text {
+  opacity: var(--wm-fade, 1);
+  transform: translate3d(0, var(--wm-parallax, 0px), 0) scale(1);
+}
+
+/* Scroll Reveal & Motion */
+[data-motion] {
+  opacity: 0;
+  transform: translate3d(
+      var(--m-x, 0px),
+      calc(var(--m-enter-y, 26px) + var(--m-scroll-y, 0px)),
+      0
+    )
+    scale(var(--m-enter-scale, 0.96))
+    rotate(var(--m-rot, 0deg));
+  transition:
+    opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+[data-motion].exit-top {
+  --m-enter-y: -24px;
+  --m-enter-scale: 0.97;
+}
+
+[data-motion].exit-bottom {
+  --m-enter-y: 26px;
+  --m-enter-scale: 0.96;
+}
+
+[data-motion][data-motion='fade-left'].exit-bottom,
+[data-motion][data-motion='fade-left'].exit-top {
+  --m-x: -22px;
+}
+
+[data-motion][data-motion='fade-right'].exit-bottom,
+[data-motion][data-motion='fade-right'].exit-top {
+  --m-x: 22px;
+}
+
+[data-motion][data-motion='pop'].exit-bottom {
+  --m-enter-y: 28px;
+  --m-enter-scale: 0.9;
+}
+
+[data-motion][data-motion='pop'].exit-top {
+  --m-enter-y: -26px;
+  --m-enter-scale: 0.92;
+}
+
+[data-motion][data-motion='slide-right-3d'] {
+  transition:
+    opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.58s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-motion][data-motion='slide-right-3d'].exit-bottom {
+  --m-x: 125px;
+  --m-enter-y: 16px;
+  --m-enter-scale: 0.82;
+  --m-rot: 9deg;
+}
+
+[data-motion][data-motion='slide-right-3d'].exit-top {
+  --m-x: 125px;
+  --m-enter-y: -16px;
+  --m-enter-scale: 0.82;
+  --m-rot: -9deg;
+}
+
+[data-motion].is-inview {
+  opacity: 1;
+  --m-enter-y: 0px;
+  --m-enter-scale: 1;
+  --m-x: 0px;
+  --m-rot: 0deg;
+  transform: translate3d(
+      var(--m-live-x, 0px),
+      calc(var(--m-scroll-y, 0px) + var(--m-vel-y, 0px)),
+      0
+    )
+    scale(var(--m-live-scale, 1))
+    rotate(var(--m-live-rot, 0deg));
+}
+
+[data-motion].is-inview.motion-ready {
+  transition:
+    opacity 0.2s ease-out,
+    transform 0.07s linear;
+}
+
+.logo-3d-emblem {
+  filter: drop-shadow(0 20px 28px rgba(12, 12, 12, 0.2));
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.32s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.logo-3d-emblem:hover {
+  transform: translateY(-6px) scale(1.04) rotate(-2deg);
+  filter: drop-shadow(0 26px 34px rgba(12, 12, 12, 0.26));
+}
+
+/* Contact Footer Accent */
+.contact-accent-envelope {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0) rotate(0deg);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+#kontak.contact-entered .contact-accent-envelope {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(-10deg);
+}
+
+#kontak.contact-entered.email-hovered .contact-accent-envelope {
+  transform: translate3d(-10px, 6px, 0) rotate(-14deg);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.contact-cue-line {
+  stroke-dasharray: 84;
+  stroke-dashoffset: 84;
+  transition: stroke-dashoffset 0.52s cubic-bezier(0.22, 1, 0.36, 1) 0.28s;
+}
+
+.contact-cue-head {
+  opacity: 0;
+  transform: translate3d(8px, -6px, 0);
+  transition:
+    opacity 0.32s ease-out 0.52s,
+    transform 0.38s cubic-bezier(0.22, 1, 0.36, 1) 0.52s;
+}
+
+#kontak.contact-entered .contact-cue-line {
+  stroke-dashoffset: 0;
+}
+
+#kontak.contact-entered .contact-cue-head {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+#kontak.contact-entered.email-hovered .contact-cue-group {
+  transform: translate3d(-6px, 4px, 0);
+}
+
+.contact-cue-group {
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner {
+    transition: transform 0.1s ease !important;
+  }
+
+  .scroll-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .iso-plane {
+    transform: rotateX(18deg) rotateZ(-10deg) !important;
+    transition: none !important;
+  }
+
+  .iso-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .iso-item:hover .iso-object-svg,
+  .iso-item:focus-visible .iso-object-svg,
+  .iso-item.is-tapped .iso-object-svg {
+    transform: none !important;
+  }
+
+  [data-motion],
+  .bg-watermark-text,
+  .phone-side-icon,
+  .phone-fan-center,
+  .phone-fan-left,
+  .phone-fan-right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .contact-accent-envelope,
+  #kontak.contact-entered .contact-accent-envelope,
+  #kontak.contact-entered.email-hovered .contact-accent-envelope {
+    opacity: 1 !important;
+    transform: rotate(-10deg) !important;
+    transition: none !important;
+  }
+
+  .contact-cue-line {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+
+  .contact-cue-head,
+  .contact-cue-group,
+  #kontak.contact-entered.email-hovered .contact-cue-group {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

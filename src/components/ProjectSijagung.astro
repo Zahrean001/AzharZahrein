@@ -1,0 +1,255 @@
+---
+import { sijagungScreens } from '../data/portfolio';
+
+export interface OptimizedAsset {
+  src: string;
+  width: number | string;
+  height: number | string;
+}
+
+interface Props {
+  screens: OptimizedAsset[];
+}
+
+const { screens } = Astro.props;
+---
+
+<section
+  class="relative pt-12 md:pt-16 pb-8 md:pb-12 px-6 sm:px-10 md:px-14 lg:px-20 border-b border-paper-line"
+  id="sijagung"
+>
+  <div class="relative z-10 w-full max-w-4xl mx-auto">
+    <div class="space-y-4 mb-8 md:mb-10">
+      <h2
+        class="font-editorial-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink leading-tight"
+        data-motion="up"
+        data-scroll-speed="-0.05"
+      >
+        SIJAGUNG
+      </h2>
+      <p
+        class="text-base sm:text-lg md:text-xl text-zinc-800 leading-snug font-medium"
+        data-motion="up"
+        data-scroll-speed="-0.03"
+      >
+        Aplikasi data petani jagung untuk Desa Kelubir.
+      </p>
+      <p
+        class="text-xs sm:text-sm md:text-base text-zinc-600 leading-relaxed font-normal max-w-2xl"
+        data-motion="up"
+        data-scroll-speed="-0.02"
+      >
+        Dibuat untuk membantu pencatatan petani, kebun, dan panen di lapangan. Data dapat
+        disimpan saat koneksi terbatas lalu disinkronkan ketika koneksi tersedia.
+      </p>
+      <p
+        class="pt-2 text-xs sm:text-sm md:text-base font-mono font-semibold text-ink"
+        data-motion="fade-right"
+      >
+        Flutter, Laravel, MySQL
+      </p>
+    </div>
+
+    <div class="relative pt-2 pb-4" id="sijagung-scroll-track">
+      <div class="flex flex-col items-center">
+        <div class="mb-4 text-center">
+          <span
+            class="inline-block text-xs sm:text-sm font-mono uppercase tracking-widest text-zinc-500 transition-all duration-150"
+            id="screen-title"
+          >
+            Dashboard · Data Petani · Data Panen
+          </span>
+        </div>
+
+        <div class="phone-stage-wrapper" id="sijagung-fan-stage">
+          <div
+            class="phone-side-icon phone-side-tl"
+            data-phone-stack="0"
+            aria-label="Laravel — Backend Framework"
+          >
+            <span class="phone-side-badge">Laravel</span>
+            <svg
+              class="w-20 h-[70px] sm:w-28 sm:h-[98px] md:w-32 md:h-[112px]"
+              viewBox="0 0 80 68"
+              fill="none"
+            >
+              <polygon points="44,44 77,54 42,67 9,54" fill="rgba(12,12,12,0.16)" />
+              <polygon points="4,23 40,41 40,59 4,41" fill="#EF4444" />
+              <polygon points="76,23 40,41 40,59 76,41" fill="#B91C1C" />
+              <polygon points="40,5 76,23 40,41 4,23" fill="#F87171" />
+              <polyline
+                points="4,23 40,5 76,23"
+                stroke="rgba(255,255,255,0.48)"
+                stroke-width="1.4"
+                fill="none"
+              />
+              <g
+                transform="translate(40, 23) scale(1.32) translate(-40, -34)"
+                stroke="#ffffff"
+                stroke-width="2"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <polygon points="34,27 42,31 34,35 26,31" />
+                <polygon points="44,32 51,35 44,39 37,35" />
+                <polyline points="26,31 26,37 37,42 51,35" />
+              </g>
+            </svg>
+          </div>
+
+          <div
+            class="phone-side-icon phone-side-bl"
+            data-phone-stack="1"
+            aria-label="MySQL — Database"
+          >
+            <span class="phone-side-badge">MySQL</span>
+            <svg
+              class="w-20 h-[70px] sm:w-28 sm:h-[98px] md:w-32 md:h-[112px]"
+              viewBox="0 0 80 68"
+              fill="none"
+            >
+              <polygon points="44,44 77,54 42,67 9,54" fill="rgba(12,12,12,0.16)" />
+              <polygon points="4,23 40,41 40,59 4,41" fill="#00758F" />
+              <polygon points="76,23 40,41 40,59 76,41" fill="#0E4F63" />
+              <polygon points="40,5 76,23 40,41 4,23" fill="#22D3EE" />
+              <polyline
+                points="4,23 40,5 76,23"
+                stroke="rgba(255,255,255,0.48)"
+                stroke-width="1.4"
+                fill="none"
+              />
+              <g
+                transform="translate(40, 23) scale(1.32) translate(-40, -34)"
+                stroke="#ffffff"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+              >
+                <ellipse cx="40" cy="29" rx="9" ry="3.5" />
+                <path d="M31 29v7c0 2 4 3.5 9 3.5s9-1.5 9-3.5v-7" />
+                <path d="M31 32.5c0 2 4 3.5 9 3.5s9-1.5 9-3.5" />
+              </g>
+            </svg>
+          </div>
+
+          <div
+            class="phone-side-icon phone-side-tr"
+            data-phone-stack="2"
+            aria-label="Flutter — Mobile UI SDK"
+          >
+            <span class="phone-side-badge">Flutter</span>
+            <svg
+              class="w-28 h-[98px] sm:w-36 sm:h-[126px] md:w-44 md:h-[154px]"
+              viewBox="0 0 80 68"
+              fill="none"
+            >
+              <polygon points="42,43 78,53 42,67 6,53" fill="rgba(12,12,12,0.17)" />
+              <polygon points="4,23 40,41 40,59 4,41" fill="#0284C7" />
+              <polygon points="76,23 40,41 40,59 76,41" fill="#0369A1" />
+              <polygon points="40,5 76,23 40,41 4,23" fill="#38BDF8" />
+              <polyline
+                points="4,23 40,5 76,23"
+                stroke="rgba(255,255,255,0.52)"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <g
+                transform="translate(40, 23) scale(1.36) translate(-40, -34)"
+                fill="#ffffff"
+              >
+                <polygon points="38,26 45,26 33,36 28,33" />
+                <polygon points="39,33 46,33 38,40 45,43 38,43 33,38" />
+              </g>
+            </svg>
+          </div>
+
+          <div
+            class="phone-side-icon phone-side-br"
+            data-phone-stack="3"
+            aria-label="Dart — Programming Language"
+          >
+            <span class="phone-side-badge">Dart</span>
+            <svg
+              class="w-20 h-[70px] sm:w-24 sm:h-[84px] md:w-28 md:h-[98px]"
+              viewBox="0 0 80 68"
+              fill="none"
+            >
+              <polygon points="42,43 77,53 42,66 7,53" fill="rgba(12,12,12,0.15)" />
+              <polygon points="4,23 40,41 40,59 4,41" fill="#0D9488" />
+              <polygon points="76,23 40,41 40,59 76,41" fill="#115E59" />
+              <polygon points="40,5 76,23 40,41 4,23" fill="#2DD4BF" />
+              <polyline
+                points="4,23 40,5 76,23"
+                stroke="rgba(255,255,255,0.48)"
+                stroke-width="1.4"
+                fill="none"
+              />
+              <g
+                transform="translate(40, 23) scale(1.32) translate(-40, -34)"
+                fill="#ffffff"
+              >
+                <polygon points="32,28 46,27 50,35 38,41 29,35" />
+              </g>
+            </svg>
+          </div>
+
+          <div class="phone-fan-group">
+            {
+              sijagungScreens.map((meta, index) => {
+                const asset = screens[index];
+                return (
+                  <div
+                    class={`phone-fan-item ${meta.positionClass}`}
+                    data-fan-phone={meta.id}
+                    aria-label={`Layar ${meta.title} SIJAGUNG`}
+                  >
+                    <div class="w-[210px] sm:w-[250px] md:w-[276px] phone-hardware">
+                      <div class="phone-inner-bezel">
+                        <div class="phone-status-bar">
+                          <span class="text-[10px] sm:text-[11px] font-semibold tracking-tight text-zinc-200 font-sans">
+                            09:41
+                          </span>
+                          <div class="phone-dynamic-island" aria-hidden="true">
+                            <span class="phone-camera-dot" />
+                          </div>
+                          <div class="flex items-center gap-1 text-zinc-200" aria-hidden="true">
+                            <div class="w-4 h-2 rounded-[2px] border border-zinc-300/80 p-[1px] flex items-center">
+                              <div class="w-full h-full bg-emerald-400 rounded-[1px]" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="relative w-full aspect-[496/1024] overflow-hidden bg-[#0a0f0c]">
+                          <img
+                            alt={meta.alt}
+                            class="w-full h-full object-contain"
+                            width={asset.width}
+                            height={asset.height}
+                            loading="eager"
+                            decoding="async"
+                            src={asset.src}
+                          />
+                        </div>
+                        <div class="phone-home-bar" aria-hidden="true">
+                          <div class="w-20 h-1 rounded-full bg-white/30" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        <div class="mt-4 text-center max-w-[420px]">
+          <p
+            class="text-xs sm:text-sm font-mono text-zinc-700 transition-all duration-150"
+            id="screen-caption"
+          >
+            “Ringkasan data lapangan, pencatatan petani, dan panen dalam satu aplikasi.”
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

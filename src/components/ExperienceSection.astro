@@ -1,0 +1,168 @@
+---
+import { certifications } from '../data/portfolio';
+import type { OptimizedAsset } from './ProjectSijagung.astro';
+
+interface Props {
+  pknLogo: OptimizedAsset;
+  pensLogo: OptimizedAsset;
+}
+
+const { pknLogo, pensLogo } = Astro.props;
+---
+
+<section
+  class="relative pt-16 md:pt-24 pb-16 md:pb-20 px-6 sm:px-10 md:px-14 lg:px-20 border-b border-paper-line overflow-hidden"
+  id="pengalaman"
+>
+  <div
+    class="bg-watermark-wrap top-1/2 -translate-y-1/2"
+    data-watermark
+    data-watermark-speed="0.2"
+    aria-hidden="true"
+  >
+    <div class="bg-watermark-text">EXPERIENCE</div>
+  </div>
+
+  <div
+    class="relative z-10 w-full max-w-4xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-12"
+  >
+    <div class="space-y-6 flex-1">
+      <h2
+        class="font-editorial-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink leading-tight"
+        data-motion="up"
+        data-scroll-speed="-0.06"
+        style="--m-delay: 0ms;"
+      >
+        Pengalaman
+      </h2>
+
+      <div class="space-y-2 pt-2">
+        <h3
+          class="text-lg sm:text-xl md:text-2xl font-semibold text-ink"
+          data-motion="fade-right"
+          style="--m-delay: 80ms;"
+        >
+          PT Pesona Khatulistiwa Nusantara
+        </h3>
+        <p
+          class="text-sm sm:text-base text-zinc-700 font-medium"
+          data-motion="up"
+          style="--m-delay: 140ms;"
+        >
+          Program beasiswa dan magang selama studi.
+        </p>
+        <p
+          class="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-xl"
+          data-motion="up"
+          style="--m-delay: 200ms;"
+        >
+          Mengerjakan SIJAGUNG serta materi visual untuk UMKM mitra.
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="flex-shrink-0 self-center md:self-auto"
+      data-motion="slide-right-3d"
+      data-scroll-speed="0.1"
+      data-scroll-x="0.06"
+      data-scroll-rot="2.2"
+      style="--m-delay: 90ms;"
+    >
+      <img
+        alt="Logo 3D PT Pesona Khatulistiwa Nusantara"
+        class="logo-3d-emblem w-48 sm:w-56 md:w-64 lg:w-72 h-auto object-contain"
+        width={pknLogo.width}
+        height={pknLogo.height}
+        loading="eager"
+        decoding="async"
+        src={pknLogo.src}
+      />
+    </div>
+  </div>
+</section>
+
+<section
+  class="relative pt-16 md:pt-24 pb-16 md:pb-20 px-6 sm:px-10 md:px-14 lg:px-20 border-b border-paper-line overflow-hidden"
+  id="pendidikan"
+>
+  <div
+    class="bg-watermark-wrap top-1/2 -translate-y-1/2"
+    data-watermark
+    data-watermark-speed="0.2"
+    aria-hidden="true"
+  >
+    <div class="bg-watermark-text">EDUCATION</div>
+  </div>
+
+  <div
+    class="relative z-10 w-full max-w-4xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-12"
+  >
+    <div class="space-y-10 flex-1">
+      <div class="space-y-4">
+        <h2
+          class="font-editorial-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink leading-tight"
+          data-motion="up"
+          data-scroll-speed="-0.06"
+          style="--m-delay: 0ms;"
+        >
+          Pendidikan
+        </h2>
+        <div class="space-y-1 pt-1">
+          <h3
+            class="text-lg sm:text-xl md:text-2xl font-semibold text-ink"
+            data-motion="fade-right"
+            style="--m-delay: 80ms;"
+          >
+            Politeknik Elektronika Negeri Surabaya
+          </h3>
+          <p
+            class="text-sm sm:text-base text-zinc-600 font-mono"
+            data-motion="up"
+            style="--m-delay: 140ms;"
+          >
+            D3 Teknik Informatika, A.Md.Kom.
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-3 pt-2">
+        <h3
+          class="text-xs sm:text-sm font-mono uppercase tracking-widest text-zinc-500"
+          data-motion="up"
+          style="--m-delay: 190ms;"
+        >
+          Sertifikasi:
+        </h3>
+        <ul class="space-y-2 text-sm sm:text-base text-ink">
+          {
+            certifications.map((cert, index) => (
+              <li data-motion="fade-right" style={`--m-delay: ${240 + index * 60}ms;`}>
+                {cert}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="flex-shrink-0 self-center md:self-auto"
+      data-motion="slide-right-3d"
+      data-scroll-speed="0.1"
+      data-scroll-x="0.06"
+      data-scroll-rot="-2.2"
+      style="--m-delay: 90ms;"
+    >
+      <img
+        alt="Logo 3D Politeknik Elektronika Negeri Surabaya (PENS)"
+        class="logo-3d-emblem w-44 sm:w-52 md:w-60 lg:w-64 h-auto object-contain"
+        width={pensLogo.width}
+        height={pensLogo.height}
+        loading="eager"
+        decoding="async"
+        src={pensLogo.src}
+      />
+    </div>
+  </div>
+</section>

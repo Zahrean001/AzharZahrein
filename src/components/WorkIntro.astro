@@ -1,0 +1,58 @@
+---
+import { featuredWorks } from '../data/portfolio';
+---
+
+<section
+  class="relative pt-16 md:pt-24 pb-16 md:pb-20 px-6 sm:px-10 md:px-14 lg:px-20 border-b border-paper-line"
+  id="karya"
+>
+  <div
+    class="bg-watermark-wrap -bottom-8 sm:-bottom-12 md:-bottom-16"
+    data-watermark
+    data-watermark-speed="0.22"
+    aria-hidden="true"
+  >
+    <div class="bg-watermark-text">EXPERIENCE</div>
+  </div>
+
+  <div class="relative z-10 w-full max-w-4xl mx-auto space-y-8 md:space-y-10">
+    <div class="space-y-3 md:space-y-4">
+      <h2
+        class="font-editorial-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-ink leading-tight"
+        data-motion="up"
+        data-scroll-speed="-0.06"
+        style="--m-delay: 0ms;"
+      >
+        Karya yang saya bangun
+      </h2>
+      <p
+        class="text-sm sm:text-base md:text-lg text-zinc-700 leading-relaxed max-w-2xl"
+        data-motion="up"
+        data-scroll-speed="-0.04"
+        style="--m-delay: 80ms;"
+      >
+        Selama studi, saya mengerjakan aplikasi mobile untuk kebutuhan lapangan dan desain
+        kemasan untuk UMKM.
+      </p>
+    </div>
+
+    <div class="divide-y divide-paper-line border-t border-b border-paper-line">
+      {
+        featuredWorks.map((work) => (
+          <a
+            href={work.href}
+            class="py-5 md:py-6 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-6 group transition-transform duration-300 hover:translate-x-2"
+            data-motion="fade-right"
+            data-scroll-speed="-0.03"
+            style={`--m-delay: ${work.delayMs}ms;`}
+          >
+            <span class="font-editorial-heading text-2xl md:text-3xl font-bold text-ink group-hover:text-mineral transition-colors">
+              {work.title}
+            </span>
+            <span class="text-xs sm:text-sm md:text-base text-zinc-600">{work.summary}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

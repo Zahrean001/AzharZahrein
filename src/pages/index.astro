@@ -1,0 +1,113 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import WorkIntro from '../components/WorkIntro.astro';
+import ProjectSijagung, { type OptimizedAsset } from '../components/ProjectSijagung.astro';
+import PackagingShowcase, { type PackagingPouchItem } from '../components/PackagingShowcase.astro';
+import ExperienceSection from '../components/ExperienceSection.astro';
+import ToolsGrid from '../components/ToolsGrid.astro';
+import Contact from '../components/Contact.astro';
+
+import portraitImg from '../assets/images/portrait.png';
+import screenImg0 from '../assets/images/sijagung-screen-0.png';
+import screenImg1 from '../assets/images/sijagung-screen-1.png';
+import screenImg2 from '../assets/images/sijagung-screen-2.png';
+import pouch1Front from '../assets/images/pouch-1-front.png';
+import pouch1Back from '../assets/images/pouch-1-back.png';
+import pouch2Front from '../assets/images/pouch-2-front.png';
+import pouch2Back from '../assets/images/pouch-2-back.png';
+import pouch3Front from '../assets/images/pouch-3-front.png';
+import pouch3Back from '../assets/images/pouch-3-back.png';
+import logoPkn3d from '../assets/images/logo-pkn-3d.png';
+import logoPens3d from '../assets/images/logo-pens-3d.png';
+
+const [
+  optPortrait,
+  optScreen0,
+  optScreen1,
+  optScreen2,
+  optPouch1Front,
+  optPouch1Back,
+  optPouch2Front,
+  optPouch2Back,
+  optPouch3Front,
+  optPouch3Back,
+  optLogoPkn,
+  optLogoPens,
+] = await Promise.all([
+  getImage({ src: portraitImg, format: 'webp', quality: 85 }),
+  getImage({ src: screenImg0, format: 'webp', quality: 84 }),
+  getImage({ src: screenImg1, format: 'webp', quality: 84 }),
+  getImage({ src: screenImg2, format: 'webp', quality: 84 }),
+  getImage({ src: pouch1Front, format: 'webp', quality: 84 }),
+  getImage({ src: pouch1Back, format: 'webp', quality: 84 }),
+  getImage({ src: pouch2Front, format: 'webp', quality: 84 }),
+  getImage({ src: pouch2Back, format: 'webp', quality: 84 }),
+  getImage({ src: pouch3Front, format: 'webp', quality: 84 }),
+  getImage({ src: pouch3Back, format: 'webp', quality: 84 }),
+  getImage({ src: logoPkn3d, format: 'webp', quality: 86, width: 600 }),
+  getImage({ src: logoPens3d, format: 'webp', quality: 86, width: 600 }),
+]);
+
+const toAsset = (img: Awaited<ReturnType<typeof getImage>>): OptimizedAsset => ({
+  src: img.src,
+  width: img.attributes.width,
+  height: img.attributes.height,
+});
+
+const sijagungAssets: OptimizedAsset[] = [
+  toAsset(optScreen0),
+  toAsset(optScreen1),
+  toAsset(optScreen2),
+];
+
+const packagingItems: PackagingPouchItem[] = [
+  {
+    id: 'pouch-1',
+    title: 'Mbah Momon Tiwul',
+    tiltAngle: '1.8',
+    front: toAsset(optPouch1Front),
+    back: toAsset(optPouch1Back),
+  },
+  {
+    id: 'pouch-2',
+    title: 'Onde-Onde Mini',
+    tiltAngle: '-1.8',
+    front: toAsset(optPouch2Front),
+    back: toAsset(optPouch2Back),
+  },
+  {
+    id: 'pouch-3',
+    title: 'Keriuk Tempe',
+    tiltAngle: '1.8',
+    front: toAsset(optPouch3Front),
+    back: toAsset(optPouch3Back),
+  },
+];
+---
+
+<BaseLayout
+  title="Muhammad Azhar Nur Azmi Zahrein — Portfolio"
+  preloadImageSrc={optPortrait.src}
+>
+  <div class="w-full min-h-screen relative flex flex-col bg-paper">
+    <Hero
+      portraitSrc={optPortrait.src}
+      portraitWidth={optPortrait.attributes.width}
+      portraitHeight={optPortrait.attributes.height}
+    />
+
+    <main class="flex-1 w-full paper-texture relative overflow-x-hidden">
+      <WorkIntro />
+      <ProjectSijagung screens={sijagungAssets} />
+      <PackagingShowcase pouches={packagingItems} />
+      <ExperienceSection pknLogo={toAsset(optLogoPkn)} pensLogo={toAsset(optLogoPens)} />
+      <ToolsGrid />
+    </main>
+
+    <Contact />
+  </div>
+
+  <script src="../scripts/interactions.ts"></script>
+</BaseLayout>

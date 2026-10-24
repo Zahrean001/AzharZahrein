@@ -145,25 +145,25 @@
     <!-- Card Body: Sleek dark editorial badge with border glow -->
     <div class="hanging-tag-inner">
       <!-- Live pulse indicator dot -->
-      <span class="relative flex h-3.5 w-3.5 mr-3 sm:mr-3.5 flex-shrink-0">
+      <span class="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5 mr-2 sm:mr-2.5 md:mr-3 flex-shrink-0">
         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.95)]"></span>
+        <span class="relative inline-flex rounded-full h-full w-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.95)]"></span>
       </span>
 
       <!-- Quote Text -->
-      <span class="hanging-tag-text font-mono font-bold tracking-[0.2em] uppercase text-zinc-100 text-[14px] sm:text-[16px] md:text-[18px] whitespace-nowrap">
+      <span class="hanging-tag-text font-mono font-bold tracking-[0.1em] sm:tracking-[0.14em] md:tracking-[0.18em] uppercase text-zinc-100 text-[10px] sm:text-[12.5px] md:text-[14.5px] lg:text-[16px] whitespace-nowrap">
         STILL CHASING MY DREAM
       </span>
 
       <!-- Micro Tech Glyph / Star -->
-      <span class="ml-3 sm:ml-3.5 text-zinc-500 group-hover:text-emerald-400 text-sm sm:text-base md:text-lg transition-colors" aria-hidden="true">
+      <span class="ml-2 sm:ml-2.5 md:ml-3 text-zinc-500 group-hover:text-emerald-400 text-[10px] sm:text-xs md:text-sm lg:text-base transition-colors" aria-hidden="true">
         ✦
       </span>
     </div>
 
     <!-- Interactive Hint Tooltip -->
     <span
-      class="hanging-tag-hint font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-zinc-300"
+      class="hanging-tag-hint font-mono text-[8.5px] sm:text-[10px] md:text-[11px] uppercase tracking-wider text-zinc-300"
       data-i18n="hero.hangingHint"
     >
       Click & drag to swing
@@ -217,23 +217,42 @@
   }
 
   .hanging-tag-bracket {
-    width: 32px;
-    height: 12px;
+    width: 20px;
+    height: 8px;
     background: #27272a;
     border: 1.5px solid #71717a;
     border-bottom: none;
-    border-radius: 6px 6px 0 0;
+    border-radius: 4px 4px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 4px;
+    padding: 0 3px;
     z-index: 1;
     position: relative;
+    transition: width 0.2s ease, height 0.2s ease;
+  }
+
+  @media (min-width: 640px) {
+    .hanging-tag-bracket {
+      width: 26px;
+      height: 10px;
+      border-radius: 5px 5px 0 0;
+      padding: 0 3.5px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hanging-tag-bracket {
+      width: 32px;
+      height: 12px;
+      border-radius: 6px 6px 0 0;
+      padding: 0 4px;
+    }
   }
 
   .hanging-tag-bracket-hole {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
     border-radius: 9999px;
     background: #09090b;
     border: 0.5px solid #52525b;
@@ -242,45 +261,90 @@
     justify-content: center;
   }
 
+  @media (min-width: 640px) {
+    .hanging-tag-bracket-hole {
+      width: 7px;
+      height: 7px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hanging-tag-bracket-hole {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
   .hanging-tag-bracket-pin {
-    width: 3px;
-    height: 3px;
+    width: 2px;
+    height: 2px;
     border-radius: 9999px;
     background: #34d399;
   }
 
+  @media (min-width: 640px) {
+    .hanging-tag-bracket-pin {
+      width: 3px;
+      height: 3px;
+    }
+  }
+
   .hanging-tag-bracket-ring-anchor {
-    width: 4px;
-    height: 4px;
+    width: 2.5px;
+    height: 2.5px;
     border-radius: 9999px;
     background: #71717a;
+  }
+
+  @media (min-width: 640px) {
+    .hanging-tag-bracket-ring-anchor {
+      width: 4px;
+      height: 4px;
+    }
   }
 
   .hanging-tag-inner {
     display: inline-flex;
     align-items: center;
-    padding: 12px 26px;
+    padding: 6px 12px;
     background: rgba(10, 10, 13, 0.96);
-    border: 2px solid rgba(161, 161, 170, 0.65);
-    border-radius: 10px;
+    border: 1.5px solid rgba(161, 161, 170, 0.65);
+    border-radius: 6px;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow:
-      0 20px 48px -4px rgba(0, 0, 0, 0.95),
-      0 0 20px rgba(16, 185, 129, 0.12),
-      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      0 10px 24px -4px rgba(0, 0, 0, 0.95),
+      0 0 14px rgba(16, 185, 129, 0.12),
+      0 0 0 1px rgba(255, 255, 255, 0.08) inset;
     transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
   }
 
   @media (min-width: 640px) {
     .hanging-tag-inner {
-      padding: 14px 32px;
+      padding: 9px 20px;
+      border-width: 2px;
+      border-radius: 8px;
+      box-shadow:
+        0 16px 38px -4px rgba(0, 0, 0, 0.95),
+        0 0 18px rgba(16, 185, 129, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
     }
   }
 
   @media (min-width: 1024px) {
     .hanging-tag-inner {
-      padding: 16px 38px;
+      padding: 12px 28px;
+      border-radius: 10px;
+      box-shadow:
+        0 20px 48px -4px rgba(0, 0, 0, 0.95),
+        0 0 22px rgba(16, 185, 129, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .hanging-tag-inner {
+      padding: 14px 34px;
     }
   }
 
@@ -294,7 +358,7 @@
 
   .hanging-tag-hint {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
@@ -302,8 +366,8 @@
     transition: opacity 0.2s ease, transform 0.2s ease;
     white-space: nowrap;
     background: rgba(18, 18, 22, 0.95);
-    padding: 5px 12px;
-    border-radius: 6px;
+    padding: 4px 10px;
+    border-radius: 5px;
     border: 1px solid #52525b;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
   }

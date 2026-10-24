@@ -329,6 +329,7 @@ function initHangingTag(): {
   let restX = 270;
   let restY = 115;
   let spreadX = 120;
+  let bracketHalf = 9;
   let anchorY = -550;
   let anchorLeftX = 150;
   let anchorRightX = 390;
@@ -350,18 +351,21 @@ function initHangingTag(): {
     const w = rect.width || 540;
     const h = rect.height || 720;
 
-    // Resting badge position over hair: center X, ~16% Y
+    bracketHalf = w < 300 ? 5 : w < 450 ? 6.5 : w < 768 ? 7.5 : 9;
+
+    // Resting badge position over hair: center X
     restX = w * 0.5;
-    restY = h * 0.16;
-    spreadX = Math.min(140, Math.max(75, w * 0.22));
+    // Responsive Y placement directly over the hair line
+    restY = w < 320 ? h * 0.15 : w < 480 ? h * 0.155 : h * 0.165;
+    spreadX = Math.min(130, Math.max(45, w * 0.22));
 
     // Anchors spread out to the left and right above the viewport ceiling
     anchorY = -Math.max(550, (rect.top || 0) + 350);
     anchorLeftX = restX - spreadX;
     anchorRightX = restX + spreadX;
 
-    segLengthLeft = Math.hypot(restX - 9 - anchorLeftX, restY - anchorY) / (NUM_ROPE_POINTS - 1);
-    segLengthRight = Math.hypot(restX + 9 - anchorRightX, restY - anchorY) / (NUM_ROPE_POINTS - 1);
+    segLengthLeft = Math.hypot(restX - bracketHalf - anchorLeftX, restY - anchorY) / (NUM_ROPE_POINTS - 1);
+    segLengthRight = Math.hypot(restX + bracketHalf - anchorRightX, restY - anchorY) / (NUM_ROPE_POINTS - 1);
   };
 
   updateMetrics();
@@ -371,28 +375,27 @@ function initHangingTag(): {
     rightParticles.length = 0;
     for (let i = 0; i < NUM_ROPE_POINTS; i++) {
       const ratio = i / (NUM_ROPE_POINTS - 1);
-      const lx = anchorLeftX + (bx - 9 - anchorLeftX) * ratio;
+      const lx = anchorLeftX + (bx - bracketHalf - anchorLeftX) * ratio;
       const ly = anchorY + (by - anchorY) * ratio;
       leftParticles.push({ x: lx, y: ly, oldX: lx, oldY: ly });
 
-      const rx = anchorRightX + (bx + 9 - anchorRightX) * ratio;
+      const rx = anchorRightX + (bx + bracketHalf - anchorRightX) * ratio;
       const ry = anchorY + (by - anchorY) * ratio;
       rightParticles.push({ x: rx, y: ry, oldX: rx, oldY: ry });
     }
   };
 
-  resetRopes(restX, anchorY + 120);
+  resetRopes(restX, restY - 260);
 
   // Simulation State
   let phase: 'waiting' | 'dropping' | 'settled' | 'dragging' | 'recoiling' = 'waiting';
 
   let badgeX = restX;
-  let badgeY = anchorY + 120; // Starts collapsed above viewport
+  let badgeY = restY - 260; // Starts neatly above viewport
   let badgeVx = 0;
   let badgeVy = 0;
   let badgeAngle = 0;
   let wobbleAngle = 0;
-  let isTaut = false;
   let dropStartTime = 0;
 
   let targetScrollX = 0;
@@ -431,11 +434,23 @@ function initHangingTag(): {
     ropeRightGlow.setAttribute('d', rightPath);
     ropeRightShadow.setAttribute('d', rightPath);
 
+    // Responsive ring radius
+    const rect = container.getBoundingClientRect();
+    const w = rect.width || 540;
+    const ringRadius = w < 400 ? 3.5 : 4.5;
+    const apexRadius = w < 400 ? 4.5 : 6;
+    const pinRadius = w < 400 ? 1.8 : 2.2;
+
+    ropeLeftRing.setAttribute('r', ringRadius.toFixed(1));
+    ropeRightRing.setAttribute('r', ringRadius.toFixed(1));
+    ropeApexRing.setAttribute('r', apexRadius.toFixed(1));
+    ropeApexPin.setAttribute('r', pinRadius.toFixed(1));
+
     // Position junction rings where left and right cords meet at the tag
-    ropeLeftRing.setAttribute('cx', (badgeX - 9).toFixed(1));
+    ropeLeftRing.setAttribute('cx', (badgeX - bracketHalf).toFixed(1));
     ropeLeftRing.setAttribute('cy', badgeY.toFixed(1));
 
-    ropeRightRing.setAttribute('cx', (badgeX + 9).toFixed(1));
+    ropeRightRing.setAttribute('cx', (badgeX + bracketHalf).toFixed(1));
     ropeRightRing.setAttribute('cy', badgeY.toFixed(1));
 
     ropeApexRing.setAttribute('cx', badgeX.toFixed(1));
@@ -457,15 +472,14 @@ function initHangingTag(): {
   } else {
     renderRopeAndBadge();
 
-    // 1.6s delay before drop
+    // 1.5s delay before drop
     window.setTimeout(() => {
       phase = 'dropping';
       badgeVx = 0;
       badgeVy = 0;
-      isTaut = false;
       dropStartTime = performance.now();
       container.classList.add('is-ready');
-    }, 1600);
+    }, 1500);
   }
 
   const simulateRopeChain = (
@@ -479,17 +493,17 @@ function initHangingTag(): {
     // Verlet motion update for intermediate particles
     for (let i = 1; i < NUM_ROPE_POINTS - 1; i++) {
       const p = rope[i];
-      const vx = (p.x - p.oldX) * 0.92;
-      const vy = (p.y - p.oldY) * 0.92;
+      const vx = (p.x - p.oldX) * 0.94;
+      const vy = (p.y - p.oldY) * 0.94;
       p.oldX = p.x;
       p.oldY = p.y;
       p.x += vx;
-      // Gravity creates natural rope sag / catenary curve
-      p.y += vy + 980 * dt * dt;
+      // Gentle gravity creates natural rope sag / catenary curve
+      p.y += vy + 360 * dt * dt;
     }
 
     // Constraint relaxation passes
-    const passes = 5;
+    const passes = 6;
     for (let iter = 0; iter < passes; iter++) {
       rope[0].x = anchorXPos;
       rope[0].y = anchorY;
@@ -505,17 +519,20 @@ function initHangingTag(): {
         const dist = Math.hypot(dx, dy) || 0.0001;
         const diff = (dist - segLen) / dist;
 
-        const factor = 0.5 * 0.88;
-        const offX = dx * diff * factor;
-        const offY = dy * diff * factor;
+        // One-way tension: cables only resist stretching, never push upon compression
+        if (diff > 0) {
+          const factor = 0.5 * 0.92;
+          const offX = dx * diff * factor;
+          const offY = dy * diff * factor;
 
-        if (i !== 0) {
-          pA.x += offX;
-          pA.y += offY;
-        }
-        if (i + 1 !== NUM_ROPE_POINTS - 1) {
-          pB.x -= offX;
-          pB.y -= offY;
+          if (i !== 0) {
+            pA.x += offX;
+            pA.y += offY;
+          }
+          if (i + 1 !== NUM_ROPE_POINTS - 1) {
+            pB.x -= offX;
+            pB.y -= offY;
+          }
         }
       }
     }
@@ -529,50 +546,46 @@ function initHangingTag(): {
 
     // 1. Update Badge Target Position
     if (phase === 'dropping') {
-      if (!isTaut) {
-        // Free fall under gravity until cord goes taut
-        badgeVy += 2400 * dt;
-        badgeY += badgeVy * dt;
-        if (badgeY >= restY) {
-          isTaut = true;
-        }
-      } else {
-        // Elastic spring bounce with natural, responsive harmonic decay
+      const elapsed = now - dropStartTime;
+      const gravity = 1750;
+      let fy = gravity;
+
+      if (badgeY > restY) {
+        // Continuous harmonic tension & damping (smooth C1 velocity)
         const dy = badgeY - restY;
-        const tensionK = 190;
-        const damping = 8.5; // Natural under-damping allows 2-3 juicy, physical bounces
-        const fy = -tensionK * dy - damping * badgeVy;
-        badgeVy += fy * dt;
-        badgeY += badgeVy * dt;
+        const tensionK = 185;
+        const damping = 7.8;
+        fy += -tensionK * dy - damping * badgeVy;
+      }
 
-        // Subtle realistic sway during the bounce
-        const bounceProgress = Math.min(1, Math.max(0, (now - dropStartTime) / 1200));
-        wobbleAngle = Math.sin((now - dropStartTime) * 0.012) * (1 - bounceProgress) * 6;
+      badgeVy += fy * dt;
+      badgeY += badgeVy * dt;
 
-        // Clean settling gate: locks smoothly after 2-3 bounces without perpetual jitter
-        if ((Math.abs(dy) < 0.6 && Math.abs(badgeVy) < 8 && now - dropStartTime > 1100) || (now - dropStartTime > 1800)) {
-          phase = 'settled';
-          badgeY = restY;
-          badgeVy = 0;
-          badgeX = restX;
-          badgeVx = 0;
-          badgeAngle = 0;
-          wobbleAngle = 0;
-          resetRopes(restX, restY);
-        }
+      // Realistic subtle sway during the bounce that naturally fades
+      const swayDecay = Math.max(0, 1 - elapsed / 1400);
+      wobbleAngle = Math.sin(elapsed * 0.011) * swayDecay * 5;
+
+      // Seamless settling gate: smoothly transitions when velocity and displacement are negligible
+      const dy = Math.abs(badgeY - restY);
+      const isSlow = Math.abs(badgeVy) < 6;
+      if ((dy < 0.8 && isSlow && elapsed > 1200) || elapsed > 2200) {
+        phase = 'settled';
+        badgeVy = 0;
+        badgeVx = 0;
       }
     } else if (phase === 'settled') {
       // Gentle ambient floating breeze (zero jitter, smooth slow drift)
       const t = now * 0.001;
-      const ambientX = Math.sin(t * 1.3) * 1.1;
-      const ambientY = Math.cos(t * 1.3) * 0.6;
+      const targetAmbientX = restX + Math.sin(t * 1.3) * 1.0 + smoothScrollX;
+      const targetAmbientY = restY + Math.cos(t * 1.3) * 0.5;
 
       // Scroll inertia integration
       smoothScrollX += (targetScrollX - smoothScrollX) * Math.min(1, dt * 8);
       targetScrollX *= Math.pow(0.88, dt * 60);
 
-      badgeX = restX + ambientX + smoothScrollX;
-      badgeY = restY + ambientY;
+      // C-infinity continuous lerp: eliminates any coordinate snap/jump
+      badgeX += (targetAmbientX - badgeX) * Math.min(1, dt * 10);
+      badgeY += (targetAmbientY - badgeY) * Math.min(1, dt * 10);
     } else if (phase === 'dragging') {
       const rawDx = lastPointerX - dragStartX;
       const rawDy = lastPointerY - dragStartY;
@@ -599,22 +612,20 @@ function initHangingTag(): {
       badgeY += badgeVy * dt;
 
       if (
-        Math.abs(badgeX - restX) < 0.35 &&
-        Math.abs(badgeY - restY) < 0.35 &&
-        Math.abs(badgeVx) < 2 &&
-        Math.abs(badgeVy) < 2
+        Math.abs(badgeX - restX) < 0.4 &&
+        Math.abs(badgeY - restY) < 0.4 &&
+        Math.abs(badgeVx) < 3 &&
+        Math.abs(badgeVy) < 3
       ) {
         phase = 'settled';
-        badgeX = restX;
-        badgeY = restY;
         badgeVx = 0;
         badgeVy = 0;
       }
     }
 
     // 2. Simulate Left and Right Ropes (Verlet Chain forming Triangle)
-    simulateRopeChain(leftParticles, anchorLeftX, badgeX - 9, badgeY, segLengthLeft, dt);
-    simulateRopeChain(rightParticles, anchorRightX, badgeX + 9, badgeY, segLengthRight, dt);
+    simulateRopeChain(leftParticles, anchorLeftX, badgeX - bracketHalf, badgeY, segLengthLeft, dt);
+    simulateRopeChain(rightParticles, anchorRightX, badgeX + bracketHalf, badgeY, segLengthRight, dt);
 
     // 3. Compute Badge Rotation Angle (Stabilized by Dual Triangular Suspension)
     const targetBadgeAngle = Math.max(-18, Math.min(18, (badgeX - restX) * 0.12)) + wobbleAngle;
@@ -711,6 +722,12 @@ function initHangingTag(): {
 
   window.addEventListener('resize', () => {
     updateMetrics();
+    if (phase === 'settled') {
+      badgeX = restX;
+      badgeY = restY;
+      resetRopes(badgeX, badgeY);
+      renderRopeAndBadge();
+    }
   });
 
   return {

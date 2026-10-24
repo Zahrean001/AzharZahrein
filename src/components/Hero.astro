@@ -1,5 +1,6 @@
 ---
 import { navItems } from '../data/portfolio';
+import HangingTag from './HangingTag.astro';
 
 interface Props {
   portraitSrc: string;
@@ -8,13 +9,47 @@ interface Props {
 }
 
 const { portraitSrc, portraitWidth, portraitHeight } = Astro.props;
+
+const navI18nKeys: Record<string, string> = {
+  '#karya': 'nav.karya',
+  '#kemasan': 'nav.desain',
+  '#pengalaman': 'nav.profil',
+  '#kontak': 'nav.kontak',
+};
 ---
 
 <header
   class="relative min-h-[100svh] w-full bg-ink text-paper px-6 sm:px-10 md:px-14 lg:px-20 pt-7 md:pt-10 pb-8 md:pb-10 flex flex-col justify-between overflow-hidden"
   id="cover"
 >
-  <div class="w-full flex items-start justify-end z-20" data-motion="fade-left" style="--m-delay: 80ms;">
+  <div class="w-full flex items-start justify-between z-20" data-motion="fade-left" style="--m-delay: 80ms;">
+    <!-- Language Region Switcher -->
+    <div
+      class="inline-flex items-center rounded-full border border-zinc-700/80 bg-zinc-900/80 p-0.5 text-[11px] font-mono backdrop-blur-sm select-none"
+      id="lang-switcher"
+      role="group"
+      aria-label="Language selection"
+    >
+      <button
+        type="button"
+        data-lang-btn="id"
+        class="rounded-full px-2.5 py-0.5 transition-all text-zinc-400 hover:text-white"
+        aria-pressed="false"
+      >
+        ID
+      </button>
+      <span class="text-zinc-600">/</span>
+      <button
+        type="button"
+        data-lang-btn="en"
+        class="rounded-full px-2.5 py-0.5 transition-all text-zinc-400 hover:text-white"
+        aria-pressed="false"
+      >
+        EN
+      </button>
+    </div>
+
+    <!-- Navigation links -->
     <nav
       class="flex flex-col items-end space-y-1.5 md:space-y-2 text-sm sm:text-base md:text-lg lg:text-xl font-editorial-heading tracking-wider uppercase font-semibold text-zinc-300"
     >
@@ -23,6 +58,7 @@ const { portraitSrc, portraitWidth, portraitHeight } = Astro.props;
           <a
             class="hover:text-white transition-all duration-200 py-0.5 hover:-translate-x-1.5"
             href={item.href}
+            data-i18n={navI18nKeys[item.href] || undefined}
           >
             {item.label}
           </a>
@@ -55,23 +91,29 @@ const { portraitSrc, portraitWidth, portraitHeight } = Astro.props;
       </div>
 
       <div
-        class="absolute right-0 sm:right-4 md:right-8 lg:right-12 bottom-0 w-[245px] sm:w-[350px] md:w-[450px] lg:w-[540px] xl:w-[600px] z-10 pointer-events-none transform -rotate-2 origin-bottom-right"
+        class="absolute right-0 sm:right-4 md:right-8 lg:right-12 bottom-0 w-[245px] sm:w-[350px] md:w-[450px] lg:w-[540px] xl:w-[600px] z-25 pointer-events-none transform -rotate-2 origin-bottom-right"
         id="hero-portrait-wrap"
       >
-        <img
-          alt="Portrait of Muhammad Azhar Nur Azmi Zahrein"
-          class="w-full h-auto object-contain filter contrast-105 drop-shadow-[0_20px_35px_rgba(0,0,0,0.9)]"
-          data-motion="pop"
-          data-scroll-speed="0.16"
-          data-scroll-rot="2.5"
-          style="--m-delay: 140ms;"
-          width={portraitWidth}
-          height={portraitHeight}
-          loading="eager"
-          fetchpriority="high"
-          decoding="sync"
-          src={portraitSrc}
-        />
+        <!-- Soft Floating Wrapper for the Figure & Hanging Quote -->
+        <div class="hero-floating-figure-wrapper" id="hero-floating-figure">
+          <img
+            alt="Portrait of Muhammad Azhar Nur Azmi Zahrein"
+            class="w-full h-auto object-contain filter contrast-105 drop-shadow-[0_20px_35px_rgba(0,0,0,0.9)]"
+            data-motion="pop"
+            data-scroll-speed="0.16"
+            data-scroll-rot="2.5"
+            style="--m-delay: 140ms;"
+            width={portraitWidth}
+            height={portraitHeight}
+            loading="eager"
+            fetchpriority="high"
+            decoding="sync"
+            src={portraitSrc}
+          />
+
+          <!-- Animated Hanging Tag with Flexible Elastic Rope above Head -->
+          <HangingTag />
+        </div>
       </div>
     </div>
   </div>
@@ -87,15 +129,16 @@ const { portraitSrc, portraitWidth, portraitHeight } = Astro.props;
           Muhammad Azhar Nur Azmi Zahrein,{' '}
           <span class="font-normal text-zinc-400 text-xs sm:text-sm md:text-lg">A.Md.Kom.</span>
         </h2>
-        <p class="text-xs sm:text-sm md:text-base text-zinc-400 tracking-wide">
+        <p class="text-xs sm:text-sm md:text-base text-zinc-400 tracking-wide" data-i18n="hero.role">
           Junior Application Developer · Graphic Designer
         </p>
-        <p class="text-[11px] sm:text-xs md:text-sm text-zinc-500 font-mono">
+        <p class="text-[11px] sm:text-xs md:text-sm text-zinc-500 font-mono" data-i18n="hero.degree">
           D3 Teknik Informatika, PENS
         </p>
       </div>
       <a
         aria-label="Scroll ke karya"
+        data-i18n-attr="aria-label:hero.scrollAria"
         class="text-zinc-400 hover:text-white pb-1 animate-bounce"
         href="#karya"
       >
@@ -115,3 +158,29 @@ const { portraitSrc, portraitWidth, portraitHeight } = Astro.props;
     </div>
   </div>
 </header>
+
+<style>
+  @keyframes softFigureFloat {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-9px) rotate(0.6deg);
+    }
+  }
+
+  .hero-floating-figure-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: softFigureFloat 5.6s ease-in-out infinite;
+    will-change: transform;
+    transform-origin: center bottom;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-floating-figure-wrapper {
+      animation: none !important;
+    }
+  }
+</style>

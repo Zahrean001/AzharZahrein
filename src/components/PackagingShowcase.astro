@@ -37,6 +37,7 @@ const { pouches } = Astro.props;
         class="font-editorial-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink leading-tight"
         data-motion="up"
         data-scroll-speed="-0.05"
+        data-i18n="kemasan.heading"
       >
         Desain kemasan UMKM
       </h2>
@@ -44,6 +45,7 @@ const { pouches } = Astro.props;
         class="text-sm sm:text-base md:text-lg text-zinc-700 font-normal"
         data-motion="up"
         data-scroll-speed="-0.03"
+        data-i18n="kemasan.desc"
       >
         Tiga desain standing pouch untuk produk makanan UMKM.
       </p>
@@ -51,7 +53,7 @@ const { pouches } = Astro.props;
 
     <div class="space-y-20 md:space-y-28">
       {
-        pouches.map((pouch) => (
+        pouches.map((pouch, index) => (
           <article class="space-y-5" data-pouch-stage>
             <div class="text-center space-y-1" data-motion="up" style="--m-delay: 0ms;">
               <h3 class="text-lg md:text-2xl font-semibold tracking-tight text-ink">
@@ -66,37 +68,42 @@ const { pouches } = Astro.props;
               style="--m-delay: 80ms;"
             >
               <div
-                class="flip-card w-full h-[380px] sm:h-[430px] md:h-[460px] cursor-grab active:cursor-grabbing"
-                data-flip-card={pouch.id}
+                class="pouch-float-wrapper"
+                style={`--pouch-float-delay: ${(index * 0.9).toFixed(1)}s; --pouch-float-duration: ${(4.5 + index * 0.4).toFixed(1)}s;`}
               >
-                <div class="flip-card-inner" id={pouch.id}>
-                  <div class="flip-card-front flex flex-col items-center">
-                    <img
-                      alt={`${pouch.title} tampak depan`}
-                      class="h-[330px] sm:h-[380px] md:h-[410px] w-auto object-contain filter drop-shadow-md"
-                      width={pouch.front.width}
-                      height={pouch.front.height}
-                      loading="eager"
-                      decoding="async"
-                      src={pouch.front.src}
-                    />
-                    <span class="mt-3 text-[10px] md:text-xs uppercase font-mono tracking-widest text-zinc-500">
-                      Tampak Depan
-                    </span>
-                  </div>
-                  <div class="flip-card-back flex flex-col items-center">
-                    <img
-                      alt={`${pouch.title} tampak belakang`}
-                      class="h-[330px] sm:h-[380px] md:h-[410px] w-auto object-contain filter drop-shadow-md"
-                      width={pouch.back.width}
-                      height={pouch.back.height}
-                      loading="eager"
-                      decoding="async"
-                      src={pouch.back.src}
-                    />
-                    <span class="mt-3 text-[10px] md:text-xs uppercase font-mono tracking-widest text-zinc-500">
-                      Tampak Belakang
-                    </span>
+                <div
+                  class="flip-card w-full h-[380px] sm:h-[430px] md:h-[460px] cursor-grab active:cursor-grabbing"
+                  data-flip-card={pouch.id}
+                >
+                  <div class="flip-card-inner" id={pouch.id}>
+                    <div class="flip-card-front flex flex-col items-center">
+                      <img
+                        alt={`${pouch.title} tampak depan`}
+                        class="h-[330px] sm:h-[380px] md:h-[410px] w-auto object-contain filter drop-shadow-md"
+                        width={pouch.front.width}
+                        height={pouch.front.height}
+                        loading="eager"
+                        decoding="async"
+                        src={pouch.front.src}
+                      />
+                      <span class="mt-3 text-[10px] md:text-xs uppercase font-mono tracking-widest text-zinc-500" data-i18n="kemasan.front">
+                        Tampak Depan
+                      </span>
+                    </div>
+                    <div class="flip-card-back flex flex-col items-center">
+                      <img
+                        alt={`${pouch.title} tampak belakang`}
+                        class="h-[330px] sm:h-[380px] md:h-[410px] w-auto object-contain filter drop-shadow-md"
+                        width={pouch.back.width}
+                        height={pouch.back.height}
+                        loading="eager"
+                        decoding="async"
+                        src={pouch.back.src}
+                      />
+                      <span class="mt-3 text-[10px] md:text-xs uppercase font-mono tracking-widest text-zinc-500" data-i18n="kemasan.back">
+                        Tampak Belakang
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

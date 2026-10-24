@@ -40,22 +40,24 @@
           fill="none"
         >
           <g class="contact-accent-envelope" style="transform-origin: 96px 46px;">
-            <rect
-              x="58"
-              y="18"
-              width="76"
-              height="52"
-              rx="4"
-              stroke="currentColor"
-              stroke-width="2"
-            />
-            <polyline
-              points="60,21 96,49 132,21"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+            <g class="envelope-float-inner">
+              <rect
+                x="58"
+                y="18"
+                width="76"
+                height="52"
+                rx="4"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <polyline
+                points="60,21 96,49 132,21"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
           </g>
 
           <g class="contact-cue-group text-zinc-400">
@@ -85,9 +87,10 @@
       <p
         class="text-sm sm:text-base md:text-lg text-zinc-400 leading-relaxed"
         data-motion="up"
+        data-i18n-html="contact.desc"
       >
-        Digital products<br />
-        and visual work.
+        Produk digital<br />
+        dan karya visual.
       </p>
 
       <div data-motion="up">
@@ -104,7 +107,7 @@
         class="pt-2 space-y-2.5 text-xs sm:text-sm md:text-base font-mono text-zinc-400"
         data-motion="up"
       >
-        <div class="text-zinc-300 font-medium pb-1">
+        <div class="text-zinc-300 font-medium pb-1" data-i18n="contact.role">
           Junior Application Developer · Graphic Designer
         </div>
         <div>
@@ -119,11 +122,12 @@
           </a>
         </div>
         <div>
-          <span class="text-zinc-500">CV — &nbsp;</span>
+          <span class="text-zinc-500" data-i18n-html="contact.cvLabel">CV — &nbsp;</span>
           <a
             href="/resume.pdf"
             download="CV_Muhammad_Azhar_Nur_Azmi_Zahrein.pdf"
             class="text-zinc-200 hover:text-white transition-colors underline decoration-zinc-700 hover:decoration-zinc-300 underline-offset-4"
+            data-i18n="contact.cvDownload"
           >
             Unduh CV
           </a>
@@ -136,6 +140,6 @@
     class="relative z-10 w-full mt-14 pt-5 md:pt-6 border-t border-zinc-800/90 flex justify-between items-center text-[11px] sm:text-xs font-mono text-zinc-500"
   >
     <span>Muhammad Azhar Nur Azmi Zahrein, A.Md.Kom.</span>
-    <span>D3 Teknik Informatika, PENS</span>
+    <span data-i18n="contact.footerSchool">D3 Teknik Informatika, PENS</span>
   </div>
 </footer>

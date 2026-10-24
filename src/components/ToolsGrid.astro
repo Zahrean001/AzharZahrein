@@ -21,6 +21,7 @@ import { toolItems } from '../data/portfolio';
         class="font-editorial-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink leading-tight"
         data-motion="up"
         data-scroll-speed="-0.06"
+        data-i18n="tools.heading"
         style="--m-delay: 0ms;"
       >
         Tools yang saya kuasai
@@ -29,6 +30,7 @@ import { toolItems } from '../data/portfolio';
         class="text-sm sm:text-base md:text-lg text-zinc-700 leading-relaxed max-w-2xl"
         data-motion="up"
         data-scroll-speed="-0.04"
+        data-i18n="tools.desc"
         style="--m-delay: 80ms;"
       >
         Teknologi yang saya gunakan dalam proyek, serta tools yang sedang saya pelajari.
@@ -51,14 +53,15 @@ import { toolItems } from '../data/portfolio';
                 tabindex="0"
                 role="button"
                 aria-label={`${tool.name} — ${statusLabel}`}
-                style={`--stagger: ${staggerMs}ms;`}
+                style={`--stagger: ${staggerMs}ms; --float-delay: ${(index * 0.22).toFixed(2)}s; --float-duration: ${(3.6 + (index % 5) * 0.4).toFixed(2)}s;`}
               >
-                <svg
-                  class="iso-object-svg w-28 h-[98px] sm:w-32 sm:h-[112px] md:w-36 md:h-[126px]"
-                  viewBox="0 0 80 68"
-                  fill="none"
-                  aria-hidden="true"
-                >
+                <div class="iso-float-wrapper">
+                  <svg
+                    class="iso-object-svg w-28 h-[98px] sm:w-32 sm:h-[112px] md:w-36 md:h-[126px]"
+                    viewBox="0 0 80 68"
+                    fill="none"
+                    aria-hidden="true"
+                  >
                   <polygon points="42,42 77,52 42,66 7,52" fill="rgba(12,12,12,0.15)" />
                   <polygon points="4,23 40,41 40,59 4,41" fill={tool.leftColor} />
                   <polygon points="76,23 40,41 40,59 76,41" fill={tool.rightColor} />
@@ -237,8 +240,9 @@ import { toolItems } from '../data/portfolio';
                     )}
                   </g>
                 </svg>
+              </div>
 
-                <div class="iso-tooltip" role="tooltip">
+              <div class="iso-tooltip" role="tooltip">
                   <div class="text-xs font-semibold tracking-tight">{tool.name}</div>
                   <div class="text-[10px] font-mono text-zinc-300">{statusLabel}</div>
                 </div>

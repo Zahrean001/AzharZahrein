@@ -21,6 +21,7 @@ import { featuredWorks } from '../data/portfolio';
         class="font-editorial-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-ink leading-tight"
         data-motion="up"
         data-scroll-speed="-0.06"
+        data-i18n="workIntro.heading"
         style="--m-delay: 0ms;"
       >
         Karya yang saya bangun
@@ -29,6 +30,7 @@ import { featuredWorks } from '../data/portfolio';
         class="text-sm sm:text-base md:text-lg text-zinc-700 leading-relaxed max-w-2xl"
         data-motion="up"
         data-scroll-speed="-0.04"
+        data-i18n="workIntro.desc"
         style="--m-delay: 80ms;"
       >
         Selama studi, saya mengerjakan aplikasi mobile untuk kebutuhan lapangan dan desain
@@ -46,10 +48,18 @@ import { featuredWorks } from '../data/portfolio';
             data-scroll-speed="-0.03"
             style={`--m-delay: ${work.delayMs}ms;`}
           >
-            <span class="font-editorial-heading text-2xl md:text-3xl font-bold text-ink group-hover:text-mineral transition-colors">
+            <span
+              class="font-editorial-heading text-2xl md:text-3xl font-bold text-ink group-hover:text-mineral transition-colors"
+              data-i18n={work.href === '#sijagung' ? 'workIntro.sijagungTitle' : 'workIntro.kemasanTitle'}
+            >
               {work.title}
             </span>
-            <span class="text-xs sm:text-sm md:text-base text-zinc-600">{work.summary}</span>
+            <span
+              class="text-xs sm:text-sm md:text-base text-zinc-600"
+              data-i18n={work.href === '#sijagung' ? 'workIntro.sijagungSummary' : 'workIntro.kemasanSummary'}
+            >
+              {work.summary}
+            </span>
           </a>
         ))
       }

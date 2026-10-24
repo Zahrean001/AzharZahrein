@@ -1,3 +1,10 @@
+import {
+  translations,
+  detectUserLocale,
+  type Locale,
+  type TranslationDictionary,
+} from '../data/translations';
+
 interface ScreenMeta {
   title: string;
   caption: string;
@@ -8,25 +15,20 @@ interface PouchCardState {
   manualLock: boolean;
 }
 
-const SCREEN_META: ScreenMeta[] = [
-  {
-    title: 'Dashboard',
-    caption: '“Ringkasan data lapangan dalam satu tampilan.”',
-  },
-  {
-    title: 'Data Petani',
-    caption: '“Data petani yang dapat dicatat dan diperbarui di lapangan.”',
-  },
-  {
-    title: 'Data Panen',
-    caption: '“Catatan panen untuk melengkapi data pertanian.”',
-  },
-];
-
-const DEFAULT_FAN_META: ScreenMeta = {
-  title: 'Dashboard · Data Petani · Data Panen',
-  caption: '“Ringkasan data lapangan, pencatatan petani, dan hasil panen dalam satu alur aplikasi.”',
-};
+function getFanMeta(locale: Locale) {
+  const t = translations[locale];
+  return {
+    screens: [
+      { title: t['sijagung.screen0.title'], caption: t['sijagung.screen0.caption'] },
+      { title: t['sijagung.screen1.title'], caption: t['sijagung.screen1.caption'] },
+      { title: t['sijagung.screen2.title'], caption: t['sijagung.screen2.caption'] },
+    ],
+    defaultFan: {
+      title: t['sijagung.defaultTitle'],
+      caption: t['sijagung.defaultCaption'],
+    },
+  };
+}
 
 const POUCH_IDS = ['pouch-1', 'pouch-2', 'pouch-3'] as const;
 
@@ -50,19 +52,23 @@ function predecodeSectionImages(): void {
   }
 }
 
-function initPhoneFanInteraction(fanStage: HTMLElement | null): void {
+function initPhoneFanInteraction(
+  fanStage: HTMLElement | null,
+  getLocale: () => Locale
+): { refreshFanCaption: () => void } {
   const fanPhoneItems = Array.from(document.querySelectorAll<HTMLElement>('[data-fan-phone]'));
   let activeFanIndex = -1;
 
   const updateFanCaption = (index: number) => {
-    if (index === activeFanIndex) return;
     activeFanIndex = index;
-
     const titleEl = document.getElementById('screen-title');
     const captionEl = document.getElementById('screen-caption');
     if (!titleEl || !captionEl) return;
 
-    const targetMeta = index >= 0 && SCREEN_META[index] ? SCREEN_META[index] : DEFAULT_FAN_META;
+    const fanMeta = getFanMeta(getLocale());
+    const targetMeta =
+      index >= 0 && fanMeta.screens[index] ? fanMeta.screens[index] : fanMeta.defaultFan;
+
     titleEl.textContent = targetMeta.title;
     captionEl.textContent = targetMeta.caption;
     titleEl.style.transition = 'none';
@@ -110,6 +116,17 @@ function initPhoneFanInteraction(fanStage: HTMLElement | null): void {
       updateFanCaption(-1);
     });
   }
+
+  document.addEventListener('click', () => {
+    if (activeFanIndex !== -1) {
+      fanPhoneItems.forEach((el) => el.classList.remove('is-active-fan'));
+      updateFanCaption(-1);
+    }
+  });
+
+  return {
+    refreshFanCaption: () => updateFanCaption(activeFanIndex),
+  };
 }
 
 function initPouchCards(): {
@@ -127,8 +144,8 @@ function initPouchCards(): {
 
   const setCardFlip = (elementId: string, shouldFlip: boolean, isManual = false) => {
     const cardInner = document.getElementById(elementId);
-    if (!cardInner || !cardInner.parentElement) return;
-    const cardContainer = cardInner.parentElement;
+    if (!cardInner) return;
+    const cardContainer = (cardInner.closest('.flip-card') || cardInner.parentElement) as HTMLElement | null;
     const state = pouchState.get(elementId);
     if (!state) return;
 
@@ -138,7 +155,13 @@ function initPouchCards(): {
     state.flipped = shouldFlip;
 
     cardInner.style.transform = '';
-    cardContainer.classList.toggle('flipped', shouldFlip);
+    cardInner.classList.toggle('flipped', shouldFlip);
+    cardInner.classList.toggle('is-flipped', shouldFlip);
+    if (cardContainer) {
+      cardContainer.classList.toggle('flipped', shouldFlip);
+      cardContainer.classList.toggle('is-flipped', shouldFlip);
+      cardContainer.setAttribute('aria-expanded', shouldFlip ? 'true' : 'false');
+    }
   };
 
   const toggleCardFlip = (elementId: string, isManual = true) => {
@@ -151,6 +174,18 @@ function initPouchCards(): {
     const targetId = cardEl.getAttribute('data-flip-card');
     const cardInner = targetId ? document.getElementById(targetId) : null;
     if (!targetId || !cardInner) return;
+
+    cardEl.setAttribute('role', 'button');
+    cardEl.setAttribute('tabindex', '0');
+    cardEl.setAttribute('aria-label', `Balik kemasan kartu ${targetId}`);
+    cardEl.setAttribute('aria-expanded', 'false');
+
+    cardEl.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleCardFlip(targetId, true);
+      }
+    });
 
     let startX = 0;
     let startY = 0;
@@ -254,8 +289,527 @@ function initPouchCards(): {
   return { pouchState, setCardFlip };
 }
 
+function initHangingTag(): {
+  hangingAssembly: HTMLElement | null;
+  onScrollTick: (vel: number) => void;
+} {
+  const container = document.getElementById('hero-hanging-container');
+  const tagCard = document.getElementById('hero-tag-card');
+  const ropeLeftCore = document.getElementById('rope-left-core');
+  const ropeLeftGlow = document.getElementById('rope-left-glow');
+  const ropeLeftShadow = document.getElementById('rope-left-shadow');
+  const ropeRightCore = document.getElementById('rope-right-core');
+  const ropeRightGlow = document.getElementById('rope-right-glow');
+  const ropeRightShadow = document.getElementById('rope-right-shadow');
+  const ropeLeftRing = document.getElementById('rope-left-ring');
+  const ropeRightRing = document.getElementById('rope-right-ring');
+  const ropeApexRing = document.getElementById('rope-apex-ring');
+  const ropeApexPin = document.getElementById('rope-apex-pin');
+
+  if (
+    !container ||
+    !tagCard ||
+    !ropeLeftCore ||
+    !ropeLeftGlow ||
+    !ropeLeftShadow ||
+    !ropeRightCore ||
+    !ropeRightGlow ||
+    !ropeRightShadow ||
+    !ropeLeftRing ||
+    !ropeRightRing ||
+    !ropeApexRing ||
+    !ropeApexPin
+  ) {
+    return { hangingAssembly: null, onScrollTick: () => {} };
+  }
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Geometric Layout Coordinates
+  let restX = 270;
+  let restY = 115;
+  let spreadX = 120;
+  let anchorY = -550;
+  let anchorLeftX = 150;
+  let anchorRightX = 390;
+  let segLengthLeft = 60;
+  let segLengthRight = 60;
+
+  const NUM_ROPE_POINTS = 8;
+  interface RopeParticle {
+    x: number;
+    y: number;
+    oldX: number;
+    oldY: number;
+  }
+  const leftParticles: RopeParticle[] = [];
+  const rightParticles: RopeParticle[] = [];
+
+  const updateMetrics = () => {
+    const rect = container.getBoundingClientRect();
+    const w = rect.width || 540;
+    const h = rect.height || 720;
+
+    // Resting badge position over hair: center X, ~16% Y
+    restX = w * 0.5;
+    restY = h * 0.16;
+    spreadX = Math.min(140, Math.max(75, w * 0.22));
+
+    // Anchors spread out to the left and right above the viewport ceiling
+    anchorY = -Math.max(550, (rect.top || 0) + 350);
+    anchorLeftX = restX - spreadX;
+    anchorRightX = restX + spreadX;
+
+    segLengthLeft = Math.hypot(restX - 9 - anchorLeftX, restY - anchorY) / (NUM_ROPE_POINTS - 1);
+    segLengthRight = Math.hypot(restX + 9 - anchorRightX, restY - anchorY) / (NUM_ROPE_POINTS - 1);
+  };
+
+  updateMetrics();
+
+  const resetRopes = (bx = restX, by = restY) => {
+    leftParticles.length = 0;
+    rightParticles.length = 0;
+    for (let i = 0; i < NUM_ROPE_POINTS; i++) {
+      const ratio = i / (NUM_ROPE_POINTS - 1);
+      const lx = anchorLeftX + (bx - 9 - anchorLeftX) * ratio;
+      const ly = anchorY + (by - anchorY) * ratio;
+      leftParticles.push({ x: lx, y: ly, oldX: lx, oldY: ly });
+
+      const rx = anchorRightX + (bx + 9 - anchorRightX) * ratio;
+      const ry = anchorY + (by - anchorY) * ratio;
+      rightParticles.push({ x: rx, y: ry, oldX: rx, oldY: ry });
+    }
+  };
+
+  resetRopes(restX, anchorY + 120);
+
+  // Simulation State
+  let phase: 'waiting' | 'dropping' | 'settled' | 'dragging' | 'recoiling' = 'waiting';
+
+  let badgeX = restX;
+  let badgeY = anchorY + 120; // Starts collapsed above viewport
+  let badgeVx = 0;
+  let badgeVy = 0;
+  let badgeAngle = 0;
+  let wobbleAngle = 0;
+  let isTaut = false;
+  let dropStartTime = 0;
+
+  let targetScrollX = 0;
+  let smoothScrollX = 0;
+
+  let isPointerDown = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let lastPointerX = 0;
+  let lastPointerY = 0;
+  let hasMoved = false;
+  let pointerSamples: { x: number; y: number; time: number }[] = [];
+
+  let lastFrameTime = performance.now();
+
+  const getPathString = (rope: RopeParticle[]) => {
+    let d = `M ${rope[0].x.toFixed(1)} ${rope[0].y.toFixed(1)}`;
+    for (let i = 1; i < rope.length - 1; i++) {
+      const xc = (rope[i].x + rope[i + 1].x) * 0.5;
+      const yc = (rope[i].y + rope[i + 1].y) * 0.5;
+      d += ` Q ${rope[i].x.toFixed(1)} ${rope[i].y.toFixed(1)} ${xc.toFixed(1)} ${yc.toFixed(1)}`;
+    }
+    d += ` L ${rope[rope.length - 1].x.toFixed(1)} ${rope[rope.length - 1].y.toFixed(1)}`;
+    return d;
+  };
+
+  const renderRopeAndBadge = () => {
+    const leftPath = getPathString(leftParticles);
+    const rightPath = getPathString(rightParticles);
+
+    ropeLeftCore.setAttribute('d', leftPath);
+    ropeLeftGlow.setAttribute('d', leftPath);
+    ropeLeftShadow.setAttribute('d', leftPath);
+
+    ropeRightCore.setAttribute('d', rightPath);
+    ropeRightGlow.setAttribute('d', rightPath);
+    ropeRightShadow.setAttribute('d', rightPath);
+
+    // Position junction rings where left and right cords meet at the tag
+    ropeLeftRing.setAttribute('cx', (badgeX - 9).toFixed(1));
+    ropeLeftRing.setAttribute('cy', badgeY.toFixed(1));
+
+    ropeRightRing.setAttribute('cx', (badgeX + 9).toFixed(1));
+    ropeRightRing.setAttribute('cy', badgeY.toFixed(1));
+
+    ropeApexRing.setAttribute('cx', badgeX.toFixed(1));
+    ropeApexRing.setAttribute('cy', badgeY.toFixed(1));
+    ropeApexPin.setAttribute('cx', badgeX.toFixed(1));
+    ropeApexPin.setAttribute('cy', badgeY.toFixed(1));
+
+    // Transform badge card (origin is top bracket apex at badgeX, badgeY)
+    tagCard.style.transform = `translate3d(calc(${badgeX.toFixed(1)}px - 50%), ${badgeY.toFixed(1)}px, 0) rotate(${badgeAngle.toFixed(2)}deg)`;
+  };
+
+  if (prefersReducedMotion) {
+    phase = 'settled';
+    badgeX = restX;
+    badgeY = restY;
+    container.classList.add('is-ready');
+    resetRopes(restX, restY);
+    renderRopeAndBadge();
+  } else {
+    renderRopeAndBadge();
+
+    // 1.6s delay before drop
+    window.setTimeout(() => {
+      phase = 'dropping';
+      badgeVx = 0;
+      badgeVy = 0;
+      isTaut = false;
+      dropStartTime = performance.now();
+      container.classList.add('is-ready');
+    }, 1600);
+  }
+
+  const simulateRopeChain = (
+    rope: RopeParticle[],
+    anchorXPos: number,
+    targetEndX: number,
+    targetEndY: number,
+    segLen: number,
+    dt: number
+  ) => {
+    // Verlet motion update for intermediate particles
+    for (let i = 1; i < NUM_ROPE_POINTS - 1; i++) {
+      const p = rope[i];
+      const vx = (p.x - p.oldX) * 0.92;
+      const vy = (p.y - p.oldY) * 0.92;
+      p.oldX = p.x;
+      p.oldY = p.y;
+      p.x += vx;
+      // Gravity creates natural rope sag / catenary curve
+      p.y += vy + 980 * dt * dt;
+    }
+
+    // Constraint relaxation passes
+    const passes = 5;
+    for (let iter = 0; iter < passes; iter++) {
+      rope[0].x = anchorXPos;
+      rope[0].y = anchorY;
+
+      rope[NUM_ROPE_POINTS - 1].x = targetEndX;
+      rope[NUM_ROPE_POINTS - 1].y = targetEndY;
+
+      for (let i = 0; i < NUM_ROPE_POINTS - 1; i++) {
+        const pA = rope[i];
+        const pB = rope[i + 1];
+        const dx = pB.x - pA.x;
+        const dy = pB.y - pA.y;
+        const dist = Math.hypot(dx, dy) || 0.0001;
+        const diff = (dist - segLen) / dist;
+
+        const factor = 0.5 * 0.88;
+        const offX = dx * diff * factor;
+        const offY = dy * diff * factor;
+
+        if (i !== 0) {
+          pA.x += offX;
+          pA.y += offY;
+        }
+        if (i + 1 !== NUM_ROPE_POINTS - 1) {
+          pB.x -= offX;
+          pB.y -= offY;
+        }
+      }
+    }
+  };
+
+  // 60FPS Physics Loop
+  const physicsLoop = (now: number) => {
+    const rawDt = (now - lastFrameTime) / 1000;
+    const dt = Math.min(0.035, Math.max(0.006, rawDt));
+    lastFrameTime = now;
+
+    // 1. Update Badge Target Position
+    if (phase === 'dropping') {
+      if (!isTaut) {
+        // Free fall under gravity until cord goes taut
+        badgeVy += 2400 * dt;
+        badgeY += badgeVy * dt;
+        if (badgeY >= restY) {
+          isTaut = true;
+        }
+      } else {
+        // Elastic spring bounce with natural, responsive harmonic decay
+        const dy = badgeY - restY;
+        const tensionK = 190;
+        const damping = 8.5; // Natural under-damping allows 2-3 juicy, physical bounces
+        const fy = -tensionK * dy - damping * badgeVy;
+        badgeVy += fy * dt;
+        badgeY += badgeVy * dt;
+
+        // Subtle realistic sway during the bounce
+        const bounceProgress = Math.min(1, Math.max(0, (now - dropStartTime) / 1200));
+        wobbleAngle = Math.sin((now - dropStartTime) * 0.012) * (1 - bounceProgress) * 6;
+
+        // Clean settling gate: locks smoothly after 2-3 bounces without perpetual jitter
+        if ((Math.abs(dy) < 0.6 && Math.abs(badgeVy) < 8 && now - dropStartTime > 1100) || (now - dropStartTime > 1800)) {
+          phase = 'settled';
+          badgeY = restY;
+          badgeVy = 0;
+          badgeX = restX;
+          badgeVx = 0;
+          badgeAngle = 0;
+          wobbleAngle = 0;
+          resetRopes(restX, restY);
+        }
+      }
+    } else if (phase === 'settled') {
+      // Gentle ambient floating breeze (zero jitter, smooth slow drift)
+      const t = now * 0.001;
+      const ambientX = Math.sin(t * 1.3) * 1.1;
+      const ambientY = Math.cos(t * 1.3) * 0.6;
+
+      // Scroll inertia integration
+      smoothScrollX += (targetScrollX - smoothScrollX) * Math.min(1, dt * 8);
+      targetScrollX *= Math.pow(0.88, dt * 60);
+
+      badgeX = restX + ambientX + smoothScrollX;
+      badgeY = restY + ambientY;
+    } else if (phase === 'dragging') {
+      const rawDx = lastPointerX - dragStartX;
+      const rawDy = lastPointerY - dragStartY;
+
+      // Elastic rubber-band resistance
+      const targetBx = restX + Math.sign(rawDx) * Math.min(230, Math.pow(Math.abs(rawDx), 0.9) * 1.5);
+      const targetBy = restY + (rawDy > 0 ? Math.min(200, Math.pow(rawDy, 0.88) * 1.8) : Math.max(-70, rawDy * 0.45));
+
+      // Fluid follow-through
+      badgeX += (targetBx - badgeX) * Math.min(1, dt * 28);
+      badgeY += (targetBy - badgeY) * Math.min(1, dt * 28);
+    } else if (phase === 'recoiling') {
+      // Elastic spring harmonic recoil
+      const kX = 145;
+      const dX = 9.5;
+      const fx = -kX * (badgeX - restX) - dX * badgeVx;
+      badgeVx += fx * dt;
+      badgeX += badgeVx * dt;
+
+      const kY = 165;
+      const dY = 10.5;
+      const fy = -kY * (badgeY - restY) - dY * badgeVy;
+      badgeVy += fy * dt;
+      badgeY += badgeVy * dt;
+
+      if (
+        Math.abs(badgeX - restX) < 0.35 &&
+        Math.abs(badgeY - restY) < 0.35 &&
+        Math.abs(badgeVx) < 2 &&
+        Math.abs(badgeVy) < 2
+      ) {
+        phase = 'settled';
+        badgeX = restX;
+        badgeY = restY;
+        badgeVx = 0;
+        badgeVy = 0;
+      }
+    }
+
+    // 2. Simulate Left and Right Ropes (Verlet Chain forming Triangle)
+    simulateRopeChain(leftParticles, anchorLeftX, badgeX - 9, badgeY, segLengthLeft, dt);
+    simulateRopeChain(rightParticles, anchorRightX, badgeX + 9, badgeY, segLengthRight, dt);
+
+    // 3. Compute Badge Rotation Angle (Stabilized by Dual Triangular Suspension)
+    const targetBadgeAngle = Math.max(-18, Math.min(18, (badgeX - restX) * 0.12)) + wobbleAngle;
+    wobbleAngle *= Math.pow(0.85, dt * 60);
+    badgeAngle += (targetBadgeAngle - badgeAngle) * Math.min(1, dt * 18);
+
+    // 4. Render Updates
+    renderRopeAndBadge();
+
+    window.requestAnimationFrame(physicsLoop);
+  };
+
+  window.requestAnimationFrame(physicsLoop);
+
+  // Pointer Interaction Handlers
+  const onPointerDown = (e: PointerEvent) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    isPointerDown = true;
+    hasMoved = false;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    lastPointerX = e.clientX;
+    lastPointerY = e.clientY;
+    pointerSamples = [{ x: e.clientX, y: e.clientY, time: performance.now() }];
+
+    phase = 'dragging';
+    tagCard.classList.add('is-dragging');
+
+    try {
+      tagCard.setPointerCapture(e.pointerId);
+    } catch {}
+  };
+
+  const onPointerMove = (e: PointerEvent) => {
+    if (!isPointerDown) return;
+    lastPointerX = e.clientX;
+    lastPointerY = e.clientY;
+
+    const now = performance.now();
+    pointerSamples.push({ x: e.clientX, y: e.clientY, time: now });
+    if (pointerSamples.length > 5) {
+      pointerSamples.shift();
+    }
+
+    if (Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY) > 5) {
+      hasMoved = true;
+    }
+  };
+
+  const onPointerUp = (e: PointerEvent) => {
+    if (!isPointerDown) return;
+    isPointerDown = false;
+    tagCard.classList.remove('is-dragging');
+
+    try {
+      tagCard.releasePointerCapture(e.pointerId);
+    } catch {}
+
+    const now = performance.now();
+    const oldest = pointerSamples[0] || { x: e.clientX, y: e.clientY, time: now - 16 };
+    const dtSample = Math.max(0.016, (now - oldest.time) / 1000);
+    const releaseVx = (e.clientX - oldest.x) / dtSample;
+    const releaseVy = (e.clientY - oldest.y) / dtSample;
+
+    if (!hasMoved) {
+      // Playful tap/click wobble flick!
+      phase = 'recoiling';
+      badgeVx = 0;
+      badgeVy = -35;
+      wobbleAngle = (Math.random() > 0.5 ? 1 : -1) * 25;
+    } else {
+      // Spring recoil with drag momentum
+      phase = 'recoiling';
+      badgeVx = Math.max(-700, Math.min(700, releaseVx * 0.5));
+      badgeVy = Math.max(-600, Math.min(600, releaseVy * 0.5));
+      wobbleAngle = Math.max(-20, Math.min(20, releaseVx * 0.08));
+    }
+  };
+
+  tagCard.addEventListener('pointerdown', onPointerDown);
+  tagCard.addEventListener('pointermove', onPointerMove);
+  tagCard.addEventListener('pointerup', onPointerUp);
+  tagCard.addEventListener('pointercancel', onPointerUp);
+
+  tagCard.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      phase = 'recoiling';
+      badgeVx = 0;
+      badgeVy = -35;
+      wobbleAngle = 25;
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    updateMetrics();
+  });
+
+  return {
+    hangingAssembly: container,
+    onScrollTick: (vel: number) => {
+      if (phase === 'settled') {
+        targetScrollX = Math.max(-25, Math.min(25, vel * 0.35));
+      }
+    },
+  };
+}
+
+function initI18n(onLocaleChange?: () => void): { getLocale: () => Locale; setLocale: (loc: Locale) => void } {
+  let currentLocale: Locale = detectUserLocale();
+
+  const applyLocale = (loc: Locale) => {
+    currentLocale = loc;
+    const dict = translations[loc];
+
+    // 1. Text elements
+    document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n') as keyof TranslationDictionary;
+      if (key && dict[key] !== undefined) {
+        el.textContent = dict[key];
+      }
+    });
+
+    // 2. HTML elements
+    document.querySelectorAll<HTMLElement>('[data-i18n-html]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-html') as keyof TranslationDictionary;
+      if (key && dict[key] !== undefined) {
+        el.innerHTML = dict[key];
+      }
+    });
+
+    // 3. Attribute elements (format: 'attr:key')
+    document.querySelectorAll<HTMLElement>('[data-i18n-attr]').forEach((el) => {
+      const spec = el.getAttribute('data-i18n-attr');
+      if (spec) {
+        const [attr, key] = spec.split(':');
+        if (attr && key && (dict as any)[key] !== undefined) {
+          el.setAttribute(attr, (dict as any)[key]);
+        }
+      }
+    });
+
+    // 4. Update html lang
+    document.documentElement.lang = loc;
+
+    // 5. Update language switcher UI state
+    document.querySelectorAll<HTMLButtonElement>('[data-lang-btn]').forEach((btn) => {
+      const btnLang = btn.getAttribute('data-lang-btn');
+      const isActive = btnLang === loc;
+      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      if (isActive) {
+        btn.classList.add('bg-zinc-100', 'text-zinc-950', 'font-bold', 'shadow-sm');
+        btn.classList.remove('text-zinc-400');
+      } else {
+        btn.classList.remove('bg-zinc-100', 'text-zinc-950', 'font-bold', 'shadow-sm');
+        btn.classList.add('text-zinc-400');
+      }
+    });
+
+    if (onLocaleChange) {
+      onLocaleChange();
+    }
+  };
+
+  // Wire buttons in language switcher
+  document.querySelectorAll<HTMLButtonElement>('[data-lang-btn]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const selected = btn.getAttribute('data-lang-btn') as Locale;
+      if (selected === 'id' || selected === 'en') {
+        try {
+          localStorage.setItem('portfolio_lang', selected);
+        } catch {}
+        applyLocale(selected);
+      }
+    });
+  });
+
+  applyLocale(currentLocale);
+
+  return {
+    getLocale: () => currentLocale,
+    setLocale: (loc: Locale) => applyLocale(loc),
+  };
+}
+
 function initPortfolioInteractions(): void {
   predecodeSectionImages();
+
+  let refreshFan: (() => void) | null = null;
+  const i18n = initI18n(() => {
+    if (refreshFan) {
+      refreshFan();
+    }
+  });
 
   const fanStage = document.getElementById('sijagung-fan-stage');
   const isoScene = document.getElementById('iso-tools-scene');
@@ -268,8 +822,11 @@ function initPortfolioInteractions(): void {
   const contactSectionEl = document.getElementById('kontak');
   const emailCtaEl = document.getElementById('contact-email-cta');
 
-  initPhoneFanInteraction(fanStage);
+  const { refreshFanCaption } = initPhoneFanInteraction(fanStage, i18n.getLocale);
+  refreshFan = refreshFanCaption;
+
   const { pouchState, setCardFlip } = initPouchCards();
+  const { hangingAssembly, onScrollTick: hangingOnScrollTick } = initHangingTag();
 
   isoItems.forEach((item) => {
     item.addEventListener('click', (e) => {
@@ -376,17 +933,25 @@ function initPortfolioInteractions(): void {
               isoScene.classList.add('is-visible');
               if (isoReadyTimer !== null) window.clearTimeout(isoReadyTimer);
               isoReadyTimer = window.setTimeout(() => {
-                isoScene.classList.add('iso-ready');
-              }, 320);
+                if (isoScene.classList.contains('is-visible')) {
+                  isoScene.classList.add('iso-ready');
+                }
+              }, 400);
             } else {
               if (isoReadyTimer !== null) window.clearTimeout(isoReadyTimer);
               isoScene.classList.remove('is-visible', 'iso-ready');
             }
           });
         },
-        { threshold: 0.05, rootMargin: '70px 0px 70px 0px' }
+        { threshold: 0.05, rootMargin: '80px 0px 80px 0px' }
       );
       isoObserver.observe(isoScene);
+
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const rect = isoScene.getBoundingClientRect();
+      if (rect.top < vh + 80 && rect.bottom > -80) {
+        isoScene.classList.add('is-visible');
+      }
     }
 
     if (contactSectionEl) {
@@ -395,13 +960,23 @@ function initPortfolioInteractions(): void {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               contactSectionEl.classList.add('contact-entered');
-              contactObserver.unobserve(entry.target);
+            } else {
+              contactSectionEl.classList.remove('contact-entered');
             }
           });
         },
-        { threshold: 0.18 }
+        { threshold: 0.25 }
       );
       contactObserver.observe(contactSectionEl);
+
+      if (emailCtaEl) {
+        emailCtaEl.addEventListener('mouseenter', () => {
+          contactSectionEl.classList.add('email-hovered');
+        });
+        emailCtaEl.addEventListener('mouseleave', () => {
+          contactSectionEl.classList.remove('email-hovered');
+        });
+      }
     }
   } else {
     motionEls.forEach((el) => el.classList.add('is-inview', 'motion-ready'));
@@ -411,72 +986,58 @@ function initPortfolioInteractions(): void {
     if (contactSectionEl) contactSectionEl.classList.add('contact-entered');
   }
 
-  if (contactSectionEl && emailCtaEl) {
-    emailCtaEl.addEventListener('mouseenter', () =>
-      contactSectionEl.classList.add('email-hovered')
-    );
-    emailCtaEl.addEventListener('mouseleave', () =>
-      contactSectionEl.classList.remove('email-hovered')
-    );
-    emailCtaEl.addEventListener('focus', () =>
-      contactSectionEl.classList.add('email-hovered')
-    );
-    emailCtaEl.addEventListener('blur', () =>
-      contactSectionEl.classList.remove('email-hovered')
-    );
-  }
-
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let lastScrollY = window.scrollY || 0;
-  let smoothVelocity = 0;
-  let rafId: number | null = null;
-
-  const readNumber = (el: Element, attr: string, fallback = 0) =>
-    Number.parseFloat(el.getAttribute(attr) ?? '') || fallback;
-
-  const motionConfig = motionEls.map((el) => ({
-    el,
-    speedY: readNumber(el, 'data-scroll-speed'),
-    speedX: readNumber(el, 'data-scroll-x'),
-    speedRot: readNumber(el, 'data-scroll-rot'),
-  }));
-
   const watermarkConfig = watermarkEls.map((el) => ({
     el,
-    speed: readNumber(el, 'data-watermark-speed', 0.16),
+    speed: Number.parseFloat(el.getAttribute('data-watermark-speed') || '0.15'),
     isRail: el.classList.contains('bg-watermark-rail'),
   }));
 
+  const motionConfig = motionEls.map((el) => ({
+    el,
+    speedY: Number.parseFloat(el.getAttribute('data-scroll-speed') || '0'),
+    speedX: Number.parseFloat(el.getAttribute('data-scroll-x') || '0'),
+    speedRot: Number.parseFloat(el.getAttribute('data-scroll-rot') || '0'),
+  }));
+
   const pouchCards = POUCH_IDS.flatMap((id) => {
-    const card = document.getElementById(id)?.parentElement;
+    const inner = document.getElementById(id);
+    const card = inner ? ((inner.closest('.flip-card') || inner.parentElement) as HTMLElement | null) : null;
     return card ? [{ id, card }] : [];
   });
 
-  type StyleWrite = [HTMLElement, string, string];
+  let lastScrollY = window.scrollY;
+  let smoothVelocity = 0;
+  let rafId: number | null = null;
+  let lastFrameTime = performance.now();
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Every frame measures first and writes afterwards. Mixing the two forces the
-  // browser to recalculate layout once per element, which is what causes jank.
   const updateOnScrollFrame = () => {
+    const now = performance.now();
+    const dt = Math.max(8, Math.min(64, now - lastFrameTime));
+    lastFrameTime = now;
+
+    const currentScrollY = window.scrollY;
+    const instantVelocity = ((currentScrollY - lastScrollY) / dt) * 16.67;
+    lastScrollY = currentScrollY;
+
+    smoothVelocity += (instantVelocity - smoothVelocity) * 0.18;
+    const vel = Math.max(-60, Math.min(60, smoothVelocity));
     const vh = window.innerHeight || document.documentElement.clientHeight;
-    const currentY = window.scrollY || 0;
-    const rawDelta = currentY - lastScrollY;
-    lastScrollY = currentY;
 
-    smoothVelocity += (rawDelta - smoothVelocity) * 0.38;
-    if (Math.abs(smoothVelocity) < 0.08) {
-      smoothVelocity = 0;
+    const writes: [HTMLElement, string, string][] = [];
+    const flips: [string, boolean][] = [];
+
+    // Hanging Tag Scroll Physics
+    if (hangingOnScrollTick) {
+      hangingOnScrollTick(vel);
     }
-    const vel = Math.max(-38, Math.min(38, smoothVelocity));
-
-    const writes: StyleWrite[] = [];
-    const flips: Array<[string, boolean]> = [];
 
     if (fanStage && !prefersReducedMotion) {
       const rect = fanStage.getBoundingClientRect();
-      if (rect.bottom > -120 && rect.top < vh + 120) {
-        const progress = Math.max(0, Math.min(1, (vh - rect.top) / Math.max(1, vh + rect.height)));
-        const arc = Math.sin(progress * Math.PI);
+      if (rect.bottom > -100 && rect.top < vh + 100) {
+        const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh + rect.height)));
         const turn = progress * Math.PI * 2;
+        const arc = Math.sin(progress * Math.PI);
 
         writes.push(
           [fanStage, '--fan-float-c', `${(Math.sin(turn) * -8 - vel * 0.16).toFixed(1)}px`],

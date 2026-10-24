@@ -173,8 +173,40 @@ body {
   transform: scale(0.97) rotateY(var(--card-angle, 0deg));
 }
 
-.flip-card.flipped .flip-card-inner {
+.flip-card.flipped .flip-card-inner,
+.flip-card.is-flipped .flip-card-inner,
+.flip-card-inner.flipped,
+.flip-card-inner.is-flipped {
   transform: rotateY(180deg);
+}
+
+.pouch-float-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  will-change: transform;
+  animation: pouchSoftFloat var(--pouch-float-duration, 4.6s) ease-in-out infinite alternate;
+  animation-delay: calc(var(--pouch-float-delay, 0s) * -1);
+}
+
+.flip-card:hover .pouch-float-wrapper,
+.flip-card.is-dragging .pouch-float-wrapper,
+.flip-card.is-holding .pouch-float-wrapper {
+  animation-play-state: paused;
+}
+
+@keyframes pouchSoftFloat {
+  0% {
+    transform: translateY(0px) rotateZ(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotateZ(0.5deg);
+  }
+  100% {
+    transform: translateY(4px) rotateZ(-0.4deg);
+  }
 }
 
 .flip-card-front,
@@ -281,6 +313,33 @@ body {
 .iso-item:focus-visible,
 .iso-item.is-tapped {
   z-index: 50;
+}
+
+.iso-float-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  animation: isoFloat var(--float-duration, 4s) ease-in-out infinite alternate;
+  animation-delay: calc(var(--float-delay, 0s) * -1);
+}
+
+.iso-item:hover .iso-float-wrapper,
+.iso-item:focus-visible .iso-float-wrapper,
+.iso-item.is-tapped .iso-float-wrapper {
+  animation-play-state: paused;
+}
+
+@keyframes isoFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+  100% {
+    transform: translateY(3px);
+  }
 }
 
 .iso-item[data-status='active'] {
@@ -519,10 +578,53 @@ body {
   transition:
     transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.28s ease;
+  will-change: transform;
+}
+
+.phone-stage-wrapper.is-fanned .phone-fan-center .phone-hardware {
+  animation: phoneCenterFloat 4.8s ease-in-out infinite alternate;
+}
+
+.phone-stage-wrapper.is-fanned .phone-fan-left .phone-hardware {
+  animation: phoneLeftFloat 5.2s ease-in-out infinite alternate;
+  animation-delay: -1.4s;
+}
+
+.phone-stage-wrapper.is-fanned .phone-fan-right .phone-hardware {
+  animation: phoneRightFloat 5.0s ease-in-out infinite alternate;
+  animation-delay: -2.6s;
+}
+
+@keyframes phoneCenterFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes phoneLeftFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-7px) rotate(-0.8deg);
+  }
+}
+
+@keyframes phoneRightFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-7px) rotate(0.8deg);
+  }
 }
 
 .phone-fan-item:hover .phone-hardware,
 .phone-fan-item.is-active-fan .phone-hardware {
+  animation-play-state: paused;
   transform: translateY(-10px) scale(1.03);
 }
 
@@ -561,10 +663,50 @@ body {
   display: block;
   overflow: visible;
   transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.phone-stage-wrapper.is-fanned .phone-side-tl svg {
+  animation: sideIconFloatA 4.2s ease-in-out infinite alternate;
+  animation-delay: -0.6s;
+}
+
+.phone-stage-wrapper.is-fanned .phone-side-bl svg {
+  animation: sideIconFloatB 4.6s ease-in-out infinite alternate;
+  animation-delay: -1.8s;
+}
+
+.phone-stage-wrapper.is-fanned .phone-side-tr svg {
+  animation: sideIconFloatA 4.4s ease-in-out infinite alternate;
+  animation-delay: -2.4s;
+}
+
+.phone-stage-wrapper.is-fanned .phone-side-br svg {
+  animation: sideIconFloatB 4.8s ease-in-out infinite alternate;
+  animation-delay: -3.2s;
+}
+
+@keyframes sideIconFloatA {
+  0% {
+    transform: translate3d(0, 0px, 0);
+  }
+  100% {
+    transform: translate3d(0, -9px, 0);
+  }
+}
+
+@keyframes sideIconFloatB {
+  0% {
+    transform: translate3d(0, 0px, 0);
+  }
+  100% {
+    transform: translate3d(0, -8px, 0);
+  }
 }
 
 .phone-side-icon:hover svg {
-  transform: translateY(-6px) scale(1.08);
+  animation-play-state: paused;
+  transform: translateY(-8px) scale(1.1);
 }
 
 .phone-side-badge {
@@ -802,15 +944,33 @@ body {
 .logo-3d-emblem {
   filter: drop-shadow(0 20px 28px rgba(12, 12, 12, 0.2));
   transition:
-    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
     filter 0.32s ease;
   user-select: none;
   -webkit-user-drag: none;
+  will-change: transform;
+  animation: emblemSoftFloat 5.4s ease-in-out infinite alternate;
+}
+
+#pendidikan .logo-3d-emblem {
+  animation-delay: -2.7s;
+}
+
+@keyframes emblemSoftFloat {
+  0% {
+    transform: translate3d(0, 0px, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -9px, 0) rotate(-1deg);
+  }
+  100% {
+    transform: translate3d(0, 4px, 0) rotate(1deg);
+  }
 }
 
 .logo-3d-emblem:hover {
-  transform: translateY(-6px) scale(1.04) rotate(-2deg);
-  filter: drop-shadow(0 26px 34px rgba(12, 12, 12, 0.26));
+  animation-play-state: paused;
+  transform: translateY(-9px) scale(1.05) rotate(-2deg);
+  filter: drop-shadow(0 28px 36px rgba(12, 12, 12, 0.28));
 }
 
 /* Contact Footer Accent */
@@ -821,6 +981,21 @@ body {
     opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, opacity;
+}
+
+.envelope-float-inner {
+  display: block;
+  will-change: transform;
+  animation: envelopeSoftFloat 4.2s ease-in-out infinite alternate;
+}
+
+@keyframes envelopeSoftFloat {
+  0% {
+    transform: translate3d(0, 0px, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(0, -7px, 0) rotate(2.5deg);
+  }
 }
 
 #kontak.contact-entered .contact-accent-envelope {
@@ -882,6 +1057,21 @@ body {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+
+  .iso-float-wrapper,
+  .pouch-float-wrapper,
+  .phone-fan-center .phone-hardware,
+  .phone-fan-left .phone-hardware,
+  .phone-fan-right .phone-hardware,
+  .phone-side-tl svg,
+  .phone-side-bl svg,
+  .phone-side-tr svg,
+  .phone-side-br svg,
+  .logo-3d-emblem,
+  .envelope-float-inner {
+    animation: none !important;
+    transform: none !important;
   }
 
   .iso-item:hover .iso-object-svg,

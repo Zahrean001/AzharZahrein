@@ -643,6 +643,8 @@ function initHangingTag(): {
   // Pointer Interaction Handlers
   const onPointerDown = (e: PointerEvent) => {
     if (e.button !== 0 && e.pointerType === 'mouse') return;
+    // Prevent default to disable native text selection and native drag on desktop
+    e.preventDefault();
     isPointerDown = true;
     hasMoved = false;
     dragStartX = e.clientX;
@@ -653,6 +655,8 @@ function initHangingTag(): {
 
     phase = 'dragging';
     tagCard.classList.add('is-dragging');
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'grabbing';
 
     try {
       tagCard.setPointerCapture(e.pointerId);
@@ -670,7 +674,7 @@ function initHangingTag(): {
       pointerSamples.shift();
     }
 
-    if (Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY) > 5) {
+    if (Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY) > 4) {
       hasMoved = true;
     }
   };
@@ -679,6 +683,8 @@ function initHangingTag(): {
     if (!isPointerDown) return;
     isPointerDown = false;
     tagCard.classList.remove('is-dragging');
+    document.body.style.userSelect = '';
+    document.body.style.cursor = '';
 
     try {
       tagCard.releasePointerCapture(e.pointerId);
@@ -706,9 +712,9 @@ function initHangingTag(): {
   };
 
   tagCard.addEventListener('pointerdown', onPointerDown);
-  tagCard.addEventListener('pointermove', onPointerMove);
-  tagCard.addEventListener('pointerup', onPointerUp);
-  tagCard.addEventListener('pointercancel', onPointerUp);
+  window.addEventListener('pointermove', onPointerMove, { passive: false });
+  window.addEventListener('pointerup', onPointerUp);
+  window.addEventListener('pointercancel', onPointerUp);
 
   tagCard.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {

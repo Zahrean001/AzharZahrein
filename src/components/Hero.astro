@@ -69,9 +69,9 @@ const navI18nKeys: Record<string, string> = {
 
   <div class="relative my-auto py-4 md:py-6 w-full flex items-center">
     <div class="relative w-full">
-      <div class="relative z-0 select-none">
+      <div class="relative z-0 select-none pointer-events-none">
         <h1
-          class="font-condensed-tight text-[clamp(6.8rem,22vw,23rem)] leading-[0.85] uppercase tracking-tighter text-zinc-200"
+          class="font-condensed-tight text-[clamp(6.8rem,22vw,23rem)] leading-[0.85] uppercase tracking-tighter text-zinc-200 pointer-events-none"
           data-motion="fade-right"
           data-scroll-speed="-0.18"
           data-scroll-x="-0.08"
@@ -80,7 +80,7 @@ const navI18nKeys: Record<string, string> = {
           PORT
         </h1>
         <h1
-          class="font-condensed-tight text-[clamp(6.8rem,22vw,23rem)] leading-[0.85] uppercase tracking-tighter text-zinc-200 -mt-2 md:-mt-4"
+          class="font-condensed-tight text-[clamp(6.8rem,22vw,23rem)] leading-[0.85] uppercase tracking-tighter text-zinc-200 -mt-2 md:-mt-4 pointer-events-none"
           data-motion="fade-left"
           data-scroll-speed="-0.1"
           data-scroll-x="0.08"
@@ -91,7 +91,7 @@ const navI18nKeys: Record<string, string> = {
       </div>
 
       <div
-        class="absolute right-0 sm:right-4 md:right-8 lg:right-12 bottom-0 w-[245px] sm:w-[350px] md:w-[450px] lg:w-[540px] xl:w-[600px] z-25 pointer-events-none transform -rotate-2 origin-bottom-right"
+        class="absolute right-0 sm:right-4 md:right-8 lg:right-12 bottom-0 w-[245px] sm:w-[350px] md:w-[450px] lg:w-[540px] xl:w-[600px] z-30 pointer-events-none transform -rotate-2 origin-bottom-right"
         id="hero-portrait-wrap"
       >
         <!-- Soft Floating Wrapper for the Figure & Hanging Quote -->

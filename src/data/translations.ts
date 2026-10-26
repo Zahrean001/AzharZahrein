@@ -73,7 +73,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
     'nav.kontak': 'Kontak',
 
     // Hero
-    'hero.role': 'Junior Application Developer · Graphic Designer',
+    'hero.role': 'Junior Web & Application Developer · Graphic Designer',
     'hero.degree': 'D3 Teknik Informatika, PENS',
     'hero.scrollAria': 'Scroll ke karya',
     'hero.hangingTag': 'STILL CHASING MY DREAM',
@@ -123,7 +123,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
 
     // Contact
     'contact.desc': 'Produk digital<br />dan karya visual.',
-    'contact.role': 'Junior Application Developer · Graphic Designer',
+    'contact.role': 'Junior Web & Application Developer · Graphic Designer',
     'contact.cvLabel': 'CV — &nbsp;',
     'contact.cvDownload': 'Unduh CV',
     'contact.footerSchool': 'D3 Teknik Informatika, PENS',
@@ -136,7 +136,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
     'nav.kontak': 'Contact',
 
     // Hero
-    'hero.role': 'Web & Mobile Developer · Graphic Designer',
+    'hero.role': 'Junior Web & Application Developer · Graphic Designer',
     'hero.degree': 'D3 Informatics Engineering, PENS',
     'hero.scrollAria': 'Scroll to works',
     'hero.hangingTag': 'STILL CHASING MY DREAM',
@@ -186,7 +186,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
 
     // Contact
     'contact.desc': 'Digital products<br />and visual work.',
-    'contact.role': 'Web & Mobile Developer · Graphic Designer',
+    'contact.role': 'Junior Web & Application Developer · Graphic Designer',
     'contact.cvLabel': 'Resume — &nbsp;',
     'contact.cvDownload': 'Download CV',
     'contact.footerSchool': 'Associate Degree (D3) in Informatics Engineering, PENS',

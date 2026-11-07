@@ -1437,13 +1437,14 @@ function initPortfolioInteractions(): void {
       updateInspectorView(loc);
       const latencyEl = document.getElementById('sijagung-telemetry-latency');
       const gateCounter = document.getElementById('sijagung-gate-counter');
+      const mobileGateCounter = document.getElementById('sijagung-mobile-gate-counter');
       if (currentSimMode === 'offline') {
         if (latencyEl) {
           latencyEl.textContent = loc === 'id' ? 'LATENSI LOKAL: <1.8ms' : 'LOCAL LATENCY: <1.8ms';
         }
-        if (gateCounter) {
-          gateCounter.textContent = loc === 'id' ? `(${harvestCount} TERTUNDA)` : `(${harvestCount} QUEUED)`;
-        }
+        const qText = loc === 'id' ? `(${harvestCount} TERTUNDA)` : `(${harvestCount} QUEUED)`;
+        if (gateCounter) gateCounter.textContent = qText;
+        if (mobileGateCounter) mobileGateCounter.textContent = qText;
         if (telemetryText) {
           telemetryText.textContent =
             loc === 'id'
@@ -1454,9 +1455,8 @@ function initPortfolioInteractions(): void {
         if (latencyEl) {
           latencyEl.textContent = loc === 'id' ? 'LATENSI SINKRON: 118ms' : 'SYNC LATENCY: 118ms';
         }
-        if (gateCounter) {
-          gateCounter.textContent = '(SYNCED 100%)';
-        }
+        if (gateCounter) gateCounter.textContent = '(SYNCED 100%)';
+        if (mobileGateCounter) mobileGateCounter.textContent = '(SYNCED 100%)';
         if (telemetryText) {
           telemetryText.textContent =
             loc === 'id'
@@ -1520,19 +1520,28 @@ function initPortfolioInteractions(): void {
       const pingDot = document.getElementById('sijagung-ping-dot');
       const consoleLed = document.getElementById('sijagung-console-status-led');
 
-      // Circuit Elements
+      // Circuit Elements (Desktop + Mobile/Tablet)
       const gateLed = document.getElementById('sijagung-gate-led');
       const gateLine = document.getElementById('sijagung-gate-line');
       const gatePhoton1 = document.getElementById('sijagung-gate-photon-1');
       const gatePhoton2 = document.getElementById('sijagung-gate-photon-2');
       const gateStatusPill = document.getElementById('sijagung-gate-status-pill');
       const gateCounter = document.getElementById('sijagung-gate-counter');
+      const mobileGateLed = document.getElementById('sijagung-mobile-gate-led');
+      const mobileGatePill = document.getElementById('sijagung-mobile-gate-pill');
+      const mobileGateCounter = document.getElementById('sijagung-mobile-gate-counter');
+      const mobileGateLineL = document.getElementById('sijagung-mobile-gate-line-l');
+      const mobileGateLineR = document.getElementById('sijagung-mobile-gate-line-r');
       const httpLine = document.getElementById('sijagung-http-line');
       const httpPhoton = document.getElementById('sijagung-http-photon');
       const httpLabel = document.getElementById('sijagung-http-label');
+      const mobileHttpLine = document.getElementById('sijagung-mobile-http-line');
+      const mobileHttpLabel = document.getElementById('sijagung-mobile-http-label');
       const dbLine = document.getElementById('sijagung-db-line');
       const dbPhoton = document.getElementById('sijagung-db-photon');
       const dbLabel = document.getElementById('sijagung-db-label');
+      const mobileDbLine = document.getElementById('sijagung-mobile-db-line');
+      const mobileDbLabel = document.getElementById('sijagung-mobile-db-label');
       const via3 = document.getElementById('sijagung-via-3');
       const via4 = document.getElementById('sijagung-via-4');
       const via5 = document.getElementById('sijagung-via-5');
@@ -1543,11 +1552,11 @@ function initPortfolioInteractions(): void {
 
       if (mode === 'offline') {
         if (simOfflineBtn) {
-          simOfflineBtn.className = 'sim-mode-btn flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold tracking-wide transition-all duration-200 cursor-pointer bg-zinc-800 text-emerald-400 border border-emerald-500/30 shadow-xs whitespace-nowrap';
+          simOfflineBtn.className = 'sim-mode-btn flex items-center justify-center sm:justify-start gap-1.5 px-3 py-2 sm:py-1.5 rounded-md text-[11px] font-semibold tracking-wide transition-all duration-200 cursor-pointer bg-zinc-800 text-emerald-400 border border-emerald-500/30 shadow-xs whitespace-nowrap w-full sm:w-auto';
           simOfflineBtn.setAttribute('aria-pressed', 'true');
         }
         if (simOnlineBtn) {
-          simOnlineBtn.className = 'sim-mode-btn flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold tracking-wide transition-all duration-200 cursor-pointer text-zinc-400 hover:text-zinc-200 whitespace-nowrap';
+          simOnlineBtn.className = 'sim-mode-btn flex items-center justify-center sm:justify-start gap-1.5 px-3 py-2 sm:py-1.5 rounded-md text-[11px] font-semibold tracking-wide transition-all duration-200 cursor-pointer text-zinc-400 hover:text-zinc-200 whitespace-nowrap w-full sm:w-auto';
           simOnlineBtn.setAttribute('aria-pressed', 'false');
         }
         if (onlineLed) onlineLed.className = 'w-1.5 h-1.5 rounded-full bg-zinc-600 shrink-0';
@@ -1565,14 +1574,28 @@ function initPortfolioInteractions(): void {
           gateStatusPill.textContent = 'GATEWAY: OFFLINE';
           gateStatusPill.className = 'text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-zinc-900 text-amber-400 border border-amber-500/40 shadow-xs';
         }
-        if (gateCounter) gateCounter.textContent = isId ? `(${harvestCount} TERTUNDA)` : `(${harvestCount} QUEUED)`;
+        const qText = isId ? `(${harvestCount} TERTUNDA)` : `(${harvestCount} QUEUED)`;
+        if (gateCounter) gateCounter.textContent = qText;
+        if (mobileGateLed) mobileGateLed.className = 'w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shrink-0';
+        if (mobileGatePill) {
+          mobileGatePill.textContent = 'GATEWAY: OFFLINE';
+          mobileGatePill.className = 'text-[9px] font-mono font-bold text-amber-400';
+        }
+        if (mobileGateCounter) mobileGateCounter.textContent = qText;
+        if (mobileGateLineL) mobileGateLineL.className = 'h-[1px] flex-1 max-w-[40px] bg-zinc-800 transition-colors duration-300';
+        if (mobileGateLineR) mobileGateLineR.className = 'h-[1px] flex-1 max-w-[40px] bg-zinc-800 transition-colors duration-300';
 
         if (httpLine) httpLine.className = 'w-full h-[2px] bg-zinc-800 transition-colors duration-300';
         if (httpPhoton) httpPhoton.classList.add('hidden');
         if (httpLabel) httpLabel.className = 'absolute left-[60%] -translate-x-1/2 top-0 text-[9px] font-mono text-zinc-500 whitespace-nowrap';
+        if (mobileHttpLine) mobileHttpLine.className = 'w-[2px] h-3.5 bg-zinc-800 transition-colors duration-300';
+        if (mobileHttpLabel) mobileHttpLabel.className = 'text-[9px] font-mono text-zinc-500 tracking-tight transition-colors duration-300';
+
         if (dbLine) dbLine.className = 'w-full h-[2px] bg-zinc-800 transition-colors duration-300';
         if (dbPhoton) dbPhoton.classList.add('hidden');
         if (dbLabel) dbLabel.className = 'absolute left-[80%] -translate-x-1/2 top-0 text-[9px] font-mono text-zinc-500 whitespace-nowrap';
+        if (mobileDbLine) mobileDbLine.className = 'w-[2px] h-3.5 bg-zinc-800 transition-colors duration-300';
+        if (mobileDbLabel) mobileDbLabel.className = 'text-[9px] font-mono text-zinc-500 tracking-tight transition-colors duration-300';
 
         if (via3) via3.className = 'absolute left-[50%] -translate-x-1/2 top-6 w-[2px] h-5 bg-zinc-700 transition-colors duration-300';
         if (via4) via4.className = 'absolute left-[70%] -translate-x-1/2 top-6 w-[2px] h-5 bg-zinc-700 transition-colors duration-300';
@@ -1583,11 +1606,11 @@ function initPortfolioInteractions(): void {
         if (backendDot) backendDot.className = 'w-2 h-2 rounded-full bg-zinc-700 shrink-0';
         if (dbDot) dbDot.className = 'w-2 h-2 rounded-full bg-zinc-700 shrink-0';
 
-        if (node1) node1.className = `arch-node p-3.5 border border-zinc-700/80 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-offline cursor-pointer select-none group${selectedNodeId === '1' ? ' is-inspected' : ''}`;
-        if (node2) node2.className = `arch-node p-3.5 border border-zinc-700/80 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-offline cursor-pointer select-none group${selectedNodeId === '2' ? ' is-inspected' : ''}`;
-        if (node3) node3.className = `arch-node p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-60 cursor-pointer select-none group${selectedNodeId === '3' ? ' is-inspected' : ''}`;
-        if (node4) node4.className = `arch-node p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-60 cursor-pointer select-none group${selectedNodeId === '4' ? ' is-inspected' : ''}`;
-        if (node5) node5.className = `arch-node p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-60 cursor-pointer select-none group sm:col-span-2 lg:col-span-1${selectedNodeId === '5' ? ' is-inspected' : ''}`;
+        if (node1) node1.className = `arch-node p-3 sm:p-3.5 border border-zinc-700/80 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-offline cursor-pointer select-none group${selectedNodeId === '1' ? ' is-inspected' : ''}`;
+        if (node2) node2.className = `arch-node p-3 sm:p-3.5 border border-zinc-700/80 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-offline cursor-pointer select-none group${selectedNodeId === '2' ? ' is-inspected' : ''}`;
+        if (node3) node3.className = `arch-node p-3 sm:p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-60 cursor-pointer select-none group${selectedNodeId === '3' ? ' is-inspected' : ''}`;
+        if (node4) node4.className = `arch-node p-3 sm:p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-60 cursor-pointer select-none group${selectedNodeId === '4' ? ' is-inspected' : ''}`;
+        if (node5) node5.className = `arch-node p-3 sm:p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-60 cursor-pointer select-none group${selectedNodeId === '5' ? ' is-inspected' : ''}`;
 
         if (syncFlag) {
           syncFlag.textContent = 'is_synced: 0';
@@ -1610,8 +1633,8 @@ function initPortfolioInteractions(): void {
         if (repoTag) repoTag.className = 'text-zinc-400 px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[9px]';
         if (latencyEl) latencyEl.textContent = isId ? 'LATENSI LOKAL: <1.8ms' : 'LOCAL LATENCY: <1.8ms';
 
-        if (flowStep2) flowStep2.className = 'flex items-center gap-2 px-3 py-2 rounded-md bg-zinc-950/70 border border-zinc-800/80 text-zinc-500 transition-colors';
-        if (flowStep3) flowStep3.className = 'flex items-center gap-2 px-3 py-2 rounded-md bg-zinc-950/70 border border-zinc-800/80 text-zinc-500 transition-colors';
+        if (flowStep2) flowStep2.className = 'flex items-center gap-2 px-2.5 sm:px-3 py-2 rounded-md bg-zinc-950/70 border border-zinc-800/80 text-zinc-500 transition-colors leading-snug';
+        if (flowStep3) flowStep3.className = 'flex items-center gap-2 px-2.5 sm:px-3 py-2 rounded-md bg-zinc-950/70 border border-zinc-800/80 text-zinc-500 transition-colors leading-snug';
         if (flowDot2) flowDot2.className = 'w-1.5 h-1.5 rounded-full bg-zinc-600 transition-colors shrink-0';
         if (flowDot3) flowDot3.className = 'w-1.5 h-1.5 rounded-full bg-zinc-600 transition-colors shrink-0';
 
@@ -1622,11 +1645,11 @@ function initPortfolioInteractions(): void {
         );
       } else {
         if (simOnlineBtn) {
-          simOnlineBtn.className = 'sim-mode-btn flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold tracking-wide transition-all duration-200 cursor-pointer bg-zinc-800 text-sky-400 border border-sky-500/30 shadow-xs whitespace-nowrap';
+          simOnlineBtn.className = 'sim-mode-btn flex items-center justify-center sm:justify-start gap-1.5 px-3 py-2 sm:py-1.5 rounded-md text-[11px] font-semibold tracking-wide transition-all duration-200 cursor-pointer bg-zinc-800 text-sky-400 border border-sky-500/30 shadow-xs whitespace-nowrap w-full sm:w-auto';
           simOnlineBtn.setAttribute('aria-pressed', 'true');
         }
         if (simOfflineBtn) {
-          simOfflineBtn.className = 'sim-mode-btn flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold tracking-wide transition-all duration-200 cursor-pointer text-zinc-400 hover:text-zinc-200 whitespace-nowrap';
+          simOfflineBtn.className = 'sim-mode-btn flex items-center justify-center sm:justify-start gap-1.5 px-3 py-2 sm:py-1.5 rounded-md text-[11px] font-semibold tracking-wide transition-all duration-200 cursor-pointer text-zinc-400 hover:text-zinc-200 whitespace-nowrap w-full sm:w-auto';
           simOfflineBtn.setAttribute('aria-pressed', 'false');
         }
         if (onlineLed) onlineLed.className = 'w-1.5 h-1.5 rounded-full bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.8)] shrink-0';
@@ -1645,13 +1668,26 @@ function initPortfolioInteractions(): void {
           gateStatusPill.className = 'text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-500/40 shadow-xs';
         }
         if (gateCounter) gateCounter.textContent = '(SYNCED 100%)';
+        if (mobileGateLed) mobileGateLed.className = 'w-1.5 h-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.8)] shrink-0';
+        if (mobileGatePill) {
+          mobileGatePill.textContent = '4G AUTO-SYNC';
+          mobileGatePill.className = 'text-[9px] font-mono font-bold text-sky-300';
+        }
+        if (mobileGateCounter) mobileGateCounter.textContent = '(SYNCED 100%)';
+        if (mobileGateLineL) mobileGateLineL.className = 'h-[1px] flex-1 max-w-[40px] bg-sky-400/80 shadow-[0_0_6px_rgba(56,189,248,0.7)] transition-colors duration-300';
+        if (mobileGateLineR) mobileGateLineR.className = 'h-[1px] flex-1 max-w-[40px] bg-sky-400/80 shadow-[0_0_6px_rgba(56,189,248,0.7)] transition-colors duration-300';
 
         if (httpLine) httpLine.className = 'w-full h-[2px] bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.7)] transition-colors duration-300';
         if (httpPhoton) httpPhoton.classList.remove('hidden');
         if (httpLabel) httpLabel.className = 'absolute left-[60%] -translate-x-1/2 top-0 text-[9px] font-mono text-sky-400 font-semibold whitespace-nowrap';
+        if (mobileHttpLine) mobileHttpLine.className = 'w-[2px] h-3.5 bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.7)] transition-colors duration-300';
+        if (mobileHttpLabel) mobileHttpLabel.className = 'text-[9px] font-mono text-sky-400 font-semibold tracking-tight transition-colors duration-300';
+
         if (dbLine) dbLine.className = 'w-full h-[2px] bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.7)] transition-colors duration-300';
         if (dbPhoton) dbPhoton.classList.remove('hidden');
         if (dbLabel) dbLabel.className = 'absolute left-[80%] -translate-x-1/2 top-0 text-[9px] font-mono text-emerald-400 font-semibold whitespace-nowrap';
+        if (mobileDbLine) mobileDbLine.className = 'w-[2px] h-3.5 bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.7)] transition-colors duration-300';
+        if (mobileDbLabel) mobileDbLabel.className = 'text-[9px] font-mono text-emerald-400 font-semibold tracking-tight transition-colors duration-300';
 
         if (via3) via3.className = 'absolute left-[50%] -translate-x-1/2 top-6 w-[2px] h-5 bg-sky-400/80 transition-colors duration-300';
         if (via4) via4.className = 'absolute left-[70%] -translate-x-1/2 top-6 w-[2px] h-5 bg-sky-400/80 transition-colors duration-300';
@@ -1662,11 +1698,11 @@ function initPortfolioInteractions(): void {
         if (backendDot) backendDot.className = 'w-2 h-2 rounded-full bg-sky-400 animate-pulse shrink-0';
         if (dbDot) dbDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0';
 
-        if (node1) node1.className = `arch-node p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-85 cursor-pointer select-none group${selectedNodeId === '1' ? ' is-inspected' : ''}`;
-        if (node2) node2.className = `arch-node p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-85 cursor-pointer select-none group${selectedNodeId === '2' ? ' is-inspected' : ''}`;
-        if (node3) node3.className = `arch-node p-3.5 border border-sky-500/40 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-online cursor-pointer select-none group${selectedNodeId === '3' ? ' is-inspected' : ''}`;
-        if (node4) node4.className = `arch-node p-3.5 border border-sky-500/40 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-online cursor-pointer select-none group${selectedNodeId === '4' ? ' is-inspected' : ''}`;
-        if (node5) node5.className = `arch-node p-3.5 border border-sky-500/40 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-online cursor-pointer select-none group sm:col-span-2 lg:col-span-1${selectedNodeId === '5' ? ' is-inspected' : ''}`;
+        if (node1) node1.className = `arch-node p-3 sm:p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-85 cursor-pointer select-none group${selectedNodeId === '1' ? ' is-inspected' : ''}`;
+        if (node2) node2.className = `arch-node p-3 sm:p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-85 cursor-pointer select-none group${selectedNodeId === '2' ? ' is-inspected' : ''}`;
+        if (node3) node3.className = `arch-node p-3 sm:p-3.5 border border-sky-500/40 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-online cursor-pointer select-none group${selectedNodeId === '3' ? ' is-inspected' : ''}`;
+        if (node4) node4.className = `arch-node p-3 sm:p-3.5 border border-sky-500/40 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-online cursor-pointer select-none group${selectedNodeId === '4' ? ' is-inspected' : ''}`;
+        if (node5) node5.className = `arch-node p-3 sm:p-3.5 border border-sky-500/40 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-online cursor-pointer select-none group${selectedNodeId === '5' ? ' is-inspected' : ''}`;
 
         if (syncFlag) {
           syncFlag.textContent = 'is_synced: 1';
@@ -1689,8 +1725,8 @@ function initPortfolioInteractions(): void {
         if (repoTag) repoTag.className = 'text-sky-300 px-1.5 py-0.5 rounded bg-sky-950/60 border border-sky-800/50 text-[9px]';
         if (latencyEl) latencyEl.textContent = isId ? 'LATENSI SINKRON: 118ms' : 'SYNC LATENCY: 118ms';
 
-        if (flowStep2) flowStep2.className = 'flex items-center gap-2 px-3 py-2 rounded-md bg-sky-950/30 border border-sky-500/30 text-sky-400 transition-colors';
-        if (flowStep3) flowStep3.className = 'flex items-center gap-2 px-3 py-2 rounded-md bg-cyan-950/30 border border-cyan-500/30 text-cyan-300 transition-colors';
+        if (flowStep2) flowStep2.className = 'flex items-center gap-2 px-2.5 sm:px-3 py-2 rounded-md bg-sky-950/30 border border-sky-500/30 text-sky-400 transition-colors leading-snug';
+        if (flowStep3) flowStep3.className = 'flex items-center gap-2 px-2.5 sm:px-3 py-2 rounded-md bg-cyan-950/30 border border-cyan-500/30 text-cyan-300 transition-colors leading-snug';
         if (flowDot2) flowDot2.className = 'w-1.5 h-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.8)] transition-colors shrink-0';
         if (flowDot3) flowDot3.className = 'w-1.5 h-1.5 rounded-full bg-cyan-300 shadow-[0_0_6px_rgba(103,232,249,0.8)] transition-colors shrink-0';
 
@@ -1712,9 +1748,10 @@ function initPortfolioInteractions(): void {
 
         if (currentSimMode === 'offline') {
           const gateCounter = document.getElementById('sijagung-gate-counter');
-          if (gateCounter) {
-            gateCounter.textContent = isId ? `(${harvestCount} TERTUNDA)` : `(${harvestCount} QUEUED)`;
-          }
+          const mobileGateCounter = document.getElementById('sijagung-mobile-gate-counter');
+          const qText = isId ? `(${harvestCount} TERTUNDA)` : `(${harvestCount} QUEUED)`;
+          if (gateCounter) gateCounter.textContent = qText;
+          if (mobileGateCounter) mobileGateCounter.textContent = qText;
           node1?.classList.add('scale-[1.02]');
           node2?.classList.add('scale-[1.02]');
           setTimeout(() => {

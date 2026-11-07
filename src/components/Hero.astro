@@ -9,13 +9,6 @@ interface Props {
 }
 
 const { portraitSrc, portraitWidth, portraitHeight } = Astro.props;
-
-const navI18nKeys: Record<string, string> = {
-  '#karya': 'nav.karya',
-  '#kemasan': 'nav.desain',
-  '#pengalaman': 'nav.profil',
-  '#kontak': 'nav.kontak',
-};
 ---
 
 <header
@@ -23,9 +16,9 @@ const navI18nKeys: Record<string, string> = {
   id="cover"
 >
   <div class="w-full flex items-start justify-between z-20" data-motion="fade-left" style="--m-delay: 80ms;">
-    <!-- Language Region Switcher -->
+    <!-- Language Switcher - Clean Architectural Monospace -->
     <div
-      class="inline-flex items-center rounded-full border border-zinc-700/80 bg-zinc-900/80 p-0.5 text-[11px] font-mono backdrop-blur-sm select-none"
+      class="inline-flex items-center border border-zinc-800 bg-zinc-950 p-0.5 text-[11px] font-mono select-none"
       id="lang-switcher"
       role="group"
       aria-label="Language selection"
@@ -33,32 +26,33 @@ const navI18nKeys: Record<string, string> = {
       <button
         type="button"
         data-lang-btn="id"
-        class="rounded-full px-2.5 py-0.5 transition-all text-zinc-400 hover:text-white"
+        class="px-2.5 py-0.5 transition-colors text-zinc-400 hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white"
         aria-pressed="false"
       >
         ID
       </button>
-      <span class="text-zinc-600">/</span>
+      <span class="text-zinc-700">/</span>
       <button
         type="button"
         data-lang-btn="en"
-        class="rounded-full px-2.5 py-0.5 transition-all text-zinc-400 hover:text-white"
+        class="px-2.5 py-0.5 transition-colors text-zinc-400 hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white"
         aria-pressed="false"
       >
         EN
       </button>
     </div>
 
-    <!-- Navigation links -->
+    <!-- Mobile Navigation links (Header only on mobile screens) -->
     <nav
-      class="flex flex-col items-end space-y-1.5 md:space-y-2 text-sm sm:text-base md:text-lg lg:text-xl font-editorial-heading tracking-wider uppercase font-semibold text-zinc-300"
+      class="flex md:hidden flex-col items-end space-y-1 text-xs font-editorial-heading tracking-wider uppercase font-semibold text-zinc-400"
+      aria-label="Mobile main navigation"
     >
       {
         navItems.map((item) => (
           <a
-            class="hover:text-white transition-all duration-200 py-0.5 hover:-translate-x-1.5"
+            class="hover:text-white transition-all duration-150 py-0.5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white"
             href={item.href}
-            data-i18n={navI18nKeys[item.href] || undefined}
+            data-i18n={item.i18nKey}
           >
             {item.label}
           </a>
@@ -119,42 +113,52 @@ const navI18nKeys: Record<string, string> = {
   </div>
 
   <div
-    class="w-full z-20 pt-5 md:pt-6 border-t border-zinc-800/90"
+    class="w-full z-20 pt-6 border-t border-zinc-800"
     data-motion="up"
     style="--m-delay: 180ms;"
   >
-    <div class="flex items-end justify-between">
-      <div class="space-y-1 pr-4">
-        <h2 class="text-base sm:text-lg md:text-2xl font-semibold tracking-normal text-zinc-100">
-          Muhammad Azhar Nur Azmi Zahrein,{' '}
-          <span class="font-normal text-zinc-400 text-xs sm:text-sm md:text-lg">A.Md.Kom.</span>
-        </h2>
-        <p class="text-xs sm:text-sm md:text-base text-zinc-400 tracking-wide" data-i18n="hero.role">
-          Junior Web & Application Developer · Graphic Designer
-        </p>
-        <p class="text-[11px] sm:text-xs md:text-sm text-zinc-500 font-mono" data-i18n="hero.degree">
-          D3 Teknik Informatika, PENS
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+      <div class="space-y-2 pr-4 max-w-2xl">
+        <div class="flex items-baseline flex-wrap gap-x-3">
+          <h2 class="text-base sm:text-lg md:text-2xl font-semibold tracking-normal text-zinc-100">
+            Muhammad Azhar Nur Azmi Zahrein,{' '}
+            <span class="font-normal text-zinc-400 text-xs sm:text-sm md:text-base font-mono">A.Md.Kom.</span>
+          </h2>
+          <span class="text-xs text-zinc-500 font-mono" data-i18n="hero.degree">
+            D3 Teknik Informatika, PENS
+          </span>
+        </div>
+        <div class="text-sm sm:text-base md:text-lg font-mono font-medium text-zinc-200 tracking-wide" data-i18n="hero.role">
+          Web & Mobile Application Developer
+        </div>
+        <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-xl" data-i18n="hero.supporting">
+          Menggabungkan rekayasa perangkat lunak dengan desain antarmuka yang berpusat pada pengguna dan komunikasi visual.
         </p>
       </div>
-      <a
-        aria-label="Scroll ke karya"
-        data-i18n-attr="aria-label:hero.scrollAria"
-        class="text-zinc-400 hover:text-white pb-1 animate-bounce"
-        href="#karya"
-      >
-        <svg
-          class="w-6 h-6 md:w-8 md:h-8"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          viewBox="0 0 24 24"
+
+      <!-- Architectural Swiss Action Buttons (Zero Bubble/Pill Slop) -->
+      <div class="flex items-center flex-wrap gap-3">
+        <a
+          href="#karya"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-paper text-ink font-mono text-xs font-semibold tracking-wider uppercase hover:bg-white transition-colors"
         >
-          <path
-            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-      </a>
+          <span data-i18n="hero.ctaProjects">Lihat Proyek</span>
+          <span aria-hidden="true">↓</span>
+        </a>
+        <a
+          href="/resume.pdf"
+          download="Resume EN.pdf"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-transparent text-zinc-300 font-mono text-xs font-medium tracking-wider uppercase border border-zinc-700 hover:border-zinc-300 hover:text-white transition-colors"
+        >
+          <span data-i18n="hero.ctaResume">Unduh Resume</span>
+        </a>
+        <a
+          href="#kontak"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-transparent text-zinc-400 font-mono text-xs font-medium tracking-wider uppercase border border-zinc-800 hover:border-zinc-500 hover:text-zinc-200 transition-colors"
+        >
+          <span data-i18n="hero.ctaContact">Kontak</span>
+        </a>
+      </div>
     </div>
   </div>
 </header>

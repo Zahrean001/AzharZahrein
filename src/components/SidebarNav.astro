@@ -1,0 +1,156 @@
+---
+import { navItems } from '../data/portfolio';
+---
+
+<!-- Persistent Floating Sidebar Navigation (Swiss Editorial Monograph) -->
+<nav
+  id="floating-sidebar-nav"
+  class="sidebar-nav theme-dark hidden md:flex flex-col items-end fixed right-6 sm:right-8 md:right-10 lg:right-14 xl:right-16 top-7 sm:top-9 z-40 select-none pointer-events-auto"
+  aria-label="Direct Section Navigation"
+>
+  <div class="sidebar-nav-list flex flex-col items-end space-y-1 sm:space-y-1.5 font-editorial-heading uppercase text-xs sm:text-sm md:text-[15px] lg:text-base tracking-wider font-semibold">
+    {
+      navItems.map((item, index) => (
+        <a
+          href={item.href}
+          data-sidebar-link={item.href.replace('#', '')}
+          data-i18n={item.i18nKey}
+          style={`--item-idx: ${index};`}
+          class="sidebar-nav-link group relative flex items-center gap-2 py-0.5"
+        >
+          <span class="sidebar-nav-label tracking-widest">{item.label}</span>
+          <span
+            class="sidebar-nav-dash w-0 group-hover:w-2.5 group-[.is-active]:w-3.5 h-[1.5px] rounded-full shrink-0"
+            aria-hidden="true"
+          />
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<style>
+  .sidebar-nav {
+    transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
+    transition:
+      opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Automatically hide when entering full-bleed content sections (e.g. Technical Skills & Tooling) */
+  .sidebar-nav.sidebar-hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translate3d(24px, 0, 0) !important;
+  }
+
+  /* 
+   * Responsive Hover & State Architecture:
+   * 1. Mouse hover & active feedback: IMMEDIATE (0s delay, 0.12s snappy transition)
+   * 2. Background Theme Morphing during scroll: STAGGERED wave (sequential 50ms delay per item)
+   */
+
+  .sidebar-nav-link {
+    transform: translateX(0);
+    will-change: color, opacity, transform;
+    transition:
+      color 0.18s ease-out,
+      opacity 0.18s ease-out,
+      transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0s;
+  }
+
+  .sidebar-nav-dash {
+    will-change: width, background-color;
+    transition:
+      width 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.18s ease-out;
+    transition-delay: 0s;
+  }
+
+  /* When morphing theme across sections during scroll, animate sequentially one-by-one */
+  .sidebar-nav.is-morphing .sidebar-nav-link {
+    transition:
+      color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--item-idx, 0) * 50ms);
+  }
+
+  .sidebar-nav.is-morphing .sidebar-nav-dash {
+    transition:
+      width 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--item-idx, 0) * 50ms);
+  }
+
+  /* Instant hover priority: overrides any morph delay completely with snappy 0s delay */
+  .sidebar-nav-link:hover,
+  .sidebar-nav-link:focus-visible {
+    transition:
+      color 0.12s ease-out !important,
+      opacity 0.12s ease-out !important,
+      transform 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition-delay: 0s !important;
+  }
+
+  .sidebar-nav-link:hover .sidebar-nav-dash,
+  .sidebar-nav-link:focus-visible .sidebar-nav-dash {
+    transition:
+      width 0.15s ease-out !important,
+      background-color 0.12s ease-out !important;
+    transition-delay: 0s !important;
+  }
+
+  .sidebar-nav .sidebar-nav-link.is-active {
+    transition-delay: 0s !important;
+  }
+
+  .sidebar-nav .sidebar-nav-link.is-active .sidebar-nav-dash {
+    transition-delay: 0s !important;
+  }
+
+  /* 1. Theme Dark (e.g. Hero #cover, Contact #kontak) */
+  .sidebar-nav.theme-dark .sidebar-nav-link {
+    color: rgba(228, 228, 231, 0.45);
+  }
+
+  .sidebar-nav.theme-dark .sidebar-nav-link:hover {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    transform: translateX(-3px);
+  }
+
+  .sidebar-nav.theme-dark .sidebar-nav-link.is-active {
+    color: #ffffff;
+    opacity: 1;
+    font-weight: 700;
+  }
+
+  .sidebar-nav.theme-dark .sidebar-nav-dash {
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  }
+
+  /* 2. Theme Light (Warm Paper background: #tentang, #pengalaman, #karya, #sijagung, #kemasan, #pendidikan) */
+  .sidebar-nav.theme-light .sidebar-nav-link {
+    color: rgba(12, 12, 12, 0.40);
+  }
+
+  .sidebar-nav.theme-light .sidebar-nav-link:hover {
+    color: #09090b !important;
+    opacity: 1 !important;
+    transform: translateX(-3px);
+  }
+
+  .sidebar-nav.theme-light .sidebar-nav-link.is-active {
+    color: #09090b;
+    opacity: 1;
+    font-weight: 700;
+  }
+
+  .sidebar-nav.theme-light .sidebar-nav-dash {
+    background-color: #09090b;
+  }
+</style>

@@ -5,9 +5,12 @@ import Hero from '../components/Hero.astro';
 import WorkIntro from '../components/WorkIntro.astro';
 import ProjectSijagung, { type OptimizedAsset } from '../components/ProjectSijagung.astro';
 import PackagingShowcase, { type PackagingPouchItem } from '../components/PackagingShowcase.astro';
+import AboutSection from '../components/AboutSection.astro';
 import ExperienceSection from '../components/ExperienceSection.astro';
+import EducationSection from '../components/EducationSection.astro';
 import ToolsGrid from '../components/ToolsGrid.astro';
 import Contact from '../components/Contact.astro';
+import SidebarNav from '../components/SidebarNav.astro';
 
 import portraitImg from '../assets/images/portrait.png';
 import screenImg0 from '../assets/images/sijagung-screen-0.png';
@@ -21,9 +24,11 @@ import pouch3Front from '../assets/images/pouch-3-front.png';
 import pouch3Back from '../assets/images/pouch-3-back.png';
 import logoPkn3d from '../assets/images/logo-pkn-3d.png';
 import logoPens3d from '../assets/images/logo-pens-3d.png';
+import foto1Img from '../assets/images/foto1.png';
 
 const [
   optPortrait,
+  optFoto1,
   optScreen0,
   optScreen1,
   optScreen2,
@@ -37,6 +42,7 @@ const [
   optLogoPens,
 ] = await Promise.all([
   getImage({ src: portraitImg, format: 'webp', quality: 85 }),
+  getImage({ src: foto1Img, format: 'webp', quality: 90, width: 800 }),
   getImage({ src: screenImg0, format: 'webp', quality: 84 }),
   getImage({ src: screenImg1, format: 'webp', quality: 84 }),
   getImage({ src: screenImg2, format: 'webp', quality: 84 }),
@@ -67,6 +73,8 @@ const packagingItems: PackagingPouchItem[] = [
     id: 'pouch-1',
     title: 'Mbah Momon Tiwul',
     tiltAngle: '1.8',
+    context: 'UMKM Makanan Pokok Nusantara',
+    descKey: 'kemasan.item1Desc',
     front: toAsset(optPouch1Front),
     back: toAsset(optPouch1Back),
   },
@@ -74,13 +82,17 @@ const packagingItems: PackagingPouchItem[] = [
     id: 'pouch-2',
     title: 'Onde-Onde Mini',
     tiltAngle: '-1.8',
+    context: 'UMKM Camilan Tradisional',
+    descKey: 'kemasan.item2Desc',
     front: toAsset(optPouch2Front),
     back: toAsset(optPouch2Back),
   },
   {
     id: 'pouch-3',
-    title: 'Keriuk Tempe',
+    title: 'Surti Snack Keriuk Tempe',
     tiltAngle: '1.8',
+    context: 'UMKM Keripik Tempe Kedelai',
+    descKey: 'kemasan.item3Desc',
     front: toAsset(optPouch3Front),
     back: toAsset(optPouch3Back),
   },
@@ -88,10 +100,12 @@ const packagingItems: PackagingPouchItem[] = [
 ---
 
 <BaseLayout
-  title="Muhammad Azhar Nur Azmi Zahrein — Portfolio"
+  title="Muhammad Azhar Nur Azmi Zahrein — Web & Mobile Application Developer"
+  description="Portfolio Muhammad Azhar Nur Azmi Zahrein, A.Md.Kom. — Web & Mobile Application Developer (D3 Teknik Informatika, PENS). Spesialisasi rekayasa aplikasi Flutter offline-first, backend Laravel, dan desain kemasan komersial UMKM."
   preloadImageSrc={optPortrait.src}
 >
   <div class="w-full min-h-screen relative flex flex-col bg-paper">
+    <SidebarNav />
     <Hero
       portraitSrc={optPortrait.src}
       portraitWidth={optPortrait.attributes.width}
@@ -99,10 +113,12 @@ const packagingItems: PackagingPouchItem[] = [
     />
 
     <main class="flex-1 w-full paper-texture relative overflow-x-hidden">
+      <AboutSection aboutPhoto={toAsset(optFoto1)} />
+      <ExperienceSection pknLogo={toAsset(optLogoPkn)} />
       <WorkIntro />
       <ProjectSijagung screens={sijagungAssets} />
       <PackagingShowcase pouches={packagingItems} />
-      <ExperienceSection pknLogo={toAsset(optLogoPkn)} pensLogo={toAsset(optLogoPens)} />
+      <EducationSection pensLogo={toAsset(optLogoPens)} />
       <ToolsGrid />
     </main>
 

@@ -8,17 +8,21 @@ interface Props {
 }
 
 const {
-  title = 'Muhammad Azhar Nur Azmi Zahrein — Portfolio',
-  description = 'Portfolio Muhammad Azhar Nur Azmi Zahrein, A.Md.Kom. — Junior Web & Application Developer · Graphic Designer (D3 Teknik Informatika, PENS).',
+  title = 'Muhammad Azhar Nur Azmi Zahrein — Web & Mobile Application Developer',
+  description = 'Portfolio resmi Muhammad Azhar Nur Azmi Zahrein, A.Md.Kom. — Web & Mobile Application Developer (D3 Teknik Informatika, PENS). Spesialisasi rekayasa aplikasi Flutter offline-first, backend Laravel, database MySQL/SQLite, dan desain kemasan komersial UMKM.',
   preloadImageSrc,
 } = Astro.props;
+
+const siteUrl = 'https://azhar-zahrein.vercel.app';
+const canonicalUrl = siteUrl;
+const ogImageUrl = `${siteUrl}/favicon.svg`;
 
 // frame-ancestors is ignored in <meta>; it is set through hosting headers instead.
 const contentSecurityPolicy = [
   "default-src 'self'",
   "script-src 'self'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self'",
+  "img-src 'self' data:",
   "font-src 'self'",
   "connect-src 'self'",
   "object-src 'none'",
@@ -26,6 +30,75 @@ const contentSecurityPolicy = [
   "form-action 'none'",
   'upgrade-insecure-requests',
 ].join('; ');
+
+const jsonLdSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${siteUrl}/#person`,
+      name: 'Muhammad Azhar Nur Azmi Zahrein',
+      givenName: 'Muhammad Azhar Nur Azmi',
+      familyName: 'Zahrein',
+      jobTitle: 'Web & Mobile Application Developer',
+      description:
+        'Web and mobile application developer specializing in Flutter, SQLite offline-first caching, Laravel 10 REST API, MySQL database architecture, and commercial MSME packaging design.',
+      url: siteUrl,
+      email: 'renakunx@gmail.com',
+      alumniOf: [
+        {
+          '@type': 'EducationalOrganization',
+          name: 'Politeknik Elektronika Negeri Surabaya',
+          alternateName: 'PENS',
+        },
+        {
+          '@type': 'EducationalOrganization',
+          name: 'SMK Negeri 2 Tanjung Selor',
+        },
+      ],
+      hasCredential: [
+        {
+          '@type': 'EducationalOccupationalCredential',
+          name: 'AWS Academy Graduate — AWS Academy Cloud Developing',
+          credentialCategory: 'Certification',
+          recognizedBy: {
+            '@type': 'Organization',
+            name: 'Amazon Web Services (AWS)',
+          },
+        },
+        {
+          '@type': 'EducationalOccupationalCredential',
+          name: 'TOEFL Score: 483 (High Intermediate)',
+          credentialCategory: 'Language Proficiency',
+        },
+      ],
+      knowsAbout: [
+        'Mobile Application Development',
+        'Flutter',
+        'Dart',
+        'Laravel',
+        'PHP',
+        'MySQL',
+        'SQLite',
+        'RESTful APIs',
+        'Offline-First Architecture',
+        'UI/UX Design',
+        'Commercial Packaging Design',
+      ],
+      sameAs: ['https://github.com/Zahrean001'],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: siteUrl,
+      name: 'Muhammad Azhar Nur Azmi Zahrein — Professional Developer Portfolio',
+      publisher: {
+        '@id': `${siteUrl}/#person`,
+      },
+      inLanguage: ['id', 'en'],
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -39,6 +112,24 @@ const contentSecurityPolicy = [
     <meta name="description" content={description} />
     <meta name="author" content="Muhammad Azhar Nur Azmi Zahrein, A.Md.Kom." />
     <meta name="theme-color" content="#0c0c0c" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Muhammad Azhar Nur Azmi Zahrein — Portfolio" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
@@ -75,8 +166,18 @@ const contentSecurityPolicy = [
         />
       )
     }
+
+    <!-- Structured Data (JSON-LD) for Search Engines & Recruiter Knowledge Graphs -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdSchema)} />
   </head>
   <body class="selection:bg-mineral selection:text-paper">
+    <!-- Accessible Skip Link for Keyboard Users -->
+    <a
+      href="#karya"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-ink focus:rounded-md focus:shadow-lg focus:ring-2 focus:ring-emerald-500 font-mono text-xs font-bold"
+    >
+      Lewati ke konten utama / Skip to main content
+    </a>
     <slot />
   </body>
 </html>

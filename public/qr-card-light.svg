@@ -1,0 +1,50 @@
+
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap');
+      .title { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; fill: #09090b; }
+      .degree { font-family: 'JetBrains Mono', monospace; font-weight: 600; fill: #52525b; }
+      .meta { font-family: 'JetBrains Mono', monospace; font-weight: 500; fill: #71717a; }
+      .url-text { font-family: 'JetBrains Mono', monospace; font-weight: 700; fill: #09090b; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="1500" fill="#f4f1ea" />
+
+  <!-- Outer Frame -->
+  <rect x="50" y="50" width="1100" height="1400" rx="24" fill="#faf8f5" stroke="#ded9ce" stroke-width="3" />
+  
+  <!-- Subtle Header Accents -->
+  <line x1="90" y1="130" x2="1110" y2="130" stroke="#e8e4db" stroke-width="2" />
+  <text x="90" y="105" class="meta" font-size="20" letter-spacing="4">PORTFOLIO ACCESS · SCAN &amp; CONNECT</text>
+  <text x="1110" y="105" text-anchor="end" class="meta" font-size="20">/2026</text>
+
+  <!-- Name & Title -->
+  <text x="600" y="240" text-anchor="middle" class="title" font-size="44" letter-spacing="-0.5">Muhammad Azhar Nur Azmi Zahrein</text>
+  <text x="600" y="300" text-anchor="middle" class="degree" font-size="24" letter-spacing="2">A.Md.Kom. · D3 Teknik Informatika, PENS</text>
+
+  <!-- White QR Plinth / Container -->
+  <rect x="220" y="360" width="760" height="760" rx="32" fill="#ffffff" stroke="#ded9ce" stroke-width="2" />
+  
+  <!-- Embedded QR Code -->
+  <g transform="translate(280, 420)">
+    <svg width="640" height="640" viewBox="0 0 35 35">
+      <path fill="#ffffff" d="M0 0h35v35H0z"/><path stroke="#09090b" d="M1 1.5h7m1 0h1m3 0h2m1 0h2m1 0h7m1 0h7M1 2.5h1m5 0h1m3 0h1m1 0h5m1 0h1m4 0h1m2 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m2 0h1m2 0h1m1 0h3m5 0h3m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m2 0h4m1 0h1m5 0h1m3 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m3 0h2m2 0h1m3 0h3m1 0h3m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m4 0h2m2 0h4m1 0h4m2 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M10 8.5h6m1 0h1m1 0h1m1 0h4M3 9.5h1m1 0h3m1 0h6m5 0h1m1 0h1m2 0h2m3 0h1m2 0h1M4 10.5h1m1 0h1m2 0h2m7 0h4m1 0h1m1 0h1m1 0h1m2 0h1m2 0h1M1 11.5h1m5 0h1m1 0h1m1 0h1m2 0h3m1 0h1m1 0h3m2 0h1m1 0h1m1 0h1m2 0h2M1 12.5h2m2 0h2m3 0h2m2 0h3m1 0h1m1 0h1m1 0h2m1 0h1M1 13.5h2m2 0h3m2 0h2m2 0h1m1 0h2m1 0h1m1 0h1m1 0h1m2 0h2m5 0h1M4 14.5h2m3 0h3m2 0h2m1 0h4m4 0h1m1 0h1m4 0h2M1 15.5h1m2 0h4m1 0h1m1 0h1m1 0h2m1 0h2m1 0h4m3 0h1m3 0h4M4 16.5h1m1 0h1m1 0h8m5 0h7m1 0h1M2 17.5h1m1 0h1m2 0h1m1 0h2m3 0h1m1 0h1m2 0h1m1 0h4m2 0h1m5 0h1M1 18.5h1m1 0h1m2 0h1m2 0h1m2 0h4m1 0h1m4 0h1m3 0h2m2 0h4M1 19.5h2m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m3 0h1m3 0h3m1 0h3M4 20.5h3m4 0h2m2 0h1m5 0h3m4 0h2m3 0h1M1 21.5h1m1 0h1m1 0h6m1 0h1m1 0h1m2 0h4m1 0h1m3 0h2m2 0h1m2 0h1M6 22.5h1m2 0h1m1 0h1m1 0h1m3 0h2m3 0h1m2 0h1m1 0h1m2 0h2m1 0h1M1 23.5h1m1 0h1m1 0h4m1 0h1m2 0h1m1 0h3m1 0h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h2M2 24.5h1m2 0h2m3 0h1m1 0h2m1 0h2m4 0h2m1 0h1m1 0h1m1 0h2m2 0h1M1 25.5h1m1 0h1m1 0h1m1 0h1m6 0h3m1 0h5m2 0h5M9 26.5h1m4 0h1m3 0h1m2 0h1m3 0h1m3 0h1m2 0h2M1 27.5h7m3 0h1m1 0h1m2 0h1m2 0h4m1 0h2m1 0h1m1 0h5M1 28.5h1m5 0h1m1 0h1m1 0h6m1 0h4m3 0h1m3 0h1m3 0h1M1 29.5h1m1 0h3m1 0h1m1 0h3m2 0h5m2 0h1m3 0h5m2 0h1M1 30.5h1m1 0h3m1 0h1m2 0h1m1 0h4m2 0h1m1 0h3m1 0h2m3 0h1m1 0h3M1 31.5h1m1 0h3m1 0h1m1 0h1m3 0h1m5 0h2m3 0h1m1 0h1m1 0h2m1 0h1m1 0h1M1 32.5h1m5 0h1m2 0h4m1 0h2m3 0h1m3 0h3m1 0h1m1 0h1m1 0h1M1 33.5h7m3 0h1m4 0h3m3 0h2m1 0h1m2 0h2m2 0h2"/>
+    </svg>
+  </g>
+
+  <!-- Clean Scan Instruction / URL Box -->
+  <rect x="250" y="1170" width="700" height="74" rx="14" fill="#ebe6dc" stroke="#d5cebf" stroke-width="2" />
+  <text x="600" y="1217" text-anchor="middle" class="url-text" font-size="25" letter-spacing="1">https://azhar-zahrein.vercel.app/</text>
+
+  <!-- Verification Badges -->
+  <circle cx="480" cy="1300" r="5" fill="#16a34a" />
+  <text x="495" y="1306" class="meta" font-size="19" font-weight="700" fill="#15803d">PERMANENT STATIC QR</text>
+  <circle cx="715" cy="1300" r="4" fill="#a1a1aa" />
+  <text x="730" y="1306" class="meta" font-size="19">NEVER EXPIRES</text>
+
+  <!-- Footer -->
+  <text x="600" y="1370" text-anchor="middle" class="meta" font-size="17" letter-spacing="2">SCAN DENGAN KAMERA SMARTPHONE UNTUK MEMBUKA PORTOFOLIO LENGKAP</text>
+</svg>

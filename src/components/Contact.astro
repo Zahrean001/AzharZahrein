@@ -85,33 +85,35 @@
 
     <div class="mt-10 md:mt-14 space-y-8 md:space-y-10 max-w-3xl">
       <p
-        class="text-sm sm:text-base md:text-lg text-zinc-400 leading-relaxed"
+        class="text-sm sm:text-base md:text-lg text-zinc-400 leading-relaxed max-w-xl"
         data-motion="up"
         data-i18n-html="contact.desc"
       >
-        Produk digital<br />
-        dan karya visual.
+        Terbuka untuk peluang kerja Junior Web Developer, Junior Mobile Developer, Junior Software Engineer, dan Application Developer.
       </p>
 
       <div data-motion="up">
         <a
           id="contact-email-cta"
           href="mailto:renakunx@gmail.com"
-          class="inline-block font-editorial-heading text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-zinc-100 hover:text-white transition-colors underline decoration-zinc-700 hover:decoration-zinc-200 decoration-2 underline-offset-8"
+          class="inline-block font-editorial-heading text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-zinc-100 hover:text-white transition-colors underline decoration-zinc-700 hover:decoration-zinc-200 decoration-2 underline-offset-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
         >
           renakunx@gmail.com
         </a>
       </div>
 
+      <!-- Verified Contact Channels -->
       <div
-        class="pt-2 space-y-2.5 text-xs sm:text-sm md:text-base font-mono text-zinc-400"
+        class="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-xs sm:text-sm md:text-base font-mono text-zinc-400"
         data-motion="up"
       >
-        <div class="text-zinc-300 font-medium pb-1" data-i18n="contact.role">
-          Junior Web & Application Developer · Graphic Designer
+        <div class="sm:col-span-2 text-zinc-300 font-medium pb-1" data-i18n="contact.role">
+          Web & Mobile Application Developer · UI/UX & Graphic Designer
         </div>
+
         <div>
-          <span class="text-zinc-500">GitHub — </span>
+          <span class="text-zinc-500" data-i18n="contact.githubLabel">GitHub Profile</span>
+          <span class="text-zinc-500"> — </span>
           <a
             href="https://github.com/Zahrean001"
             target="_blank"
@@ -121,15 +123,16 @@
             github.com/Zahrean001
           </a>
         </div>
+
         <div>
-          <span class="text-zinc-500" data-i18n-html="contact.cvLabel">CV — &nbsp;</span>
+          <span class="text-zinc-500" data-i18n-html="contact.cvLabel">Curriculum Vitae — &nbsp;</span>
           <a
             href="/resume.pdf"
-            download="CV_Muhammad_Azhar_Nur_Azmi_Zahrein.pdf"
-            class="text-zinc-200 hover:text-white transition-colors underline decoration-zinc-700 hover:decoration-zinc-300 underline-offset-4"
+            download="Resume EN.pdf"
+            class="text-zinc-200 hover:text-white transition-colors underline decoration-zinc-700 hover:decoration-zinc-300 underline-offset-4 font-semibold"
             data-i18n="contact.cvDownload"
           >
-            Unduh CV
+            Unduh Resume (PDF)
           </a>
         </div>
       </div>
@@ -137,9 +140,9 @@
   </div>
 
   <div
-    class="relative z-10 w-full mt-14 pt-5 md:pt-6 border-t border-zinc-800/90 flex justify-between items-center text-[11px] sm:text-xs font-mono text-zinc-500"
+    class="relative z-10 w-full mt-14 pt-5 md:pt-6 border-t border-zinc-800/90 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-[11px] sm:text-xs font-mono text-zinc-500"
   >
-    <span>Muhammad Azhar Nur Azmi Zahrein, A.Md.Kom.</span>
-    <span data-i18n="contact.footerSchool">D3 Teknik Informatika, PENS</span>
+    <span>© 2026 Muhammad Azhar Nur Azmi Zahrein, A.Md.Kom.</span>
+    <span data-i18n="contact.footerSchool">D3 Teknik Informatika, Politeknik Elektronika Negeri Surabaya</span>
   </div>
 </footer>

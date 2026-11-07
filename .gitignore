@@ -25,3 +25,31 @@ Thumbs.db
 # Local tooling & scratch (not part of the site)
 .taste-skill/
 review_portfolio.py
+auto_apply/
+backup_pre_audit_src/
+
+# Resume scratch exports & local comparison assets
+ATS_Resume.*
+Resume_Final*
+Resume_Identical.*
+Resume_Full_Reference.*
+Resume_Audit_Report.md
+Website_Audit_Report.md
+resume_source.html
+comparison*.png
+passport_*.png
+portrait_*.png
+ref_contact_crop.png
+test_export_canva.png
+tools_screenshot.png
+model_photoshoot_*
+photoshoot_style_*
+pose_*
+public/portrait_formal_nobg.png
+public/model_photoshoot_*
+public/photoshoot_style_*
+public/pose_*
+src/assets/images/foto1_feathered.*
+src/assets/images/foto1_original_backup.png
+src/assets/images/foto2.png
+scripts/

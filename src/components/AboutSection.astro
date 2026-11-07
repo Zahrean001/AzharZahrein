@@ -1,0 +1,255 @@
+---
+import type { OptimizedAsset } from './ProjectSijagung.astro';
+
+interface Props {
+  aboutPhoto?: OptimizedAsset;
+}
+
+const { aboutPhoto } = Astro.props;
+---
+
+<section
+  class="relative pt-16 md:pt-24 pb-16 md:pb-24 px-6 sm:px-10 md:px-14 lg:px-20 border-b border-paper-line overflow-hidden"
+  id="tentang"
+>
+  <div
+    class="bg-watermark-wrap top-1/2 -translate-y-1/2"
+    data-watermark
+    data-watermark-speed="0.18"
+    aria-hidden="true"
+  >
+    <div class="bg-watermark-text">ABOUT</div>
+  </div>
+
+  <div class="relative z-10 w-full max-w-5xl lg:max-w-6xl mx-auto space-y-10 md:space-y-12">
+    <!-- Section Header -->
+    <div class="space-y-2 border-b border-paper-line pb-6">
+      <div class="text-xs font-mono uppercase tracking-widest text-zinc-500" data-i18n="about.eyebrow">
+        01 / Tentang Saya
+      </div>
+      <h2
+        class="font-editorial-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink leading-tight"
+        data-motion="up"
+        data-scroll-speed="-0.05"
+        data-i18n="about.heading"
+      >
+        Tentang Saya
+      </h2>
+    </div>
+
+    <!-- Swiss Editorial 3-Column Architectural Composition -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10 items-start" data-motion="up">
+      <!-- Col 1: Core Positioning & Verified Credentials (4 Cols) -->
+      <div class="md:col-span-6 lg:col-span-4 space-y-6">
+        <div class="space-y-2">
+          <div
+            class="font-editorial-heading text-2xl sm:text-3xl font-bold text-ink leading-snug"
+            data-i18n="about.roleTitle"
+          >
+            Teknisi Perangkat Lunak & Perancang Antarmuka
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-600 leading-relaxed font-mono">
+            Politeknik Elektronika Negeri Surabaya (PENS)
+          </p>
+        </div>
+
+        <!-- Technical Specification Sheet -->
+        <dl class="divide-y divide-paper-line border-t border-b border-paper-line text-xs font-mono">
+          <div class="py-2.5 flex justify-between gap-4">
+            <dt class="text-zinc-500" data-i18n="about.specEdu">Pendidikan</dt>
+            <dd class="text-ink font-semibold text-right" data-i18n="about.specEduVal">D3 Teknik Informatika</dd>
+          </div>
+          <div class="py-2.5 flex justify-between gap-4">
+            <dt class="text-zinc-500" data-i18n="about.specInst">Institusi</dt>
+            <dd class="text-ink font-semibold text-right" data-i18n="about.specInstVal">PENS Surabaya</dd>
+          </div>
+          <div class="py-2.5 flex justify-between gap-4">
+            <dt class="text-zinc-500" data-i18n="about.specFocus">Fokus Rekayasa</dt>
+            <dd class="text-ink font-semibold text-right" data-i18n="about.specFocusVal">Mobile & Full-Stack Web</dd>
+          </div>
+          <div class="py-2.5 flex justify-between gap-4">
+            <dt class="text-zinc-500" data-i18n="about.specSchol">Beasiswa</dt>
+            <dd class="text-ink font-semibold text-right" data-i18n="about.specScholVal">PT Pesona Khatulistiwa Nusantara</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Col 2: Narrative Discipline & Universal Capabilities (5 Cols) -->
+      <div class="md:col-span-6 lg:col-span-5 space-y-6 text-sm sm:text-base text-zinc-800 leading-relaxed">
+        <p data-i18n="about.p1">
+          Pengembang aplikasi Web & Mobile dengan latar belakang Teknik Informatika serta pengalaman praktis dalam dukungan aplikasi web internal, pengelolaan basis data, dan pengembangan aplikasi. Berpengalaman pula dalam desain UI/UX, branding, dan desain kemasan komersial. Memadukan pemecahan masalah teknis dengan komunikasi visual untuk membangun solusi digital yang fungsional dan berorientasi pada pengguna.
+        </p>
+
+        <!-- The Two Pillars -->
+        <div class="pt-4 border-t border-paper-line space-y-4">
+          <div class="space-y-1">
+            <div class="font-mono text-xs font-bold uppercase tracking-wider text-ink flex items-center gap-2">
+              <span class="w-1.5 h-1.5 bg-ink"></span>
+              <span data-i18n="about.pillar1">Pilar Rekayasa Perangkat Lunak</span>
+            </div>
+            <p
+              class="text-xs sm:text-sm text-zinc-600 leading-relaxed pl-3.5 border-l border-zinc-300"
+              data-i18n="about.pillar1Desc"
+            >
+              Pengembangan aplikasi web dan mobile, integrasi RESTful API, arsitektur kode terstruktur dan bersih, perancangan & optimasi basis data, serta rekayasa lintas platform yang andal.
+            </p>
+          </div>
+
+          <div class="space-y-1">
+            <div class="font-mono text-xs font-bold uppercase tracking-wider text-ink flex items-center gap-2">
+              <span class="w-1.5 h-1.5 bg-zinc-400"></span>
+              <span data-i18n="about.pillar2">Pilar Desain & Komunikasi Visual</span>
+            </div>
+            <p
+              class="text-xs sm:text-sm text-zinc-600 leading-relaxed pl-3.5 border-l border-zinc-300"
+              data-i18n="about.pillar2Desc"
+            >
+              Desain antarmuka UI/UX komprehensif, pembuatan prototipe interaktif, sistem desain, branding digital, dan komunikasi visual komersial yang berorientasi pada kenyamanan pengguna dan daya tarik pasar.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 3: CGI 3D Floating Portrait Card (3 Cols) -->
+      <div class="md:col-span-12 lg:col-span-3 flex justify-center lg:justify-end items-start pt-2 lg:pt-0">
+        {aboutPhoto && (
+          <div
+            id="about-portrait-stage"
+            class="about-portrait-stage relative select-none"
+            data-cgi-card
+          >
+            <div class="about-portrait-float relative">
+              <!-- Offset Shadow / Backing Plaque -->
+              <div
+                class="absolute -inset-1 bg-zinc-900/90 border border-zinc-800 rounded-xl transform -rotate-3 transition-transform duration-500 pointer-events-none"
+                aria-hidden="true"
+              />
+
+              <!-- Primary 3D Chassis Card -->
+              <div
+                class="about-portrait-chassis relative w-[250px] sm:w-[270px] aspect-[4/5] bg-gradient-to-b from-[#181a20] via-[#121316] to-[#0a0a0d] border border-zinc-700/80 rounded-xl shadow-2xl p-2 transform rotate-1 transition-all duration-300 overflow-visible"
+              >
+                <!-- Card Top Header Spec Tag -->
+                <div class="flex items-center justify-between px-2 pt-1 pb-2 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-400">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>DEV // ARCHIVE</span>
+                  </span>
+                  <span class="text-zinc-500">2026</span>
+                </div>
+
+                <!-- Inner Portrait Frame with 3D Pop-Out Silhouette -->
+                <div class="relative w-full h-[calc(100%-28px)] rounded-lg overflow-visible flex items-end justify-center">
+                  <!-- Soft Atmospheric Glow behind head -->
+                  <div
+                    class="absolute top-1/4 w-32 h-32 rounded-full bg-white/5 blur-xl pointer-events-none"
+                    aria-hidden="true"
+                  />
+
+                  <!-- Portrait Figure (Popping out slightly above top rim, smoothly feathered at bottom) -->
+                  <img
+                    alt="Portrait Muhammad Azhar Nur Azmi Zahrein"
+                    class="about-portrait-img relative z-10 w-full h-auto max-h-[118%] object-contain filter contrast-105 pointer-events-none select-none"
+                    width={aboutPhoto.width}
+                    height={aboutPhoto.height}
+                    loading="lazy"
+                    decoding="async"
+                    src={aboutPhoto.src}
+                  />
+
+                  <!-- Seamless Bottom Vignette Gradient to anchor the feathered suit -->
+                  <div
+                    class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0a0a0d] via-[#0a0a0d]/60 to-transparent pointer-events-none z-20 rounded-b-lg"
+                    aria-hidden="true"
+                  />
+
+                  <!-- Bottom Floating Monospace Identity Label -->
+                  <div class="absolute bottom-2.5 inset-x-3 z-30 flex items-center justify-between text-[10px] font-mono text-zinc-300 bg-zinc-950/80 backdrop-blur-xs border border-zinc-800/80 px-2 py-1 rounded">
+                    <span class="font-semibold tracking-wider text-zinc-200">AZHAR ZAHREIN</span>
+                    <span class="text-zinc-400">WEB / MOBILE</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* 
+   * CGI 3D Floating Motion & Perspective Physics
+   */
+  .about-portrait-stage {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    will-change: transform;
+    opacity: 0;
+    transform: perspective(1000px) translateY(32px) rotateY(-12deg) rotateX(6deg) scale(0.94);
+    transition:
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Entrance triggered via IntersectionObserver (.is-revealed) */
+  .about-portrait-stage.is-revealed {
+    opacity: 1;
+    transform: perspective(1000px) translateY(0) rotateY(0deg) rotateX(0deg) scale(1);
+  }
+
+  /* Continuous CGI Ambient Float on Dedicated Wrapper (Zero Conflict with Cursor Tilt) */
+  .about-portrait-stage.is-revealed .about-portrait-float {
+    animation: cgiPortraitLevitate 7s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes cgiPortraitLevitate {
+    0% {
+      transform: translateY(0px) rotate(1deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(-1deg);
+    }
+    100% {
+      transform: translateY(-3px) rotate(1.5deg);
+    }
+  }
+
+  /* Specular Highlight & Hover Depth */
+  .about-portrait-chassis {
+    box-shadow:
+      0 20px 40px -15px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  }
+
+  .about-portrait-chassis:hover {
+    box-shadow:
+      0 30px 60px -15px rgba(0, 0, 0, 0.65),
+      0 0 25px rgba(255, 255, 255, 0.12),
+      0 0 0 1px rgba(255, 255, 255, 0.16) inset;
+  }
+
+  /* Subtle 3D pop-out styling for the portrait figure */
+  .about-portrait-img {
+    transform: translateY(-14px) scale(1.06);
+    filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.8));
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .about-portrait-chassis:hover .about-portrait-img {
+    transform: translateY(-18px) scale(1.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-portrait-stage {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    .about-portrait-stage.is-revealed .about-portrait-float {
+      animation: none !important;
+    }
+  }
+</style>

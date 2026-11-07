@@ -15,11 +15,16 @@ const { screens } = Astro.props;
 ---
 
 <section
-  class="relative pt-12 md:pt-16 pb-8 md:pb-12 px-6 sm:px-10 md:px-14 lg:px-20 border-b border-paper-line"
+  class="relative pt-12 md:pt-16 pb-16 md:pb-20 px-6 sm:px-10 md:px-14 lg:px-20 border-b border-paper-line"
   id="sijagung"
 >
-  <div class="relative z-10 w-full max-w-4xl mx-auto">
-    <div class="space-y-4 mb-8 md:mb-10">
+  <div class="relative z-10 w-full max-w-5xl mx-auto">
+    <!-- Header & Positioning -->
+    <div class="space-y-3 mb-8 md:mb-10">
+      <div class="text-xs font-mono uppercase tracking-widest text-zinc-500" data-i18n="sijagung.eyebrow">
+        Studi Kasus Rekayasa Perangkat Lunak · Desa Kelubir
+      </div>
+
       <h2
         class="font-editorial-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink leading-tight"
         data-motion="up"
@@ -33,7 +38,7 @@ const { screens } = Astro.props;
         data-scroll-speed="-0.03"
         data-i18n="sijagung.subtitle"
       >
-        Aplikasi data petani jagung untuk Desa Kelubir.
+        Aplikasi mobile pemantauan pertanian jagung untuk Desa Kelubir.
       </p>
       <p
         class="text-xs sm:text-sm md:text-base text-zinc-600 leading-relaxed font-normal max-w-2xl"
@@ -41,17 +46,20 @@ const { screens } = Astro.props;
         data-scroll-speed="-0.02"
         data-i18n="sijagung.desc"
       >
-        Dibuat untuk membantu pencatatan petani, kebun, dan panen di lapangan. Data dapat
-        disimpan saat koneksi terbatas lalu disinkronkan ketika koneksi tersedia.
+        Aplikasi mobile berarsitektur offline-first dengan Flutter untuk pencatatan petani, lahan, dan hasil panen di Desa Kelubir. Data tersimpan lokal di SQLite dan tersinkronisasi otomatis ke backend Laravel REST API & MySQL saat sinyal tersedia.
       </p>
-      <p
-        class="pt-2 text-xs sm:text-sm md:text-base font-mono font-semibold text-ink"
-        data-motion="fade-right"
-      >
-        Flutter, Laravel, MySQL
-      </p>
+
+      <div class="flex items-center flex-wrap gap-2 pt-1" data-motion="fade-right">
+        <span class="text-xs font-mono uppercase tracking-wider text-zinc-400">Stack:</span>
+        <span class="px-2.5 py-0.5 border border-paper-line bg-white/60 text-zinc-800 font-mono text-xs">Flutter</span>
+        <span class="px-2.5 py-0.5 border border-paper-line bg-white/60 text-zinc-800 font-mono text-xs">SQLite</span>
+        <span class="px-2.5 py-0.5 border border-paper-line bg-white/60 text-zinc-800 font-mono text-xs">Laravel 10</span>
+        <span class="px-2.5 py-0.5 border border-paper-line bg-white/60 text-zinc-800 font-mono text-xs">MySQL</span>
+        <span class="px-2.5 py-0.5 border border-paper-line bg-white/60 text-zinc-800 font-mono text-xs">REST API</span>
+      </div>
     </div>
 
+    <!-- Phone Interactive Showcase (Real Product Hero Moment) -->
     <div class="relative pt-2 pb-4" id="sijagung-scroll-track">
       <div class="flex flex-col items-center">
         <div class="mb-4 text-center">
@@ -250,10 +258,682 @@ const { screens } = Astro.props;
             id="screen-caption"
             data-i18n="sijagung.defaultCaption"
           >
-            “Ringkasan data lapangan, pencatatan petani, dan panen dalam satu aplikasi.”
+            “Ringkasan data lapangan, pencatatan petani, dan hasil panen dalam satu alur aplikasi.”
           </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toggle Case Study Button (Architectural Hairline Button) -->
+    <div class="mt-8 text-center" data-motion="up">
+      <button
+        type="button"
+        id="sijagung-case-study-btn"
+        aria-expanded="false"
+        aria-controls="sijagung-case-study-panel"
+        class="inline-flex items-center gap-2.5 px-6 py-2.5 border border-ink bg-ink text-paper font-mono text-xs font-semibold uppercase tracking-wider hover:bg-zinc-800 transition-colors cursor-pointer"
+      >
+        <span id="sijagung-btn-label" data-i18n="sijagung.caseStudyBtn">Buka Detail Arsitektur & Studi Kasus</span>
+        <svg id="sijagung-chevron" class="w-3.5 h-3.5 text-zinc-400 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Technical Case Study Dossier (Crafted Engineering Blueprint — Un-slopped Monograph) -->
+    <div
+      id="sijagung-case-study-panel"
+      class="sijagung-dossier-accordion mt-10"
+      aria-hidden="true"
+    >
+      <div class="sijagung-dossier-inner">
+        <div class="border-t border-b border-paper-line py-10 space-y-12 text-ink">
+          <!-- Technical Header & Specifications Grid -->
+          <div class="space-y-4">
+            <div class="flex items-center justify-between flex-wrap gap-2 text-xs font-mono text-zinc-500">
+              <span data-i18n="sijagung.dossierHeader">DOKUMEN SPESIFIKASI REKAYASA SISTEM</span>
+              <span class="inline-flex items-center gap-2 font-mono text-xs text-zinc-700 uppercase" data-i18n="sijagung.dossierStatus">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                STATUS: TERVERIFIKASI & SIAP UJI LAPANGAN
+              </span>
+            </div>
+
+            <h3 class="font-editorial-heading text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-ink" data-i18n="sijagung.caseStudyTitle">
+              Studi Kasus Teknis: SIJAGUNG
+            </h3>
+            <p class="text-xs sm:text-sm text-zinc-600 font-mono" data-i18n="sijagung.caseStudySubtitle">
+              Sistem Informasi Pertanian Jagung Lapangan — Desa Kelubir
+            </p>
+
+            <!-- Structured Specifications Matrix (Clean Typographic Hairline Table) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-0 border border-paper-line divide-x divide-y sm:divide-y-0 divide-paper-line text-xs font-mono bg-white/40">
+              <div class="p-3.5">
+                <div class="text-zinc-500 text-[11px] uppercase tracking-wider" data-i18n="sijagung.specRegion">Konteks Wilayah</div>
+                <div class="text-ink font-semibold pt-1" data-i18n="sijagung.specRegionVal">Desa Kelubir, Bulungan</div>
+              </div>
+              <div class="p-3.5">
+                <div class="text-zinc-500 text-[11px] uppercase tracking-wider" data-i18n="sijagung.specRole">Peran Teknis</div>
+                <div class="text-ink font-semibold pt-1" data-i18n="sijagung.specRoleVal">Mobile Dev & UI/UX</div>
+              </div>
+              <div class="p-3.5">
+                <div class="text-zinc-500 text-[11px] uppercase tracking-wider" data-i18n="sijagung.specArch">Arsitektur Data</div>
+                <div class="text-ink font-semibold pt-1" data-i18n="sijagung.specArchVal">Offline-First / SQLite WAL</div>
+              </div>
+              <div class="p-3.5">
+                <div class="text-zinc-500 text-[11px] uppercase tracking-wider" data-i18n="sijagung.specSync">Protokol Sinkronisasi</div>
+                <div class="text-ink font-semibold pt-1" data-i18n="sijagung.specSyncVal">Idempotent REST Queue</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1. Architectural Blueprint & Interactive Data Flow Simulator -->
+          <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+              <div class="text-xs font-mono uppercase tracking-widest text-zinc-800 font-bold" data-i18n="sijagung.archHeading">
+                Arsitektur Sistem & Aliran Data
+              </div>
+              <div class="text-[11px] font-mono text-zinc-500" data-i18n="sijagung.simHint">
+                Pilih mode untuk melihat simulasi aliran data offline-ke-online:
+              </div>
+            </div>
+
+            <!-- Architectural Blueprint Chassis (High Craft, Technical Slate with Interactive Conduits) -->
+            <div class="sijagung-arch-board relative bg-[#0d0f14] text-[#ededed] font-mono text-xs border border-zinc-800 rounded-xl p-5 sm:p-7 shadow-2xl overflow-hidden">
+              <!-- Blueprint Radial Ambience & Dot Grid Texture -->
+              <div class="absolute inset-0 blueprint-grid pointer-events-none opacity-60" aria-hidden="true"></div>
+              <div class="absolute -top-24 -left-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" id="sijagung-ambient-glow" aria-hidden="true"></div>
+
+              <!-- Schematic Controls & Action Bar -->
+              <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-4 border-b border-zinc-800/90">
+                <div class="flex items-center gap-2.5">
+                  <span class="relative flex h-2.5 w-2.5 shrink-0">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" id="sijagung-ping-ring"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" id="sijagung-ping-dot"></span>
+                  </span>
+                  <span class="text-[11px] uppercase tracking-wider text-zinc-200 font-semibold" data-i18n="sijagung.simTitle">
+                    Simulasi Pipeline Sinkronisasi Data
+                  </span>
+                </div>
+
+                <!-- Precision Mode Switcher & Tactical Trigger Button -->
+                <div class="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    id="sijagung-trigger-harvest"
+                    class="sim-action-btn flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold font-mono tracking-wide bg-emerald-950/90 hover:bg-emerald-900/90 text-emerald-300 border border-emerald-500/40 transition-all duration-150 cursor-pointer shadow-xs active:scale-95 whitespace-nowrap"
+                  >
+                    <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    <span id="sijagung-trigger-label">Catat Panen Baru</span>
+                  </button>
+
+                  <div class="flex items-center p-0.5 bg-zinc-950 border border-zinc-800 rounded-lg text-[11px] shadow-inner" id="sijagung-sim-controls">
+                    <button
+                      type="button"
+                      id="sijagung-sim-offline"
+                      class="sim-mode-btn flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold tracking-wide transition-all duration-200 cursor-pointer bg-zinc-800 text-emerald-400 border border-emerald-500/30 shadow-xs whitespace-nowrap"
+                      data-mode="offline"
+                      aria-pressed="true"
+                    >
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] shrink-0"></span>
+                      <span data-i18n="sijagung.modeOffline">Mode Ladang (Offline)</span>
+                    </button>
+                    <button
+                      type="button"
+                      id="sijagung-sim-online"
+                      class="sim-mode-btn flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold tracking-wide transition-all duration-200 cursor-pointer text-zinc-400 hover:text-zinc-200 whitespace-nowrap"
+                      data-mode="online"
+                      aria-pressed="false"
+                    >
+                      <span class="w-1.5 h-1.5 rounded-full bg-zinc-600 transition-colors shrink-0" id="sijagung-online-led"></span>
+                      <span data-i18n="sijagung.modeOnline">Sinyal Terhubung (Auto-Sync)</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interactive Integrated Circuit Pipeline (Zero-Overflow Responsive Architecture) -->
+              <div class="relative z-10 pt-4 pb-3">
+                <!-- Overhead Optical Circuit Conduit Bus (Desktop 5-Column Aligned) -->
+                <div class="hidden lg:block relative h-11 mb-1 select-none" aria-hidden="true">
+                  <!-- Base Bus Track Spanning Column 1 Center (10%) to Column 5 Center (90%) -->
+                  <div class="absolute left-[10%] right-[10%] top-5 h-2 bg-zinc-950 rounded-full border border-zinc-800/90"></div>
+
+                  <!-- Segment 1 (10% -> 30%): Local High-Speed WAL Bus (Always Active) -->
+                  <div class="absolute left-[10%] w-[20%] top-5 h-2 rounded-l-full bg-emerald-950/60 border border-emerald-500/40 overflow-hidden flex items-center">
+                    <div class="w-full h-[2px] bg-emerald-400 shadow-[0_0_8px_#34d399]"></div>
+                    <div class="conduit-photon conduit-photon-local"></div>
+                  </div>
+                  <div class="absolute left-[20%] -translate-x-1/2 top-0 text-[9px] font-mono text-emerald-400 font-semibold tracking-tight whitespace-nowrap">
+                    WAL BUS · &lt;1.2ms
+                  </div>
+
+                  <!-- Segment 2 (30% -> 50%): Cellular Sync Gateway Checkpoint -->
+                  <div class="absolute left-[30%] w-[20%] top-5 h-2 bg-zinc-950 border-y border-zinc-800 overflow-hidden flex items-center" id="sijagung-gate-track">
+                    <div class="w-full h-[2px] bg-zinc-800 transition-colors duration-300" id="sijagung-gate-line"></div>
+                    <div class="conduit-photon conduit-photon-sync hidden" id="sijagung-gate-photon-1"></div>
+                    <div class="conduit-photon conduit-photon-sync-2 hidden" id="sijagung-gate-photon-2"></div>
+                  </div>
+                  <!-- Gateway Status Pill Centered on Segment 2 (40%) -->
+                  <div class="absolute left-[40%] -translate-x-1/2 top-0 flex items-center gap-1.5 z-20 whitespace-nowrap">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" id="sijagung-gate-led"></span>
+                    <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-zinc-900 text-amber-400 border border-amber-500/40 shadow-xs" id="sijagung-gate-status-pill">
+                      GATEWAY: OFFLINE
+                    </span>
+                    <span class="text-[9px] font-mono text-zinc-400 font-semibold" id="sijagung-gate-counter">
+                      (12 QUEUED)
+                    </span>
+                  </div>
+
+                  <!-- Segment 3 (50% -> 70%): Secure HTTPS JSON Transport Bus -->
+                  <div class="absolute left-[50%] w-[20%] top-5 h-2 bg-zinc-950 border-y border-zinc-800 overflow-hidden flex items-center">
+                    <div class="w-full h-[2px] bg-zinc-800 transition-colors duration-300" id="sijagung-http-line"></div>
+                    <div class="conduit-photon conduit-photon-cloud hidden" id="sijagung-http-photon"></div>
+                  </div>
+                  <div class="absolute left-[60%] -translate-x-1/2 top-0 text-[9px] font-mono text-zinc-500 whitespace-nowrap" id="sijagung-http-label">
+                    JSON POST · TLS 1.3
+                  </div>
+
+                  <!-- Segment 4 (70% -> 90%): ACID SQL Commit Bus -->
+                  <div class="absolute left-[70%] w-[20%] top-5 h-2 rounded-r-full bg-zinc-950 border border-zinc-800 overflow-hidden flex items-center">
+                    <div class="w-full h-[2px] bg-zinc-800 transition-colors duration-300" id="sijagung-db-line"></div>
+                    <div class="conduit-photon conduit-photon-commit hidden" id="sijagung-db-photon"></div>
+                  </div>
+                  <div class="absolute left-[80%] -translate-x-1/2 top-0 text-[9px] font-mono text-zinc-500 whitespace-nowrap" id="sijagung-db-label">
+                    ACID COMMIT · TCP
+                  </div>
+
+                  <!-- 5 Vertical Drop-Vias Connecting Bus Directly Into Each Node Card -->
+                  <div class="absolute left-[10%] -translate-x-1/2 top-6 w-[2px] h-5 bg-emerald-500/70"></div>
+                  <div class="absolute left-[30%] -translate-x-1/2 top-6 w-[2px] h-5 bg-emerald-500/70"></div>
+                  <div class="absolute left-[50%] -translate-x-1/2 top-6 w-[2px] h-5 bg-zinc-700 transition-colors duration-300" id="sijagung-via-3"></div>
+                  <div class="absolute left-[70%] -translate-x-1/2 top-6 w-[2px] h-5 bg-zinc-700 transition-colors duration-300" id="sijagung-via-4"></div>
+                  <div class="absolute left-[90%] -translate-x-1/2 top-6 w-[2px] h-5 bg-zinc-700 transition-colors duration-300" id="sijagung-via-5"></div>
+                </div>
+
+                <!-- 5 Spacious Architecture Nodes (Zero Horizontal Scrollbar) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-stretch relative">
+                  <!-- Node 1: Flutter Client -->
+                  <div
+                    id="arch-node-1"
+                    data-node-id="1"
+                    class="arch-node p-3.5 border border-zinc-700/80 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-offline cursor-pointer select-none group"
+                  >
+                    <div>
+                      <div class="flex items-center justify-between gap-1 pb-2 border-b border-zinc-800 text-[10px] whitespace-nowrap">
+                        <span class="font-bold text-zinc-400 group-hover:text-emerald-400 transition-colors">01 / CLIENT</span>
+                        <span class="text-emerald-400 font-semibold px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/40 text-[9px]">MOBILE</span>
+                      </div>
+                      <div class="text-white font-bold text-sm pt-2.5 flex items-center justify-between whitespace-nowrap">
+                        <span>Flutter Client</span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                      </div>
+                      <div class="text-zinc-400 text-[11px] pt-1 leading-snug" data-i18n="sijagung.archMobile">Aplikasi Mobile Flutter</div>
+                    </div>
+                    <div class="text-[10px] pt-2.5 mt-3 border-t border-zinc-800/90 flex items-center justify-between gap-1 text-zinc-500 whitespace-nowrap">
+                      <span>Dart SDK</span>
+                      <span class="text-emerald-400 font-semibold flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                        <span>Active UI</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Node 2: SQLite Local Persistence -->
+                  <div
+                    id="arch-node-2"
+                    data-node-id="2"
+                    class="arch-node p-3.5 border border-zinc-700/80 bg-zinc-900/90 rounded-lg flex flex-col justify-between transition-all duration-300 is-active-offline cursor-pointer select-none group"
+                  >
+                    <div>
+                      <div class="flex items-center justify-between gap-1 pb-2 border-b border-zinc-800 text-[10px] whitespace-nowrap">
+                        <span class="font-bold text-zinc-400 group-hover:text-emerald-400 transition-colors">02 / STORAGE</span>
+                        <span class="text-emerald-400 font-semibold px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/40 text-[9px]">LOCAL</span>
+                      </div>
+                      <div class="text-white font-bold text-sm pt-2.5 flex items-center justify-between whitespace-nowrap">
+                        <span>SQLite Cache</span>
+                        <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0" id="sijagung-sqlite-dot"></span>
+                      </div>
+                      <div class="text-zinc-400 text-[11px] pt-1 leading-snug" data-i18n="sijagung.archCache">Cache Lokal (Offline)</div>
+                    </div>
+                    <div class="text-[10px] pt-2.5 mt-3 border-t border-zinc-800/90 flex items-center justify-between gap-1 text-zinc-500 whitespace-nowrap">
+                      <span>WAL Mode</span>
+                      <span class="text-amber-300 font-semibold px-1.5 py-0.5 rounded bg-amber-950/60 border border-amber-800/50 text-[9px]" id="sijagung-sync-flag">is_synced: 0</span>
+                    </div>
+                  </div>
+
+                  <!-- Node 3: Sync Daemon & Queue -->
+                  <div
+                    id="arch-node-3"
+                    data-node-id="3"
+                    class="arch-node p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-60 cursor-pointer select-none group"
+                  >
+                    <div>
+                      <div class="flex items-center justify-between gap-1 pb-2 border-b border-zinc-800 text-[10px] whitespace-nowrap">
+                        <span class="font-bold text-zinc-400 group-hover:text-sky-400 transition-colors">03 / TRANSPORT</span>
+                        <span class="text-zinc-400 px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[9px]" id="sijagung-daemon-tag">DAEMON</span>
+                      </div>
+                      <div class="text-white font-bold text-sm pt-2.5 flex items-center justify-between whitespace-nowrap">
+                        <span>REST API</span>
+                        <span class="w-2 h-2 rounded-full bg-zinc-700 shrink-0" id="sijagung-api-dot"></span>
+                      </div>
+                      <div class="text-zinc-400 text-[11px] pt-1 leading-snug" data-i18n="sijagung.archApi">Transport JSON</div>
+                    </div>
+                    <div class="text-[10px] pt-2.5 mt-3 border-t border-zinc-800/90 flex items-center justify-between gap-1 text-zinc-500 whitespace-nowrap">
+                      <span>UUIDv4</span>
+                      <span class="text-zinc-400 font-semibold" id="sijagung-daemon-status">Standby</span>
+                    </div>
+                  </div>
+
+                  <!-- Node 4: Laravel 10 Backend -->
+                  <div
+                    id="arch-node-4"
+                    data-node-id="4"
+                    class="arch-node p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-60 cursor-pointer select-none group"
+                  >
+                    <div>
+                      <div class="flex items-center justify-between gap-1 pb-2 border-b border-zinc-800 text-[10px] whitespace-nowrap">
+                        <span class="font-bold text-zinc-400 group-hover:text-sky-400 transition-colors">04 / BACKEND</span>
+                        <span class="text-zinc-400 px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[9px]" id="sijagung-backend-tag">SERVER</span>
+                      </div>
+                      <div class="text-white font-bold text-sm pt-2.5 flex items-center justify-between whitespace-nowrap">
+                        <span>Laravel 10</span>
+                        <span class="w-2 h-2 rounded-full bg-zinc-700 shrink-0" id="sijagung-backend-dot"></span>
+                      </div>
+                      <div class="text-zinc-400 text-[11px] pt-1 leading-snug" data-i18n="sijagung.archBackend">Backend PHP</div>
+                    </div>
+                    <div class="text-[10px] pt-2.5 mt-3 border-t border-zinc-800/90 flex items-center justify-between gap-1 text-zinc-500 whitespace-nowrap">
+                      <span>Validator</span>
+                      <span class="text-zinc-400 font-semibold" id="sijagung-backend-status">Awaiting</span>
+                    </div>
+                  </div>
+
+                  <!-- Node 5: MySQL Database Cluster -->
+                  <div
+                    id="arch-node-5"
+                    data-node-id="5"
+                    class="arch-node p-3.5 border border-zinc-800/80 bg-zinc-950/80 rounded-lg flex flex-col justify-between transition-all duration-300 opacity-60 cursor-pointer select-none group sm:col-span-2 lg:col-span-1"
+                  >
+                    <div>
+                      <div class="flex items-center justify-between gap-1 pb-2 border-b border-zinc-800 text-[10px] whitespace-nowrap">
+                        <span class="font-bold text-zinc-400 group-hover:text-sky-400 transition-colors">05 / DATABASE</span>
+                        <span class="text-zinc-400 px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[9px]" id="sijagung-repo-tag">CENTRAL</span>
+                      </div>
+                      <div class="text-white font-bold text-sm pt-2.5 flex items-center justify-between whitespace-nowrap">
+                        <span>MySQL Server</span>
+                        <span class="w-2 h-2 rounded-full bg-zinc-700 shrink-0" id="sijagung-db-dot"></span>
+                      </div>
+                      <div class="text-zinc-400 text-[11px] pt-1 leading-snug" data-i18n="sijagung.archDatabase">Basis Data Pusat</div>
+                    </div>
+                    <div class="text-[10px] pt-2.5 mt-3 border-t border-zinc-800/90 flex items-center justify-between gap-1 text-zinc-500 whitespace-nowrap">
+                      <span>InnoDB</span>
+                      <span class="text-zinc-400 font-semibold" id="sijagung-db-flag">Master Store</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Architectural Flow Phases Legend (Balanced 3-Column Grid — Zero Orphan Wrapping) -->
+                <div class="mt-4 pt-3 border-t border-zinc-800/80 grid grid-cols-1 md:grid-cols-3 gap-2.5 text-[11px]">
+                  <div class="flex items-center gap-2 px-3 py-2 rounded-md bg-zinc-950/70 border border-zinc-800/80 text-emerald-400 transition-colors" id="sijagung-flow-step-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)] shrink-0"></span>
+                    <span class="truncate" data-i18n="sijagung.flowLocal">ALUR LOKAL: Transaksi SQLite tanpa sinyal</span>
+                  </div>
+                  <div class="flex items-center gap-2 px-3 py-2 rounded-md bg-zinc-950/70 border border-zinc-800/80 text-zinc-500 transition-colors" id="sijagung-flow-step-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-600 transition-colors shrink-0" id="sijagung-flow-dot-2"></span>
+                    <span class="truncate" data-i18n="sijagung.flowSync">SINKRONISASI OTOMATIS: Batch POST saat online</span>
+                  </div>
+                  <div class="flex items-center gap-2 px-3 py-2 rounded-md bg-zinc-950/70 border border-zinc-800/80 text-zinc-500 transition-colors" id="sijagung-flow-step-3">
+                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-600 transition-colors shrink-0" id="sijagung-flow-dot-3"></span>
+                    <span class="truncate" data-i18n="sijagung.flowCommit">KOMIT SERVER: Verifikasi di MySQL</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interactive Node Architectural Inspector Drawer -->
+              <div
+                id="sijagung-node-inspector"
+                class="relative z-10 mt-1 p-3.5 sm:p-4 rounded-lg bg-zinc-950 border border-zinc-800/90 text-xs font-mono"
+              >
+                <div class="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-zinc-900 text-[10px] text-zinc-400">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+                    <span class="font-bold text-zinc-200" id="sijagung-inspect-title">MODULE INSPECTOR: 02 / SQLITE LOCAL PERSISTENCE</span>
+                  </div>
+                  <span class="text-zinc-500 hidden sm:inline" id="sijagung-inspect-hint">Click any node above to inspect architecture</span>
+                </div>
+                <div class="text-[11px] text-zinc-300 font-mono leading-relaxed break-words" id="sijagung-inspect-body">
+                  <span class="text-emerald-400">SCHEMA:</span> <code class="text-zinc-200 bg-zinc-900 px-1.5 py-0.5 rounded">CREATE TABLE tbl_harvest (id UUID PRIMARY KEY, farmer_id INT, yield_kg REAL, is_synced INT DEFAULT 0);</code><br />
+                  <span class="text-zinc-500">WAL PRAGMA:</span> <span class="text-zinc-300">Synchronous=NORMAL, Journal_Mode=WAL. Instant &lt;1.2ms local write without blocking background sync.</span>
+                </div>
+              </div>
+
+              <!-- Cinematic Telemetry Terminal & Typewriter Diagnostic Console -->
+              <div
+                id="sijagung-telemetry-box"
+                class="relative z-10 mt-3 p-3.5 sm:p-4 rounded-lg bg-zinc-950/95 border border-zinc-800/90 text-[11px] font-mono leading-relaxed transition-all duration-300 shadow-inner"
+              >
+                <div class="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-zinc-900 text-zinc-500 text-[10px]">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0" id="sijagung-console-status-led"></span>
+                    <span class="tracking-wider">DIAGNOSTIC TELEMETRY LOG // LIVE MONITOR</span>
+                  </div>
+                  <span id="sijagung-telemetry-latency" class="text-zinc-400 font-semibold whitespace-nowrap">LOCAL LATENCY: &lt;1.8ms</span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <span class="text-emerald-400 font-bold select-none" id="sijagung-telemetry-prefix">&gt;</span>
+                  <div class="flex-1 text-zinc-300 min-h-[38px] flex items-center">
+                    <span id="sijagung-telemetry-text" data-i18n="sijagung.statusOffline">
+                      [STATUS: OFFLINE] 12 transaksi panen diamankan di SQLite perangkat. Flag is_synced=0 siap dikirim saat sinyal terdeteksi.
+                    </span>
+                    <span class="inline-block w-2 h-3.5 bg-emerald-400 ml-1 terminal-cursor shrink-0" id="sijagung-cursor"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Problem Matrix vs Engineered Architecture (Clean Architectural Dossier) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            <!-- Problem Context -->
+            <div class="p-6 bg-white/50 border border-paper-line rounded space-y-3">
+              <div class="text-xs font-mono uppercase tracking-widest text-zinc-700 font-bold" data-i18n="sijagung.problemHeading">
+                1. Latar Belakang & Masalah
+              </div>
+              <p class="text-xs sm:text-[13px] text-zinc-700 leading-relaxed font-sans" data-i18n="sijagung.problemText">
+                Sebelumnya, pendataan petani dan panen di Desa Kelubir dilakukan secara manual menggunakan kertas kerja. Kondisi geografis perkebunan seringkali mengalami blind spot jaringan seluler, mengakibatkan keterlambatan rekapitulasi data, duplikasi informasi, dan hilangnya catatan hasil panen lapangan.
+              </p>
+              <div class="pt-3 border-t border-paper-line/80 space-y-1.5 text-xs font-mono text-zinc-600">
+                <div class="flex items-baseline gap-2">
+                  <span class="text-zinc-400">·</span>
+                  <span>Kertas fisik rentan rusak terkena hujan dan lumpur perkebunan</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-zinc-400">·</span>
+                  <span>1.200 hektar lahan kebun jagung tanpa jangkauan sinyal seluler</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-zinc-400">·</span>
+                  <span>Keterlambatan laporan panen hingga 14 hari ke kantor CSR</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Engineering Solution -->
+            <div class="p-6 bg-white/70 border border-paper-line rounded space-y-3">
+              <div class="text-xs font-mono uppercase tracking-widest text-zinc-900 font-bold" data-i18n="sijagung.solutionHeading">
+                2. Solusi Rekayasa & Alur Kerja Offline
+              </div>
+              <p class="text-xs sm:text-[13px] text-zinc-700 leading-relaxed font-sans" data-i18n="sijagung.solutionText">
+                Membangun aplikasi mobile client-server dengan prinsip Offline-First. Seluruh transaksi pendataan langsung ditulis ke database lokal SQLite di perangkat. Background worker memantau status konektivitas internet secara otomatis, kemudian melakukan sinkronisasi batch ke endpoint Laravel REST API begitu koneksi terhubung kembali.
+              </p>
+              <div class="pt-3 border-t border-paper-line/80 space-y-1.5 text-xs font-mono text-zinc-800">
+                <div class="flex items-baseline gap-2">
+                  <span class="text-emerald-700 font-bold">✓</span>
+                  <span>Transaksi ACID lokal di SQLite perangkat tanpa ketergantungan jaringan</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-emerald-700 font-bold">✓</span>
+                  <span>Background daemon otomatis mendeteksi socket koneksi tanpa memblokir UI</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-emerald-700 font-bold">✓</span>
+                  <span>Pengiriman batch idempotent ke Laravel REST API dan komit MySQL</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Key Implemented Subsystems (Structured Engineering Specifications) -->
+          <div class="space-y-4 pt-4 border-t border-paper-line">
+            <div class="text-xs font-mono uppercase tracking-widest text-zinc-800 font-bold" data-i18n="sijagung.featuresHeading">
+              3. Fitur Utama yang Diimplementasikan
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Feature 1 -->
+              <div class="p-5 bg-white/40 border border-paper-line rounded space-y-2">
+                <div class="flex items-center justify-between text-[11px] font-mono text-zinc-500">
+                  <span>SUBSYSTEM 01</span>
+                  <span>REGISTRY</span>
+                </div>
+                <div class="font-mono font-bold text-sm text-ink pt-0.5" data-i18n="sijagung.feature1Title">
+                  Pendataan Petani & Lahan
+                </div>
+                <p class="text-zinc-600 text-xs sm:text-[13px] leading-relaxed font-sans" data-i18n="sijagung.feature1Desc">
+                  Pencatatan identitas petani, luas petak lahan, dan estimasi waktu tanam tanpa ketergantungan koneksi internet.
+                </p>
+              </div>
+
+              <!-- Feature 2 -->
+              <div class="p-5 bg-white/40 border border-paper-line rounded space-y-2">
+                <div class="flex items-center justify-between text-[11px] font-mono text-zinc-500">
+                  <span>SUBSYSTEM 02</span>
+                  <span>WEIGHING LOG</span>
+                </div>
+                <div class="font-mono font-bold text-sm text-ink pt-0.5" data-i18n="sijagung.feature2Title">
+                  Pencatatan Panen Cepat
+                </div>
+                <p class="text-zinc-600 text-xs sm:text-[13px] leading-relaxed font-sans" data-i18n="sijagung.feature2Desc">
+                  Pencatatan tonase hasil panen dan mutu jagung dengan kalkulasi otomatis dan verifikasi input.
+                </p>
+              </div>
+
+              <!-- Feature 3 -->
+              <div class="p-5 bg-white/40 border border-paper-line rounded space-y-2">
+                <div class="flex items-center justify-between text-[11px] font-mono text-zinc-500">
+                  <span>SUBSYSTEM 03</span>
+                  <span>SYNC ENGINE</span>
+                </div>
+                <div class="font-mono font-bold text-sm text-ink pt-0.5" data-i18n="sijagung.feature3Title">
+                  Sinkronisasi Otomatis
+                </div>
+                <p class="text-zinc-600 text-xs sm:text-[13px] leading-relaxed font-sans" data-i18n="sijagung.feature3Desc">
+                  Antrian sinkronisasi data dengan resolusi konflik berbasis stempel waktu (timestamp) untuk mencegah data terhapus.
+                </p>
+              </div>
+
+              <!-- Feature 4 -->
+              <div class="p-5 bg-white/40 border border-paper-line rounded space-y-2">
+                <div class="flex items-center justify-between text-[11px] font-mono text-zinc-500">
+                  <span>SUBSYSTEM 04</span>
+                  <span>FIELD ERGONOMICS</span>
+                </div>
+                <div class="font-mono font-bold text-sm text-ink pt-0.5" data-i18n="sijagung.feature4Title">
+                  Desain Ergonomis Terik Matahari
+                </div>
+                <p class="text-zinc-600 text-xs sm:text-[13px] leading-relaxed font-sans" data-i18n="sijagung.feature4Desc">
+                  Antarmuka kontras tinggi dan ukuran tombol 48px+ untuk mempermudah operasional satu tangan di kondisi lapangan.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Role & Technical Challenges -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-paper-line text-xs sm:text-sm">
+            <div class="p-5 bg-white/30 border border-paper-line rounded space-y-2">
+              <div class="font-mono text-xs uppercase tracking-widest text-zinc-700 font-bold" data-i18n="sijagung.roleHeading">
+                4. Peran & Kontribusi Nyata
+              </div>
+              <p class="text-zinc-700 leading-relaxed font-sans" data-i18n="sijagung.roleText">
+                Mobile Application Developer & UI/UX Designer — Bertanggung jawab penuh atas perancangan antarmuka mobile, struktur database SQLite lokal, alur validasi formulir lapangan, integrasi endpoint REST API backend, serta pengujian sinkronisasi data.
+              </p>
+            </div>
+
+            <div class="p-5 bg-white/30 border border-paper-line rounded space-y-2">
+              <div class="font-mono text-xs uppercase tracking-widest text-zinc-700 font-bold" data-i18n="sijagung.challengeHeading">
+                5. Tantangan Teknis & Solusi
+              </div>
+              <p class="text-zinc-700 leading-relaxed font-sans" data-i18n="sijagung.challengeText">
+                Tantangan koneksi terputus saat proses transmisi diselesaikan dengan transaksi atomik di SQLite dan mekanisme payload retry idempotent di API. Kendala pengoperasian petugas disederhanakan dengan alur wizard bertahap dan petunjuk visual yang jelas.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  /* Smooth Accordion Unfolding Motion */
+  .sijagung-dossier-accordion {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition:
+      grid-template-rows 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.4s ease;
+    opacity: 0;
+  }
+
+  .sijagung-dossier-accordion.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .sijagung-dossier-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* Blueprint Grid Pattern */
+  .blueprint-grid {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* Architectural Blueprint Nodes & States */
+  .arch-node {
+    will-change: transform, border-color, opacity, box-shadow;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  }
+
+  .arch-node:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.7);
+  }
+
+  .arch-node.is-active-offline {
+    border-color: rgba(52, 211, 153, 0.6) !important;
+    background-color: rgba(16, 24, 22, 0.95) !important;
+    box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25) !important;
+    opacity: 1 !important;
+  }
+
+  .arch-node.is-active-online {
+    border-color: rgba(56, 189, 248, 0.6) !important;
+    background-color: rgba(14, 22, 32, 0.95) !important;
+    box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.3) !important;
+    opacity: 1 !important;
+  }
+
+  .arch-node.is-inspected {
+    border-color: rgba(56, 189, 248, 0.9) !important;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4) !important;
+  }
+
+  /* Physical Circuit Conduit Laser & Photon Quanta Physics */
+  .conduit-photon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    will-change: left, opacity, transform;
+  }
+
+  .conduit-photon-local {
+    background-color: #34d399;
+    box-shadow: 0 0 8px #34d399, 0 0 14px rgba(52, 211, 153, 0.8);
+    animation: localBusFlow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes localBusFlow {
+    0% {
+      left: 10%;
+      opacity: 0.4;
+      transform: translateY(-50%) scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.3);
+    }
+    100% {
+      left: 85%;
+      opacity: 0.4;
+      transform: translateY(-50%) scale(0.8);
+    }
+  }
+
+  .conduit-photon-sync {
+    background-color: #38bdf8;
+    box-shadow: 0 0 10px #38bdf8, 0 0 18px rgba(56, 189, 248, 0.9);
+    animation: syncBusFlow 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .conduit-photon-sync-2 {
+    background-color: #38bdf8;
+    box-shadow: 0 0 10px #38bdf8, 0 0 18px rgba(56, 189, 248, 0.9);
+    animation: syncBusFlow 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 0.6s;
+  }
+
+  @keyframes syncBusFlow {
+    0% {
+      left: 0%;
+      opacity: 0;
+      transform: translateY(-50%) scale(0.7);
+    }
+    20% {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.3);
+    }
+    80% {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.3);
+    }
+    100% {
+      left: 95%;
+      opacity: 0;
+      transform: translateY(-50%) scale(0.7);
+    }
+  }
+
+  .conduit-photon-cloud {
+    background-color: #38bdf8;
+    box-shadow: 0 0 8px #38bdf8;
+    animation: syncBusFlow 1s linear infinite;
+  }
+
+  .conduit-photon-commit {
+    background-color: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: syncBusFlow 0.9s linear infinite;
+  }
+
+  /* Blinking Terminal Cursor */
+  .terminal-cursor {
+    animation: terminalBlink 1s step-start infinite;
+  }
+
+  @keyframes terminalBlink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .conduit-photon-local,
+    .conduit-photon-sync,
+    .conduit-photon-sync-2,
+    .conduit-photon-cloud,
+    .conduit-photon-commit,
+    .terminal-cursor {
+      animation: none !important;
+    }
+  }
+</style>

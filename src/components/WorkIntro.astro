@@ -12,11 +12,14 @@ import { featuredWorks } from '../data/portfolio';
     data-watermark-speed="0.22"
     aria-hidden="true"
   >
-    <div class="bg-watermark-text">EXPERIENCE</div>
+    <div class="bg-watermark-text">PROJECTS</div>
   </div>
 
   <div class="relative z-10 w-full max-w-4xl mx-auto space-y-8 md:space-y-10">
     <div class="space-y-3 md:space-y-4">
+      <div class="text-xs font-mono uppercase tracking-widest text-zinc-500" data-i18n="workIntro.eyebrow">
+        03 / Karya & Rekayasa Terpilih
+      </div>
       <h2
         class="font-editorial-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-ink leading-tight"
         data-motion="up"
@@ -33,8 +36,7 @@ import { featuredWorks } from '../data/portfolio';
         data-i18n="workIntro.desc"
         style="--m-delay: 80ms;"
       >
-        Selama studi, saya mengerjakan aplikasi mobile untuk kebutuhan lapangan dan desain
-        kemasan untuk UMKM.
+        Fokus pada pengembangan aplikasi digital yang fungsional dan teruji di lapangan, didukung keahlian desain kemasan komersial untuk produk UMKM.
       </p>
     </div>
 
@@ -43,20 +45,20 @@ import { featuredWorks } from '../data/portfolio';
         featuredWorks.map((work) => (
           <a
             href={work.href}
-            class="py-5 md:py-6 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-6 group transition-transform duration-300 hover:translate-x-2"
+            class="py-5 md:py-6 flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-6 group transition-transform duration-300 hover:translate-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 rounded-sm"
             data-motion="fade-right"
             data-scroll-speed="-0.03"
             style={`--m-delay: ${work.delayMs}ms;`}
           >
             <span
               class="font-editorial-heading text-2xl md:text-3xl font-bold text-ink group-hover:text-mineral transition-colors"
-              data-i18n={work.href === '#sijagung' ? 'workIntro.sijagungTitle' : 'workIntro.kemasanTitle'}
+              data-i18n={work.i18nTitleKey}
             >
               {work.title}
             </span>
             <span
               class="text-xs sm:text-sm md:text-base text-zinc-600"
-              data-i18n={work.href === '#sijagung' ? 'workIntro.sijagungSummary' : 'workIntro.kemasanSummary'}
+              data-i18n={work.i18nSummaryKey}
             >
               {work.summary}
             </span>

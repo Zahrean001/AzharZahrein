@@ -5,6 +5,8 @@ export interface PackagingPouchItem {
   id: string;
   title: string;
   tiltAngle: string;
+  context: string;
+  descKey: 'kemasan.item1Desc' | 'kemasan.item2Desc' | 'kemasan.item3Desc';
   front: OptimizedAsset;
   back: OptimizedAsset;
 }
@@ -17,7 +19,7 @@ const { pouches } = Astro.props;
 ---
 
 <section
-  class="relative pt-10 md:pt-14 pb-16 md:pb-20 px-6 sm:px-10 md:px-14 lg:px-20 border-b border-paper-line"
+  class="relative pt-12 md:pt-16 pb-16 md:pb-24 px-6 sm:px-10 md:px-14 lg:px-20 border-b border-paper-line"
   id="kemasan"
 >
   <div
@@ -32,34 +34,56 @@ const { pouches } = Astro.props;
   </div>
 
   <div class="relative z-10 w-full max-w-4xl mx-auto">
-    <div class="space-y-2 md:space-y-3 mb-12 md:mb-14">
+    <!-- Header -->
+    <div class="space-y-3 mb-12 md:mb-16">
+      <div class="text-xs font-mono uppercase tracking-widest text-zinc-500" data-i18n="kemasan.eyebrow">
+        Desain Kemasan Komersial Ritel · Program CSR PT PKN
+      </div>
+
       <h2
         class="font-editorial-heading text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink leading-tight"
         data-motion="up"
         data-scroll-speed="-0.05"
         data-i18n="kemasan.heading"
       >
-        Desain kemasan UMKM
+        Desain Kemasan Komersial UMKM
       </h2>
       <p
-        class="text-sm sm:text-base md:text-lg text-zinc-700 font-normal"
+        class="text-sm sm:text-base md:text-lg text-zinc-700 font-normal max-w-2xl"
         data-motion="up"
         data-scroll-speed="-0.03"
         data-i18n="kemasan.desc"
       >
-        Tiga desain standing pouch untuk produk makanan UMKM.
+        Tiga desain standing pouch untuk produk makanan UMKM mitra binaan CSR PT Pesona Khatulistiwa Nusantara, memadukan daya pikat visual ritel dengan kepatuhan regulasi legalitas.
       </p>
+
+      <div class="text-xs font-mono text-zinc-500 pt-1">
+        <span data-i18n="kemasan.flipHint">Klik atau geser kemasan untuk membalik (Tampak Depan / Belakang)</span>
+      </div>
     </div>
 
+    <!-- Pouch Showcase Items -->
     <div class="space-y-20 md:space-y-28">
       {
         pouches.map((pouch, index) => (
-          <article class="space-y-5" data-pouch-stage>
-            <div class="text-center space-y-1" data-motion="up" style="--m-delay: 0ms;">
-              <h3 class="text-lg md:text-2xl font-semibold tracking-tight text-ink">
+          <article class="space-y-6" data-pouch-stage>
+            <div class="text-center space-y-1.5" data-motion="up" style="--m-delay: 0ms;">
+              <span class="text-xs font-mono text-zinc-500 uppercase tracking-widest">
+                {pouch.context}
+              </span>
+              <h3 class="text-2xl md:text-3xl font-editorial-heading font-bold tracking-tight text-ink">
                 {pouch.title}
               </h3>
+              <p
+                class="text-xs sm:text-sm text-zinc-600 max-w-xl mx-auto leading-relaxed"
+                data-i18n={pouch.descKey}
+              >
+                {index === 0 && 'Mbah Momon Tiwul — Makanan pokok instan olahan singkong tradisional. Konsep desain memadukan tipografi Nusantara modern dengan palet warna bersahaja dan jendela transparan produk.'}
+                {index === 1 && 'Onde-Onde Mini — Kudapan renyah berbentuk bulat mini. Pendekatan visual dinamis dengan appetite appeal tinggi untuk menarik minat konsumen ritel dan oleh-oleh daerah.'}
+                {index === 2 && 'Surti Snack Keriuk Tempe — Keripik tempe renyah bumbu rempah. Penataan tipografi kontras tinggi untuk mempermudah identifikasi varian rasa dan keterbacaan tabel legalitas.'}
+              </p>
             </div>
+
             <div
               class="pouch-kinetic-stage"
               data-motion="pop"
@@ -74,12 +98,15 @@ const { pouches } = Astro.props;
                 <div
                   class="flip-card w-full h-[380px] sm:h-[430px] md:h-[460px] cursor-grab active:cursor-grabbing"
                   data-flip-card={pouch.id}
+                  role="button"
+                  tabindex="0"
+                  aria-label={`${pouch.title} kemasan 3D. Klik untuk membalik tampak depan dan belakang.`}
                 >
                   <div class="flip-card-inner" id={pouch.id}>
                     <div class="flip-card-front flex flex-col items-center">
                       <img
                         alt={`${pouch.title} tampak depan`}
-                        class="h-[330px] sm:h-[380px] md:h-[410px] w-auto object-contain filter drop-shadow-md"
+                        class="h-[330px] sm:h-[380px] md:h-[410px] w-auto object-contain filter drop-shadow-md select-none"
                         width={pouch.front.width}
                         height={pouch.front.height}
                         loading="eager"
@@ -93,7 +120,7 @@ const { pouches } = Astro.props;
                     <div class="flip-card-back flex flex-col items-center">
                       <img
                         alt={`${pouch.title} tampak belakang`}
-                        class="h-[330px] sm:h-[380px] md:h-[410px] w-auto object-contain filter drop-shadow-md"
+                        class="h-[330px] sm:h-[380px] md:h-[410px] w-auto object-contain filter drop-shadow-md select-none"
                         width={pouch.back.width}
                         height={pouch.back.height}
                         loading="eager"
@@ -111,6 +138,15 @@ const { pouches } = Astro.props;
           </article>
         ))
       }
+    </div>
+
+    <!-- Editorial Packaging Colophon (Zero Card Slop, Pure Typography) -->
+    <div
+      class="mt-16 pt-6 border-t border-paper-line flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs font-mono text-zinc-500"
+      data-motion="up"
+    >
+      <span class="uppercase tracking-wider" data-i18n="kemasan.colophon1">STANDARISASI LEGALITAS KEMASAN PANGAN UMKM BINAAN CSR</span>
+      <span data-i18n="kemasan.colophon2">NOMOR P-IRT DINKES · SERTIFIKASI HALAL · NUTRITION FACTS</span>
     </div>
   </div>
 </section>

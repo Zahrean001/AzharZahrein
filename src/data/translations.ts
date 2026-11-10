@@ -216,7 +216,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
     'nav.kontak': 'Kontak',
 
     // Hero
-    'hero.role': 'Web & Mobile Application Developer',
+    'hero.role': 'Web & Mobile Application Developer · UI/UX & Graphic Designer',
     'hero.supporting': 'Menggabungkan rekayasa perangkat lunak dengan desain antarmuka yang berpusat pada pengguna dan komunikasi visual.',
     'hero.degree': 'D3 Teknik Informatika, PENS',
     'hero.scrollAria': 'Scroll ke proyek',
@@ -421,7 +421,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
     'nav.kontak': 'Contact',
 
     // Hero
-    'hero.role': 'Web & Mobile Application Developer',
+    'hero.role': 'Web & Mobile Application Developer · UI/UX & Graphic Designer',
     'hero.supporting': 'Combining software engineering with user-centered interface design and visual communication.',
     'hero.degree': 'Associate Degree (D3) in Informatics Engineering, PENS',
     'hero.scrollAria': 'Scroll to projects',
